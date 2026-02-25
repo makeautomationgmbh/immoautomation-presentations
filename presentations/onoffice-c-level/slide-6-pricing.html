@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, initial-scale=1.0" />
+  <title>immoautomation — Pricing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #0080FF;
+      --blue-light: rgba(0, 128, 255, 0.1);
+      --black: #1a1a2e;
+      --white: #fcfcff;
+      --gray-light: rgba(0, 0, 0, 0.04);
+      --text-secondary: rgba(0, 0, 0, 0.5);
+      --text-muted: rgba(0, 0, 0, 0.35);
+      --border: rgba(0, 0, 0, 0.08);
+    }
+
+    html, body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .section-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 72px 100px;
+    }
+
+    .slide-pricing {
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-pricing .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1720px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .pricing-title {
+      font-size: 64px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .pricing-card {
+      border: 1px solid var(--border);
+      padding: 44px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      position: relative;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--blue);
+      border-width: 2px;
+      background: rgba(0, 128, 255, 0.02);
+    }
+
+    .pricing-card.coming-soon {
+      opacity: 0.85;
+    }
+
+    .pricing-card .card-badge {
+      position: absolute;
+      top: -1px;
+      right: 40px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 6px 14px;
+      color: white;
+    }
+
+    .card-badge.blue { background: var(--blue); }
+    .card-badge.gold { background: #ca8a04; }
+
+    .pricing-card .card-header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pricing-card .plan-name {
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .pricing-card .plan-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+    }
+
+    .pricing-card .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .pricing-card .price {
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pricing-card .price-suffix {
+      font-size: 18px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .pricing-card .price-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: -8px;
+    }
+
+    .pricing-card .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex-grow: 1;
+    }
+
+    .pricing-card .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .pricing-card .feature-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--blue);
+    }
+
+    .pricing-card .feature-item.muted svg {
+      color: rgba(0, 0, 0, 0.2);
+    }
+
+    .pricing-card .feature-item.muted {
+      color: var(--text-muted);
+    }
+
+    .pricing-card .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .cta-btn.primary {
+      background: var(--blue);
+      color: white;
+    }
+
+    .cta-btn.outline {
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      color: var(--black);
+    }
+
+    .cta-btn.disabled {
+      background: rgba(0, 0, 0, 0.06);
+      color: var(--text-muted);
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide slide-pricing">
+    <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+      <defs>
+        <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+          <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#000" stroke-width="1" opacity="0.03"/>
+        </pattern>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#grid)"/>
+    </svg>
+
+    <div class="content">
+      <div>
+        <p class="section-label">Pricing</p>
+      </div>
+
+      <div class="pricing-title">
+        <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Einfache Preise,</span><br/>
+        <span style="font-weight:600;color:var(--blue);">klarer Mehrwert.</span>
+      </div>
+
+      <div class="pricing-cards">
+        <!-- Kostenlos -->
+        <div class="pricing-card">
+          <div class="card-header">
+            <div class="plan-name">Kostenlos</div>
+            <div class="plan-desc">Zum Kennenlernen</div>
+          </div>
+          <div class="price-row">
+            <span class="price">&euro;0</span>
+            <span class="price-suffix">/ Monat</span>
+          </div>
+          <div class="price-note">Keine Kreditkarte erforderlich</div>
+          <div class="features-list">
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>5 Posts pro Monat</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Meta & Google Business Verbindung</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Google Business Publishing</span>
+            </div>
+            <div class="feature-item muted">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" /></svg>
+              <span>Keine Premium-Templates</span>
+            </div>
+            <div class="feature-item muted">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" /></svg>
+              <span>Keine KI-Texterstellung</span>
+            </div>
+          </div>
+          <div class="cta-btn outline">Kostenlos starten</div>
+        </div>
+
+        <!-- MaklerPlus -->
+        <div class="pricing-card featured">
+          <span class="card-badge blue">Empfohlen</span>
+          <div class="card-header">
+            <div class="plan-name">MaklerPlus</div>
+            <div class="plan-desc">Für wachsende Makler</div>
+          </div>
+          <div class="price-row">
+            <span class="price">&euro;49</span>
+            <span class="price-suffix">/ Monat</span>
+          </div>
+          <div class="price-note">12 Monate Mindestlaufzeit &middot; 14 Tage kostenlos testen</div>
+          <div class="features-list">
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span><strong>Unbegrenzte</strong> Posts</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>1 Social Set inklusive</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Alle Premium-Vorlagen</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span><strong>KI-Texterstellung</strong> für jede Plattform</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Basis-Analytics</span>
+            </div>
+          </div>
+          <div class="cta-btn primary">14 Tage kostenlos testen</div>
+        </div>
+
+        <!-- MaklerPremium -->
+        <div class="pricing-card coming-soon">
+          <span class="card-badge gold">Coming Soon</span>
+          <div class="card-header">
+            <div class="plan-name">MaklerPremium</div>
+            <div class="plan-desc">Maximale Kontrolle & Kreativität</div>
+          </div>
+          <div class="price-row">
+            <span class="price">&euro;99</span>
+            <span class="price-suffix">/ Monat</span>
+          </div>
+          <div class="price-note">12 Monate Mindestlaufzeit &middot; Zusätzliche Sets ab &euro;15/Monat</div>
+          <div class="features-list">
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Alles aus MaklerPlus</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span><strong>Live-Preview Editor</strong></span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Eigene Schriften & Templates</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Video-Reels Erstellung</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Erweiterte Analytics & Multi-User</span>
+            </div>
+          </div>
+          <div class="cta-btn disabled">Bald verfügbar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

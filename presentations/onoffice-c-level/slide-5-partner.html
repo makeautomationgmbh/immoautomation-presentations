@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, initial-scale=1.0" />
+  <title>immoautomation — Integration & Partnerschaft</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #0080FF;
+      --blue-light: rgba(0, 128, 255, 0.1);
+      --black: #1a1a2e;
+      --white: #fcfcff;
+      --gray-light: rgba(0, 0, 0, 0.04);
+      --text-secondary: rgba(0, 0, 0, 0.5);
+      --text-muted: rgba(0, 0, 0, 0.35);
+      --border: rgba(0, 0, 0, 0.08);
+    }
+
+    html, body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .section-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 72px 100px;
+    }
+
+    .slide-partner {
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-partner .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1720px;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+    }
+
+    .partner-title {
+      font-size: 64px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .partner-grid {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0;
+    }
+
+    .partner-grid .divider-line {
+      background: var(--border);
+      width: 1px;
+    }
+
+    .partner-block {
+      padding: 48px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .partner-block .block-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .partner-block .block-icon {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .partner-block .block-icon.blue-bg {
+      background: var(--blue-light);
+    }
+
+    .partner-block .block-icon.blue-bg svg {
+      color: var(--blue);
+    }
+
+    .partner-block .block-icon.gold-bg {
+      background: rgba(234, 179, 8, 0.1);
+    }
+
+    .partner-block .block-icon.gold-bg svg {
+      color: #ca8a04;
+    }
+
+    .partner-block .block-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .partner-block .block-header h3 {
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .partner-block .block-header .plan-badge {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 4px 12px;
+      margin-left: auto;
+    }
+
+    .plan-badge.plus {
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+
+    .plan-badge.premium {
+      background: rgba(234, 179, 8, 0.1);
+      color: #ca8a04;
+    }
+
+    .partner-block p.desc {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .partner-block .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .partner-block .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .partner-block .check-item svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .check-item.blue svg { color: var(--blue); }
+    .check-item.gold svg { color: #ca8a04; }
+
+    .partner-bottom {
+      padding: 36px 48px;
+      border: 1px solid var(--border);
+      background: var(--gray-light);
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .partner-bottom .bot-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .partner-bottom .bot-icon svg {
+      width: 22px;
+      height: 22px;
+      color: var(--blue);
+    }
+
+    .partner-bottom .bot-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .partner-bottom .bot-text strong {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .partner-bottom .bot-text span {
+      font-size: 15px;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <div class="slide slide-partner">
+    <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+      <defs>
+        <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+          <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#000" stroke-width="1" opacity="0.03"/>
+        </pattern>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#grid)"/>
+    </svg>
+
+    <div class="content">
+      <div>
+        <p class="section-label">Integration & Partnerschaft</p>
+      </div>
+
+      <div class="partner-title">
+        <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Eine Schnittstelle</span> –<br/>
+        <span style="font-weight:600;color:var(--blue);">maximaler Mehrwert.</span>
+      </div>
+
+      <div class="partner-grid">
+        <!-- Left: API / Schnittstelle -->
+        <div class="partner-block">
+          <div class="block-header">
+            <div class="block-icon blue-bg">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg>
+            </div>
+            <h3>API-Schnittstelle</h3>
+            <span class="plan-badge plus">MaklerPlus</span>
+          </div>
+          <p class="desc">
+            Eine einzige onOffice-Schnittstelle reicht – alles andere erledigen wir automatisch.
+          </p>
+          <div class="checklist">
+            <div class="check-item blue">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Automatischer Datenabruf aus onOffice</span>
+            </div>
+            <div class="check-item blue">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Bilder, Grundrisse & Exposé-Daten</span>
+            </div>
+            <div class="check-item blue">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Direktes Öffnen aus der onOffice-Oberfläche</span>
+            </div>
+            <div class="check-item blue">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Keine zusätzliche Software nötig</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider-line"></div>
+
+        <!-- Right: Konfigurator -->
+        <div class="partner-block">
+          <div class="block-header">
+            <div class="block-icon gold-bg">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>
+            </div>
+            <h3>Template-Konfigurator</h3>
+            <span class="plan-badge premium">MaklerPremium</span>
+          </div>
+          <p class="desc">
+            Im höheren Plan: Volle kreative Kontrolle mit Live-Editor und eigenen Templates.
+          </p>
+          <div class="checklist">
+            <div class="check-item gold">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Live-Preview Editor für Echtzeit-Anpassungen</span>
+            </div>
+            <div class="check-item gold">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Eigene Schriften & Corporate Design hochladen</span>
+            </div>
+            <div class="check-item gold">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Eigene Templates erstellen & verwalten</span>
+            </div>
+            <div class="check-item gold">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Video-Reels & Animationen</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="partner-bottom">
+        <div class="bot-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" /></svg>
+        </div>
+        <div class="bot-text">
+          <strong>Mehrwert für onOffice-Kunden</strong>
+          <span>Makler erhalten ein vollständiges Social-Media-Tool direkt in ihrem CRM – ohne Medienwechsel, ohne Extrakosten für die Plattform.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

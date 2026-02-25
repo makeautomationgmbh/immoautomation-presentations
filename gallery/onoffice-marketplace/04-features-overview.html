@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=800, height=450">
+  <title>immoautomation - Features</title>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 800px;
+      height: 450px;
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      overflow: hidden;
+      position: relative;
+    }
+    .container {
+      width: 800px;
+      height: 450px;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .header {
+      margin-bottom: 30px;
+    }
+    .subtitle {
+      color: rgba(0,0,0,0.4);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 36px;
+      line-height: 1.1;
+    }
+    .headline-italic {
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: #000;
+    }
+    .headline-bold {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: #0080FF;
+      display: block;
+      margin-top: 4px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(0,0,0,0.05);
+      flex: 1;
+    }
+    .feature {
+      background: white;
+      padding: 20px;
+      position: relative;
+    }
+    .feature:hover {
+      background: rgba(0,128,255,0.03);
+    }
+    .feature-number {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 10px;
+      font-family: monospace;
+      color: rgba(0,0,0,0.15);
+    }
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(0,128,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .feature-icon svg {
+      width: 20px;
+      height: 20px;
+      color: #0080FF;
+    }
+    .feature-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #000;
+      margin-bottom: 6px;
+    }
+    .feature-desc {
+      font-size: 11px;
+      color: rgba(0,0,0,0.6);
+      line-height: 1.5;
+    }
+    .footer {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      margin-top: auto;
+    }
+    .footer-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: rgba(0,0,0,0.5);
+    }
+    .footer-dot {
+      width: 6px;
+      height: 6px;
+      background: #0080FF;
+    }
+  </style>
+</head>
+<body>
+  <svg style="position:absolute;inset:0;width:800px;height:450px;opacity:0.03" xmlns="http://www.w3.org/2000/svg">
+    <defs><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="#000" stroke-width="1"/></pattern></defs>
+    <rect width="800" height="450" fill="url(#grid)"/>
+  </svg>
+  <div class="container">
+    <div class="header">
+      <p class="subtitle">Features</p>
+      <h2>
+        <span class="headline-italic">Alles, was Sie brauchen.</span>
+        <span class="headline-bold">In einer Plattform.</span>
+      </h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature">
+        <span class="feature-number">01</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <div class="feature-title">Blitzschnelle Automatisierung</div>
+        <div class="feature-desc">Von der Objektseite zum fertigen Post in unter 30 Sekunden.</div>
+      </div>
+      <div class="feature">
+        <span class="feature-number">02</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+          </svg>
+        </div>
+        <div class="feature-title">CRM-Integration</div>
+        <div class="feature-desc">Nahtlose Verbindung zu onOffice.</div>
+      </div>
+      <div class="feature">
+        <span class="feature-number">03</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="13.5" cy="6.5" r="2.5"></circle>
+            <circle cx="17.5" cy="10.5" r="2.5"></circle>
+            <circle cx="8.5" cy="7.5" r="2.5"></circle>
+            <circle cx="6.5" cy="12.5" r="2.5"></circle>
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.555C21.965 6.012 17.461 2 12 2z"></path>
+          </svg>
+        </div>
+        <div class="feature-title">Professionelle Templates</div>
+        <div class="feature-desc">Hunderte hochwertige Designer-Templates verfugbar.</div>
+      </div>
+      <div class="feature">
+        <span class="feature-number">04</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 4V2"></path>
+            <path d="M15 16v-2"></path>
+            <path d="M8 9h2"></path>
+            <path d="M20 9h2"></path>
+            <path d="M17.8 11.8L19 13"></path>
+            <path d="M15 9h0"></path>
+            <path d="M17.8 6.2L19 5"></path>
+            <path d="M3 21l9-9"></path>
+            <path d="M12.2 6.2L11 5"></path>
+          </svg>
+        </div>
+        <div class="feature-title">KI-generierte Captions</div>
+        <div class="feature-desc">Automatisch erstellte, ansprechende Texte.</div>
+      </div>
+      <div class="feature">
+        <span class="feature-number">05</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
+        <div class="feature-title">Intelligente Planung</div>
+        <div class="feature-desc">Planen Sie Posts im Voraus mit dem Kalender.</div>
+      </div>
+      <div class="feature">
+        <span class="feature-number">06</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <div class="feature-title">Team-Management</div>
+        <div class="feature-desc">Sub-Benutzer erstellen und Makler verwalten.</div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="footer-item">
+        <div class="footer-dot"></div>
+        <span>DSGVO-konform</span>
+      </div>
+      <div class="footer-item">
+        <div class="footer-dot"></div>
+        <span>Hosting in Deutschland</span>
+      </div>
+      <div class="footer-item">
+        <div class="footer-dot"></div>
+        <span>Keine Einrichtungsgebuhr</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

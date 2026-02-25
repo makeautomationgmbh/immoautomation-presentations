@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=800, height=450">
+  <title>immoautomation - CTA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 800px;
+      height: 450px;
+      font-family: 'Inter', sans-serif;
+      background: #0080FF;
+      overflow: hidden;
+      color: white;
+      position: relative;
+    }
+    .container {
+      width: 800px;
+      height: 450px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+    .subtitle {
+      color: rgba(255,255,255,0.7);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 44px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .headline-italic {
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-weight: 400;
+      display: block;
+    }
+    .headline-bold {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      display: block;
+      margin-top: 8px;
+    }
+    .description {
+      font-size: 16px;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      max-width: 500px;
+      margin: 0 auto 30px;
+    }
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: white;
+      color: #0080FF;
+      padding: 16px 32px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      margin-bottom: 30px;
+    }
+    .cta-button svg {
+      width: 20px;
+      height: 20px;
+    }
+    .benefits {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+    }
+    .benefit {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+    }
+    .benefit-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .benefit-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+    .logo {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
+    }
+    .corner-badge {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      background: rgba(255,255,255,0.15);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .corner-badge svg {
+      width: 16px;
+      height: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <svg style="position:absolute;inset:0;width:800px;height:450px;opacity:0.1" xmlns="http://www.w3.org/2000/svg">
+      <defs><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="#fff" stroke-width="1"/></pattern></defs>
+      <rect width="800" height="450" fill="url(#grid)"/>
+    </svg>
+    <div class="corner-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+      </svg>
+      30 Sekunden
+    </div>
+    <div class="content">
+      <p class="subtitle">Bereit loszulegen?</p>
+      <h2>
+        <span class="headline-italic">Starten Sie noch heute mit</span>
+        <span class="headline-bold">professionelleren Posts</span>
+      </h2>
+      <p class="description">
+        SchlieSen Sie sich uber 100+ erfolgreichen Immobilienmaklern an und sparen Sie wertvolle Zeit bei der Content-Erstellung.
+      </p>
+      <a href="#" class="cta-button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        Jetzt kostenlos starten
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+      <div class="benefits">
+        <div class="benefit">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+          <span>Sofortige Einrichtung</span>
+        </div>
+        <div class="benefit">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <span>Personlicher Support</span>
+        </div>
+        <div class="benefit">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <span>Keine Bindung</span>
+        </div>
+      </div>
+    </div>
+    <div class="logo">immoautomation.at</div>
+  </div>
+</body>
+</html>

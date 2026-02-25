@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=800, height=450">
+  <title>immoautomation - Hero Background</title>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 800px;
+      height: 450px;
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      overflow: hidden;
+      position: relative;
+    }
+    .container {
+      position: relative;
+      width: 800px;
+      height: 450px;
+      padding: 30px 40px;
+      display: flex;
+      gap: 20px;
+    }
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .subtitle {
+      color: rgba(0,0,0,0.4);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 48px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .headline-italic {
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: #000;
+      display: block;
+    }
+    .headline-bold {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: #0080FF;
+      display: block;
+      margin-top: 2px;
+    }
+    .headline-light {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      color: rgba(0,0,0,0.4);
+      font-size: 34px;
+      display: block;
+      margin-top: 6px;
+    }
+    .description {
+      font-size: 14px;
+      color: rgba(0,0,0,0.6);
+      line-height: 1.6;
+      max-width: 380px;
+    }
+    .right {
+      width: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <!-- Grid background using HTML divs (Figma-compatible) -->
+  <div style="position:absolute;top:0;left:0;width:800px;height:450px;pointer-events:none;z-index:0;">
+    <!-- Vertical lines -->
+    <div style="position:absolute;left:0;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:60px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:120px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:180px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:240px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:300px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:360px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:420px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:480px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:540px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:600px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:660px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:720px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:780px;top:0;width:1px;height:450px;background:#000;opacity:0.04;"></div>
+    <!-- Horizontal lines -->
+    <div style="position:absolute;left:0;top:0;width:800px;height:1px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:0;top:60px;width:800px;height:1px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:0;top:120px;width:800px;height:1px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:0;top:180px;width:800px;height:1px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:0;top:240px;width:800px;height:1px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:0;top:300px;width:800px;height:1px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:0;top:360px;width:800px;height:1px;background:#000;opacity:0.04;"></div>
+    <div style="position:absolute;left:0;top:420px;width:800px;height:1px;background:#000;opacity:0.04;"></div>
+  </div>
+  <div class="container">
+    <div class="left">
+      <p class="subtitle">Für Immobilienprofis</p>
+      <h1>
+        <span class="headline-italic">Vom CRM zur</span>
+        <span class="headline-bold">Sichtbarkeit</span>
+        <span class="headline-light">in Sekunden.</span>
+      </h1>
+      <p class="description">
+        Automatisierte Social-Media-Posts für Immobilienmakler.
+        Professionelle Templates, KI-Captions – direkt aus onOffice.
+      </p>
+    </div>
+    <div class="right">
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, initial-scale=1.0" />
+  <title>immoautomation — Unsere Lösung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #0080FF;
+      --blue-light: rgba(0, 128, 255, 0.1);
+      --black: #1a1a2e;
+      --white: #fcfcff;
+      --gray-light: rgba(0, 0, 0, 0.04);
+      --text-secondary: rgba(0, 0, 0, 0.5);
+      --text-muted: rgba(0, 0, 0, 0.35);
+      --border: rgba(0, 0, 0, 0.08);
+    }
+
+    html, body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .section-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 72px 100px;
+    }
+
+    .slide-solution {
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-solution .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1720px;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+    }
+
+    .solution-title {
+      font-size: 64px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .solution-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      width: 100%;
+    }
+
+    .solution-flow-box {
+      width: 280px;
+      padding: 36px 28px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+    }
+
+    .solution-flow-box.immo {
+      width: 380px;
+      border-color: var(--blue);
+      background: rgba(0, 128, 255, 0.04);
+      border-width: 2px;
+    }
+
+    .solution-flow-box .box-icon {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .solution-flow-box .box-icon svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .solution-flow-box h3 {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .solution-flow-box p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .solution-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+    }
+
+    .solution-arrow svg {
+      width: 40px;
+      height: 40px;
+      color: var(--blue);
+    }
+
+    .solution-features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .solution-feature {
+      padding: 32px 28px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+
+    .solution-feature:last-child {
+      border-right: none;
+    }
+
+    .solution-feature .feat-number {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 11px;
+      color: rgba(0, 0, 0, 0.1);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .solution-feature .feat-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .solution-feature .feat-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--blue);
+    }
+
+    .solution-feature h4 {
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .solution-feature p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide slide-solution">
+    <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+      <defs>
+        <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+          <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#000" stroke-width="1" opacity="0.03"/>
+        </pattern>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#grid)"/>
+    </svg>
+
+    <div class="content">
+      <div>
+        <p class="section-label">Unsere Lösung</p>
+      </div>
+
+      <div class="solution-title">
+        <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Vom Exposé zum Post</span><br/>
+        <span style="font-weight:600;color:var(--blue);">in 30 Sekunden.</span>
+      </div>
+
+      <!-- Flow Diagram -->
+      <div class="solution-flow">
+        <!-- onOffice -->
+        <div class="solution-flow-box">
+          <div class="box-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0080FF" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" /></svg>
+          </div>
+          <h3>onOffice</h3>
+          <p>Immobiliendaten &amp; Bilder</p>
+        </div>
+
+        <div class="solution-arrow">
+          <svg viewBox="0 0 40 24" fill="none"><path d="M0 12h32m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- immoautomation -->
+        <div class="solution-flow-box immo">
+          <div class="box-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0080FF" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" /></svg>
+          </div>
+          <h3>immoautomation</h3>
+          <p>KI-Texte, Templates &amp; Automatisierung</p>
+        </div>
+
+        <div class="solution-arrow">
+          <svg viewBox="0 0 40 24" fill="none"><path d="M0 12h32m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Social Media -->
+        <div class="solution-flow-box">
+          <div class="box-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
+          </div>
+          <h3>Social Media</h3>
+          <p>Instagram, Facebook, Google Business</p>
+        </div>
+      </div>
+
+      <!-- Features row -->
+      <div class="solution-features">
+        <div class="solution-feature">
+          <span class="feat-number">01</span>
+          <div class="feat-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+          </div>
+          <h4>30-Sekunden Workflow</h4>
+          <p>Vom Exposé zum fertigen Post in unter 30 Sekunden – kein manueller Aufwand.</p>
+        </div>
+        <div class="solution-feature">
+          <span class="feat-number">02</span>
+          <div class="feat-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
+          </div>
+          <h4>KI-generierte Texte</h4>
+          <p>Automatisch erstellte, plattformoptimierte Captions für jeden Post.</p>
+        </div>
+        <div class="solution-feature">
+          <span class="feat-number">03</span>
+          <div class="feat-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg>
+          </div>
+          <h4>Professionelle Templates</h4>
+          <p>Hunderte Designer-Vorlagen – immer aktuell, immer im Corporate Design.</p>
+        </div>
+        <div class="solution-feature">
+          <span class="feat-number">04</span>
+          <div class="feat-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+          </div>
+          <h4>Multi-Plattform Posting</h4>
+          <p>Ein Klick veröffentlicht auf Instagram, Facebook und Google Business gleichzeitig.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920">
+  <title>immoautomation - Social Media 2026 | About Us</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #0080FF;
+      --blue-hover: #0066CC;
+      --blue-light: rgba(0, 128, 255, 0.08);
+      --blue-lighter: rgba(0, 128, 255, 0.05);
+      --black: #1a1a2e;
+      --black-60: rgba(0, 0, 0, 0.6);
+      --black-40: rgba(0, 0, 0, 0.4);
+      --black-20: rgba(0, 0, 0, 0.2);
+      --black-10: rgba(0, 0, 0, 0.1);
+      --black-05: rgba(0, 0, 0, 0.05);
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .slide {
+      width: 1920px;
+      height: 1080px;
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+
+    /* Subtle grid pattern - matching landing page */
+    .slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image:
+        linear-gradient(#000 1px, transparent 1px),
+        linear-gradient(90deg, #000 1px, transparent 1px);
+      background-size: 80px 80px;
+      z-index: 0;
+    }
+
+    /* Blue accent bar at top */
+    .top-accent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--blue);
+      z-index: 10;
+    }
+
+    /* Content wrapper */
+    .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr auto;
+      padding: 80px 100px 0 100px;
+    }
+
+    /* ---- LEFT COLUMN ---- */
+    .left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-right: 80px;
+      gap: 40px;
+    }
+
+    /* Logo */
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark svg {
+      width: 28px;
+      height: 28px;
+      color: white;
+    }
+
+    .logo-text {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: -0.02em;
+    }
+
+    /* Section label */
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--black-40);
+      font-weight: 500;
+    }
+
+    /* Headline */
+    .headline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .headline-serif {
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-size: 52px;
+      color: var(--black);
+      line-height: 1.1;
+      font-weight: 400;
+    }
+
+    .headline-bold {
+      font-family: 'Inter', sans-serif;
+      font-size: 56px;
+      font-weight: 700;
+      color: var(--blue);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .headline-light {
+      font-family: 'Inter', sans-serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--black-40);
+      line-height: 1.2;
+      margin-top: 4px;
+    }
+
+    /* Description */
+    .description {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--black-60);
+      max-width: 520px;
+    }
+
+    .description strong {
+      color: var(--black);
+      font-weight: 600;
+    }
+
+    /* Mission points */
+    .mission-points {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .mission-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .mission-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mission-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--blue);
+    }
+
+    .mission-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding-top: 2px;
+    }
+
+    .mission-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .mission-desc {
+      font-size: 13px;
+      color: var(--black-40);
+      line-height: 1.5;
+    }
+
+    /* ---- RIGHT COLUMN ---- */
+    .right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Visual card stack */
+    .visual-container {
+      position: relative;
+      width: 520px;
+      height: 680px;
+    }
+
+    /* Abstract blue shape background */
+    .visual-bg {
+      position: absolute;
+      top: 40px;
+      right: -30px;
+      width: 440px;
+      height: 560px;
+      background: var(--blue-lighter);
+      border: 1px solid rgba(0, 128, 255, 0.12);
+      z-index: 0;
+    }
+
+    /* Main card */
+    .main-card {
+      position: absolute;
+      top: 60px;
+      left: 20px;
+      width: 400px;
+      background: var(--white);
+      border: 1px solid var(--black-10);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      z-index: 2;
+    }
+
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--black-10);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-avatar {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #E040FB, #FF5722, #FF9800);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-avatar svg {
+      width: 18px;
+      height: 18px;
+      color: white;
+    }
+
+    .card-user-info {
+      flex: 1;
+    }
+
+    .card-username {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .card-via {
+      font-size: 11px;
+      color: var(--black-40);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 340px;
+      background: linear-gradient(135deg, #e8f4ff 0%, #f0f7ff 50%, #e0f0ff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-image-content {
+      text-align: center;
+    }
+
+    .card-image-house {
+      width: 200px;
+      height: 160px;
+      position: relative;
+    }
+
+    /* Simple house illustration */
+    .house-body {
+      position: absolute;
+      bottom: 0;
+      left: 30px;
+      width: 140px;
+      height: 100px;
+      background: var(--blue);
+      opacity: 0.15;
+    }
+
+    .house-roof {
+      position: absolute;
+      bottom: 100px;
+      left: 10px;
+      width: 0;
+      height: 0;
+      border-left: 90px solid transparent;
+      border-right: 90px solid transparent;
+      border-bottom: 70px solid var(--blue);
+      opacity: 0.15;
+    }
+
+    .house-door {
+      position: absolute;
+      bottom: 0;
+      left: 70px;
+      width: 30px;
+      height: 50px;
+      background: var(--blue);
+      opacity: 0.25;
+    }
+
+    .house-window-1,
+    .house-window-2 {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: var(--blue);
+      opacity: 0.25;
+    }
+
+    .house-window-1 {
+      bottom: 60px;
+      left: 42px;
+    }
+
+    .house-window-2 {
+      bottom: 60px;
+      right: 42px;
+    }
+
+    .card-image-label {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--blue);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    .card-actions {
+      padding: 14px 20px;
+      border-top: 1px solid var(--black-10);
+      display: flex;
+      gap: 16px;
+    }
+
+    .card-actions svg {
+      width: 22px;
+      height: 22px;
+      color: rgba(0,0,0,0.5);
+    }
+
+    .card-caption {
+      padding: 0 20px 16px;
+    }
+
+    .card-caption-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .card-caption-text {
+      font-size: 12px;
+      color: var(--black-60);
+      margin-left: 4px;
+    }
+
+    /* Second card (behind, rotated) */
+    .behind-card {
+      position: absolute;
+      top: 80px;
+      left: 55px;
+      width: 400px;
+      height: 460px;
+      background: var(--white);
+      border: 1px solid var(--black-10);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      z-index: 1;
+      transform: rotate(5deg) translateX(20px);
+      opacity: 0.6;
+    }
+
+    /* Third card */
+    .behind-card-2 {
+      position: absolute;
+      top: 70px;
+      left: 0px;
+      width: 400px;
+      height: 460px;
+      background: var(--white);
+      border: 1px solid var(--black-10);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      z-index: 0;
+      transform: rotate(-4deg) translateX(-15px);
+      opacity: 0.35;
+    }
+
+    /* Floating badges */
+    .badge-auto {
+      position: absolute;
+      top: 160px;
+      right: -20px;
+      background: var(--white);
+      border: 1px solid var(--black-10);
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--black);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    .badge-auto-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--blue);
+    }
+
+    .badge-speed {
+      position: absolute;
+      bottom: 180px;
+      left: -10px;
+      background: var(--blue);
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+      box-shadow: 0 4px 16px rgba(0, 128, 255, 0.3);
+    }
+
+    .badge-speed svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .badge-2026 {
+      position: absolute;
+      top: 20px;
+      left: 40px;
+      background: var(--black);
+      color: white;
+      padding: 8px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      z-index: 10;
+    }
+
+    /* ---- BOTTOM STATS BAR ---- */
+    .stats-bar {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--black-05);
+      border-top: 1px solid var(--black-05);
+      margin: 0 -100px;
+      margin-top: auto;
+    }
+
+    .stat-item {
+      background: var(--white);
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--blue);
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--black);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--black-40);
+      margin-top: 2px;
+    }
+
+    /* Vertical divider between stats */
+    .stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--black-10);
+      align-self: center;
+    }
+
+    /* Corner decoration */
+    .corner-decoration {
+      position: absolute;
+      bottom: 140px;
+      right: 100px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 5;
+    }
+
+    .corner-flags {
+      display: flex;
+      gap: 6px;
+    }
+
+    .corner-flag {
+      width: 28px;
+      height: 18px;
+      border: 1px solid var(--black-10);
+      overflow: hidden;
+      background: white;
+    }
+
+    .corner-flag img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .corner-text {
+      font-size: 11px;
+      color: var(--black-40);
+      font-weight: 500;
+    }
+
+    /* Presentation date badge */
+    .date-badge {
+      position: absolute;
+      top: 30px;
+      right: 100px;
+      font-size: 12px;
+      color: var(--black-40);
+      font-weight: 400;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .date-badge-dot {
+      width: 6px;
+      height: 6px;
+      background: #22c55e;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+<div class="slide">
+  <div class="top-accent"></div>
+
+  <div class="content">
+    <!-- LEFT COLUMN -->
+    <div class="left">
+      <!-- Logo -->
+      <div class="logo-area">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <span class="logo-text">immoautomation</span>
+      </div>
+
+      <!-- Section Label -->
+      <div class="section-label">About Us &mdash; Social Media 2026</div>
+
+      <!-- Headline -->
+      <div class="headline">
+        <span class="headline-serif">Warum soziale Sichtbarkeit</span>
+        <span class="headline-bold">unverzichtbar ist</span>
+        <span class="headline-light">f&uuml;r Immobilienmakler.</span>
+      </div>
+
+      <!-- Description -->
+      <p class="description">
+        In einer Welt, in der <strong>87% der Immobiliensuchenden</strong> ihre Reise online beginnen,
+        reicht ein gutes Expos&eacute; allein nicht mehr aus.
+        <strong>Social Media ist 2026 der wichtigste Kanal</strong> f&uuml;r Vertrauen, Reichweite und Kundengewinnung.
+      </p>
+
+      <!-- Mission Points -->
+      <div class="mission-points">
+        <div class="mission-point">
+          <div class="mission-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 16v-4"/>
+              <path d="M12 8h.01"/>
+            </svg>
+          </div>
+          <div class="mission-text">
+            <span class="mission-title">Unsere Mission</span>
+            <span class="mission-desc">Wir automatisieren Social-Media-Content f&uuml;r Immobilienprofis &mdash; vom CRM direkt auf Instagram, Facebook & LinkedIn.</span>
+          </div>
+        </div>
+
+        <div class="mission-point">
+          <div class="mission-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <div class="mission-text">
+            <span class="mission-title">In 30 Sekunden zum fertigen Post</span>
+            <span class="mission-desc">Professionelle Templates, KI-generierte Captions &mdash; direkt aus onOffice. Keine Designkenntnisse n&ouml;tig.</span>
+          </div>
+        </div>
+
+        <div class="mission-point">
+          <div class="mission-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div class="mission-text">
+            <span class="mission-title">Made in Austria &mdash; DSGVO-konform</span>
+            <span class="mission-desc">Hosting in Deutschland, 100% datenschutzkonform. Entwickelt f&uuml;r den DACH-Markt.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="right">
+      <div class="visual-container">
+        <!-- Blue background shape -->
+        <div class="visual-bg"></div>
+
+        <!-- 2026 badge -->
+        <div class="badge-2026">Social Media 2026</div>
+
+        <!-- Behind cards (fan effect) -->
+        <div class="behind-card-2"></div>
+        <div class="behind-card"></div>
+
+        <!-- Main social media card -->
+        <div class="main-card">
+          <div class="card-header">
+            <div class="card-avatar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </div>
+            <div class="card-user-info">
+              <div class="card-username">Ihr Maklerbüro</div>
+              <div class="card-via">via immoautomation</div>
+            </div>
+          </div>
+
+          <div class="card-image">
+            <div class="card-image-content">
+              <div class="card-image-house">
+                <div class="house-roof"></div>
+                <div class="house-body"></div>
+                <div class="house-door"></div>
+                <div class="house-window-1"></div>
+                <div class="house-window-2"></div>
+              </div>
+              <div class="card-image-label">Automatisch generiert</div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </div>
+
+          <div class="card-caption">
+            <span class="card-caption-name">Ihr Maklerbüro</span>
+            <span class="card-caption-text">Traumhaftes Penthouse mit Alpenblick...</span>
+          </div>
+        </div>
+
+        <!-- Floating badges -->
+        <div class="badge-auto">
+          <div class="badge-auto-dot"></div>
+          Auto-generiert
+        </div>
+
+        <div class="badge-speed">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+          30 Sekunden
+        </div>
+      </div>
+
+      <!-- DACH flags -->
+      <div class="corner-decoration">
+        <div class="corner-flags">
+          <div class="corner-flag">
+            <img src="https://flagcdn.com/de.svg" alt="DE" />
+          </div>
+          <div class="corner-flag">
+            <img src="https://flagcdn.com/at.svg" alt="AT" />
+          </div>
+          <div class="corner-flag">
+            <img src="https://flagcdn.com/ch.svg" alt="CH" />
+          </div>
+        </div>
+        <span class="corner-text">Made for DACH</span>
+      </div>
+    </div>
+
+    <!-- BOTTOM STATS BAR -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+            <path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+        </div>
+        <div>
+          <div class="stat-number">150+</div>
+          <div class="stat-label">Aktive Immobilienmakler</div>
+        </div>
+      </div>
+
+      <div class="stat-item">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <div>
+          <div class="stat-number">10.000+</div>
+          <div class="stat-label">Posts generiert</div>
+        </div>
+      </div>
+
+      <div class="stat-item">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div>
+          <div class="stat-number">5.000h+</div>
+          <div class="stat-label">Zeit gespart</div>
+        </div>
+      </div>
+
+      <div class="stat-item">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div>
+          <div class="stat-number">98%</div>
+          <div class="stat-label">Kundenzufriedenheit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Presentation date -->
+  <div class="date-badge">
+    <div class="date-badge-dot"></div>
+    Pr&auml;sentation &mdash; 26. Februar 2026
+  </div>
+</div>
+
+</body>
+</html>

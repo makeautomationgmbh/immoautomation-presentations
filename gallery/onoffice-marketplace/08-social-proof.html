@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=800, height=450">
+  <title>immoautomation - Social Proof</title>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 800px;
+      height: 450px;
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      overflow: hidden;
+      position: relative;
+    }
+    .container {
+      width: 800px;
+      height: 450px;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .header {
+      margin-bottom: 30px;
+    }
+    .subtitle {
+      color: rgba(0,0,0,0.4);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-size: 36px;
+      line-height: 1.1;
+    }
+    .headline-italic {
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: #000;
+    }
+    .headline-bold {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: #0080FF;
+      display: block;
+      margin-top: 4px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(0,0,0,0.05);
+      flex: 1;
+    }
+    .stat {
+      background: white;
+      padding: 30px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat:hover {
+      background: rgba(0,128,255,0.03);
+    }
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(0,128,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .stat-icon svg {
+      width: 24px;
+      height: 24px;
+      color: #0080FF;
+    }
+    .stat-value {
+      font-size: 36px;
+      font-weight: 600;
+      font-family: monospace;
+      color: #000;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: rgba(0,0,0,0.6);
+    }
+    .trust-bar {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 24px 0;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      margin-top: auto;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .trust-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(0,128,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .trust-icon.blue-bg {
+      background: #0080FF;
+    }
+    .trust-icon svg {
+      width: 20px;
+      height: 20px;
+      color: #0080FF;
+    }
+    .trust-icon.blue-bg svg {
+      color: white;
+    }
+    .trust-text {
+      text-align: left;
+    }
+    .trust-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #000;
+    }
+    .trust-subtitle {
+      font-size: 11px;
+      color: rgba(0,0,0,0.5);
+    }
+    .flags {
+      display: flex;
+      gap: 6px;
+    }
+    .flag {
+      width: 28px;
+      height: 18px;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 600;
+      color: rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <svg style="position:absolute;inset:0;width:800px;height:450px;opacity:0.03" xmlns="http://www.w3.org/2000/svg">
+    <defs><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="#000" stroke-width="1"/></pattern></defs>
+    <rect width="800" height="450" fill="url(#grid)"/>
+  </svg>
+  <div class="container">
+    <div class="header">
+      <p class="subtitle">Unsere Zahlen</p>
+      <h2>
+        <span class="headline-italic">Zahlen, die</span>
+        <span class="headline-bold">fur sich sprechen</span>
+      </h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+            <polyline points="17 6 23 6 23 12"></polyline>
+          </svg>
+        </div>
+        <div class="stat-value">10.000+</div>
+        <div class="stat-label">Posts generiert</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <div class="stat-value">100+</div>
+        <div class="stat-label">Aktive Makler</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="7"></circle>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+          </svg>
+        </div>
+        <div class="stat-value">1.000h+</div>
+        <div class="stat-label">Zeit gespart</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+        <div class="stat-value">98%</div>
+        <div class="stat-label">Zufriedenheit</div>
+      </div>
+    </div>
+    <div class="trust-bar">
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="7"></circle>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+          </svg>
+        </div>
+        <div class="trust-text">
+          <div class="trust-title">DSGVO-konform</div>
+          <div class="trust-subtitle">100% sicher</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon blue-bg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+        <div class="trust-text">
+          <div class="trust-title">Top-bewertet</div>
+          <div class="trust-subtitle">4.9/5 Sterne</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="flags">
+          <div class="flag">DE</div>
+          <div class="flag">AT</div>
+          <div class="flag">CH</div>
+        </div>
+        <div class="trust-text">
+          <div class="trust-title">Made for DACH</div>
+          <div class="trust-subtitle">Regionaler Support</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

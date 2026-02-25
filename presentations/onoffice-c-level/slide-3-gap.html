@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, initial-scale=1.0" />
+  <title>immoautomation — Die Lücke</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #0080FF;
+      --blue-light: rgba(0, 128, 255, 0.1);
+      --black: #1a1a2e;
+      --white: #fcfcff;
+      --gray-light: rgba(0, 0, 0, 0.04);
+      --text-secondary: rgba(0, 0, 0, 0.5);
+      --text-muted: rgba(0, 0, 0, 0.35);
+      --border: rgba(0, 0, 0, 0.08);
+    }
+
+    html, body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .section-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 72px 100px;
+    }
+
+    .slide-gap {
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-gap .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1720px;
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
+
+    .gap-title {
+      font-size: 64px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .gap-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      width: 100%;
+    }
+
+    .gap-flow-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      flex: 0 0 auto;
+    }
+
+    .gap-flow-box {
+      width: 320px;
+      padding: 40px 32px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .gap-flow-box.onoffice {
+      border-color: rgba(0, 128, 255, 0.3);
+      background: rgba(0, 128, 255, 0.03);
+    }
+
+    .gap-flow-box.missing {
+      border: 2px dashed #dc2626;
+      background: rgba(220, 38, 38, 0.03);
+    }
+
+    .gap-flow-box.social {
+      border-color: var(--border);
+    }
+
+    .gap-flow-box .box-icon {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gap-flow-box .box-icon svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .gap-flow-box h3 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .gap-flow-box p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .gap-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+    }
+
+    .gap-arrow svg {
+      width: 48px;
+      height: 48px;
+      color: rgba(0, 0, 0, 0.15);
+    }
+
+    .gap-arrow.broken svg {
+      color: #dc2626;
+    }
+
+    .gap-bottom-text {
+      text-align: center;
+      font-size: 20px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .gap-bottom-text strong {
+      color: #dc2626;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide slide-gap">
+    <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+      <defs>
+        <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+          <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#000" stroke-width="1" opacity="0.03"/>
+        </pattern>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#grid)"/>
+    </svg>
+
+    <div class="content">
+      <div>
+        <p class="section-label">Die Lücke</p>
+      </div>
+
+      <div class="gap-title">
+        <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Die Daten sind da</span> –<br/>
+        <span style="font-weight:600;color:var(--blue);">die Brücke fehlt.</span>
+      </div>
+
+      <div class="gap-flow">
+        <!-- onOffice -->
+        <div class="gap-flow-item">
+          <div class="gap-flow-box onoffice">
+            <div class="box-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0080FF" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" /></svg>
+            </div>
+            <h3>onOffice</h3>
+            <p>Alle Immobiliendaten, Bilder & Exposés sind vorhanden</p>
+          </div>
+        </div>
+
+        <!-- Arrow (broken) -->
+        <div class="gap-arrow broken">
+          <svg viewBox="0 0 48 48" fill="none">
+            <line x1="4" y1="24" x2="18" y2="24" stroke="currentColor" stroke-width="2.5" stroke-dasharray="4 4" />
+            <circle cx="24" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M20.5 20.5l7 7M27.5 20.5l-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <line x1="30" y1="24" x2="44" y2="24" stroke="currentColor" stroke-width="2.5" stroke-dasharray="4 4" />
+          </svg>
+        </div>
+
+        <!-- Missing middle -->
+        <div class="gap-flow-item">
+          <div class="gap-flow-box missing">
+            <div class="box-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>
+            </div>
+            <h3>Keine Schnittstelle</h3>
+            <p>Kein Weg, die CRM-Daten automatisch in Social Media Content zu verwandeln</p>
+          </div>
+        </div>
+
+        <!-- Arrow (broken) -->
+        <div class="gap-arrow broken">
+          <svg viewBox="0 0 48 48" fill="none">
+            <line x1="4" y1="24" x2="18" y2="24" stroke="currentColor" stroke-width="2.5" stroke-dasharray="4 4" />
+            <circle cx="24" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M20.5 20.5l7 7M27.5 20.5l-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <line x1="30" y1="24" x2="44" y2="24" stroke="currentColor" stroke-width="2.5" stroke-dasharray="4 4" />
+          </svg>
+        </div>
+
+        <!-- Social Media -->
+        <div class="gap-flow-item">
+          <div class="gap-flow-box social">
+            <div class="box-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
+            </div>
+            <h3>Social Media</h3>
+            <p>Instagram, Facebook, Google Business – Makler müssen manuell posten</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gap-bottom-text">
+        Makler müssen Daten <strong>manuell kopieren</strong>, Bilder einzeln herunterladen,
+        in Grafik-Tools bearbeiten und auf jeder Plattform einzeln veröffentlichen.
+        <strong>Das kostet wertvolle Zeit.</strong>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

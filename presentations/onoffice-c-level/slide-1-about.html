@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, initial-scale=1.0" />
+  <title>immoautomation — Über uns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #0080FF;
+      --blue-hover: #0066CC;
+      --blue-light: rgba(0, 128, 255, 0.1);
+      --blue-glow: rgba(0, 128, 255, 0.2);
+      --black: #1a1a2e;
+      --white: #fcfcff;
+      --gray-light: rgba(0, 0, 0, 0.04);
+      --text-secondary: rgba(0, 0, 0, 0.5);
+      --text-muted: rgba(0, 0, 0, 0.35);
+      --border: rgba(0, 0, 0, 0.08);
+    }
+
+    html, body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .section-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 72px 100px;
+    }
+
+    .slide-about {
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-about .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1720px;
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
+
+    .about-header {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .about-header .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .about-header .logo-row img {
+      height: 48px;
+      width: auto;
+    }
+
+    .about-header .divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .about-header .tagline {
+      font-size: 20px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .about-title {
+      font-size: 76px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .about-title .serif {
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .about-title .blue {
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    .about-title .light {
+      font-weight: 300;
+      font-size: 48px;
+      color: var(--text-muted);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    .team-card {
+      padding: 32px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      border-right: 1px solid var(--border);
+    }
+
+    .team-card:last-child {
+      border-right: none;
+    }
+
+    .team-card.presenter::after {
+      content: 'Pr\00e4sentiert';
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      font-size: 10px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--blue);
+      background: var(--blue-light);
+      padding: 4px 10px;
+    }
+
+    .team-card .avatar {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      filter: grayscale(15%);
+      flex-shrink: 0;
+      border-radius: 50%;
+    }
+
+    .team-card .info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .team-card .name {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .team-card .role {
+      font-size: 17px;
+      color: rgba(0, 0, 0, 0.45);
+      font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide slide-about">
+    <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+      <defs>
+        <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+          <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#000" stroke-width="1" opacity="0.03"/>
+        </pattern>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#grid)"/>
+    </svg>
+
+    <div class="content">
+      <div class="about-header">
+        <p class="section-label">Über uns</p>
+        <div class="logo-row">
+          <img src="https://app.immoautomation.at/assets/logo-EsjYfG1v.png" alt="immoautomation" />
+          <div class="divider"></div>
+          <span class="tagline">Eine Social Media Marketing Suite für Immobilienmakler</span>
+        </div>
+      </div>
+
+      <div class="about-title">
+        <span class="serif">Wir automatisieren</span><br />
+        <span class="blue">Social Media</span><br />
+        <span class="light">für die Immobilienbranche.</span>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card presenter">
+          <img class="avatar" src="https://media.licdn.com/dms/image/v2/D4D03AQGeDA5sQDp25Q/profile-displayphoto-scale_400_400/B4DZjRF_SLH4Ak-/0/1755854667560?e=1773273600&v=beta&t=AVuiWBEInNlNUUcEmoaIV7p_zoo73rBbqSS3T0CuCUY" alt="Rafael Kietaibl" />
+          <div class="info">
+            <div class="name">Rafael Kietaibl</div>
+            <div class="role">Co-Founder</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <img class="avatar" src="https://media.licdn.com/dms/image/v2/D4D03AQEh9AuIHyASNA/profile-displayphoto-scale_400_400/B4DZjL4qOqH4Ag-/0/1755767287553?e=1773273600&v=beta&t=dH79w2shvGuhs_gahYcXm2u83FHQLc07yg_fRVEcdxM" alt="Niklas Kietaibl" />
+          <div class="info">
+            <div class="name">Niklas Kietaibl</div>
+            <div class="role">Co-Founder</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <img class="avatar" src="https://media.licdn.com/dms/image/v2/D4E03AQGiCOMmmEvH4A/profile-displayphoto-scale_400_400/B4EZf6ygysH4Ak-/0/1752259238543?e=1773273600&v=beta&t=sW1ynnsTMnyfRyack092bwIC5W6cZhEwF36wRE8qw3I" alt="Alexander Gottlieb" />
+          <div class="info">
+            <div class="name">Alexander Gottlieb</div>
+            <div class="role">CTO</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

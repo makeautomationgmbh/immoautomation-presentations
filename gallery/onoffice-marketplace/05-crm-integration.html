@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=800, height=450">
+  <title>immoautomation - CRM Integration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 800px;
+      height: 450px;
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      overflow: hidden;
+      position: relative;
+    }
+    .container {
+      width: 800px;
+      height: 450px;
+      padding: 28px 32px;
+      display: flex;
+      gap: 40px;
+      position: relative;
+    }
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .subtitle {
+      color: rgba(0,0,0,0.4);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    h2 {
+      font-size: 38px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .headline-italic {
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: #000;
+    }
+    .headline-bold {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: #0080FF;
+      display: block;
+      margin-top: 4px;
+    }
+    .description {
+      font-size: 14px;
+      color: rgba(0,0,0,0.6);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .benefit {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: rgba(0,0,0,0.7);
+    }
+    .benefit-icon {
+      width: 24px;
+      height: 24px;
+      background: rgba(0,128,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .benefit-icon svg {
+      width: 12px;
+      height: 12px;
+      color: #0080FF;
+    }
+    .right {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .crm-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+    .crm-card {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.3s ease;
+    }
+    .crm-card:hover {
+      border-color: #0080FF;
+      box-shadow: 0 4px 20px rgba(0,128,255,0.1);
+    }
+    .crm-logo {
+      width: 50px;
+      height: 50px;
+      background: rgba(0,128,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .crm-logo svg {
+      width: 28px;
+      height: 28px;
+      color: #0080FF;
+    }
+    .crm-info {
+      flex: 1;
+    }
+    .crm-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #000;
+      margin-bottom: 4px;
+    }
+    .crm-desc {
+      font-size: 12px;
+      color: rgba(0,0,0,0.5);
+    }
+    .crm-status {
+      width: 24px;
+      height: 24px;
+      background: #0080FF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .crm-status svg {
+      width: 14px;
+      height: 14px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <svg style="position:absolute;inset:0;width:800px;height:450px;opacity:0.03" xmlns="http://www.w3.org/2000/svg">
+    <defs><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="#000" stroke-width="1"/></pattern></defs>
+    <rect width="800" height="450" fill="url(#grid)"/>
+  </svg>
+  <div class="container">
+    <div class="left">
+      <p class="subtitle">CRM-Integration</p>
+      <h2>
+        <span class="headline-italic">Direkt aus Ihrem</span>
+        <span class="headline-bold">CRM-System</span>
+      </h2>
+      <p class="description">
+        Mit einem Klick direkt aus Ihrer Objektseite starten.
+        Alle Immobiliendaten und Bilder werden automatisch übernommen.
+      </p>
+      <div class="benefits">
+        <div class="benefit">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span>Automatischer Datenabruf</span>
+        </div>
+        <div class="benefit">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span>Alle Objektfotos verfügbar</span>
+        </div>
+        <div class="benefit">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span>Keine manuelle Dateneingabe</span>
+        </div>
+        <div class="benefit">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span>Verschlüsselte Verbindung</span>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="crm-cards">
+        <div class="crm-card">
+          <div class="crm-logo">
+            <svg viewBox="0 0 246 246">
+              <g>
+                <path fill="currentColor" d="M43.89,123c0-35.96,23.99-66.29,56.84-75.91h-49.52c-6.6,0-12,5.4-12,12v127.82c0,6.6,5.4,12,12,12h49.52c-32.84-9.62-56.84-39.96-56.84-75.91Z"/>
+                <path fill="currentColor" d="M194.8,47.09h-49.52c32.84,9.62,56.84,39.96,56.84,75.91s-23.99,66.29-56.84,75.91h49.52c6.6,0,12-5.4,12-12V59.09c0-6.6-5.4-12-12-12Z"/>
+              </g>
+            </svg>
+          </div>
+          <div class="crm-info">
+            <div class="crm-name">onOffice</div>
+            <div class="crm-desc">Direkte Anbindung</div>
+          </div>
+          <div class="crm-status">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

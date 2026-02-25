@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=800, height=450">
+  <title>immoautomation - Hero Cards (2 Karten)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 800px;
+      height: 450px;
+      font-family: 'Inter', sans-serif;
+      background: transparent;
+      overflow: hidden;
+      position: relative;
+    }
+    .cards-container {
+      position: absolute;
+      right: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 380px;
+      height: 400px;
+    }
+    .post-card {
+      position: absolute;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.12);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .post-card.card-1 {
+      left: 0;
+      top: 40px;
+      width: 200px;
+      transform: rotate(-5deg);
+      z-index: 1;
+    }
+    .post-card.card-2 {
+      right: 0;
+      top: 20px;
+      width: 220px;
+      transform: rotate(4deg);
+      z-index: 2;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.22);
+    }
+    .card-header {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #f0f0f0;
+    }
+    .card-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .card-user { flex: 1; min-width: 0; }
+    .card-username {
+      font-size: 11px;
+      font-weight: 600;
+      color: #000;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-via { font-size: 9px; color: rgba(0,0,0,0.5); }
+    .card-image {
+      width: 100%;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      background: #f5f5f5;
+    }
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .post-card.card-1 .card-image {
+      border-radius: 8px;
+    }
+    .card-actions {
+      padding: 10px 12px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    .card-icons {
+      display: flex;
+      gap: 12px;
+    }
+    .card-icons svg {
+      width: 18px;
+      height: 18px;
+      color: rgba(0,0,0,0.7);
+    }
+    .float-badge-auto {
+      position: absolute;
+      left: 340px;
+      top: 50px;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      z-index: 100;
+      border-radius: 6px;
+    }
+    .float-badge-auto .dot {
+      width: 8px;
+      height: 8px;
+      background: #0080FF;
+      border-radius: 50%;
+    }
+    .float-badge-time {
+      position: absolute;
+      left: 340px;
+      bottom: 80px;
+      background: #0080FF;
+      color: white;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(0,128,255,0.35);
+      z-index: 100;
+      border-radius: 6px;
+    }
+    .float-badge-time svg {
+      width: 16px;
+      height: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="cards-container">
+    <!-- Card 1 - VR Immo-Service (links, hinten) -->
+    <div class="post-card card-1">
+      <div class="card-image">
+        <img src="https://templated-assets.s3.amazonaws.com/render/66d1d5db-65d4-4ae2-8e5b-2c23deda8d65.jpg" alt="VR Immo-Service">
+      </div>
+    </div>
+
+    <!-- Card 2 - Wüstenrot (rechts, vorne) -->
+    <div class="post-card card-2">
+      <div class="card-header">
+        <div class="card-avatar">
+          <img src="https://mms.immowelt.de/0/2/a/c/02ac5767-06d1-485c-99c7-ae20e2b01b3f.jpg?ci_eqs=&ci_seal=ef929e630c2caa5dae01f9cf0682577d5448bb65&w=240" alt="Wüstenrot">
+        </div>
+        <div class="card-user">
+          <div class="card-username">Wüstenrot Immobilien</div>
+          <div class="card-via">via immoautomation</div>
+        </div>
+      </div>
+      <div class="card-image">
+        <img src="https://templated-assets.s3.amazonaws.com/render/2fb20ba8-07c2-43a9-a575-1ae7e9a3b818.jpg" alt="Wüstenrot Posting">
+      </div>
+      <div class="card-actions">
+        <div class="card-icons">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="float-badge-auto">
+    <div class="dot"></div>
+    Auto-generiert
+  </div>
+  <div class="float-badge-time">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+    30 Sekunden
+  </div>
+</body>
+</html>

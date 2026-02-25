@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slide 02 — Über mich</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --blue: #0080FF;
+      --blue-light: rgba(0, 128, 255, 0.1);
+      --blue-glow: rgba(0, 128, 255, 0.2);
+      --black: #1a1a2e;
+      --white: #fcfcff;
+      --text-secondary: rgba(0, 0, 0, 0.5);
+      --text-muted: rgba(0, 0, 0, 0.35);
+      --border: rgba(0, 0, 0, 0.08);
+      --gray-light: rgba(0, 0, 0, 0.04);
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--black);
+    }
+    .scale-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #1a1a2e;
+    }
+    .slide {
+      flex-shrink: 0;
+      transform-origin: center center;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 72px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .grid-bg { position: absolute; inset: 0; pointer-events: none; }
+    .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1720px;
+      display: flex;
+      flex-direction: column;
+    }
+    .section-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-up { animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .animate-fade { animation: fadeIn 0.6s ease-out both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.35s; }
+    .delay-4 { animation-delay: 0.5s; }
+    .delay-5 { animation-delay: 0.65s; }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute">
+    <defs>
+      <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+        <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#000" stroke-width="1" opacity="0.03"/>
+      </pattern>
+    </defs>
+  </svg>
+
+  <div class="scale-container" id="scaleContainer">
+    <div class="slide" id="slide-2">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 48px;">
+
+        <div class="animate-up delay-1">
+          <p class="section-label">Über mich</p>
+        </div>
+
+      <!-- Name + Title -->
+      <div style="display:flex;align-items:flex-start;gap:48px;" class="animate-up delay-2">
+        <div style="width:120px;height:120px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:700;color:var(--blue);flex-shrink:0;">RK</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:48px;font-weight:700;letter-spacing:-0.02em;">Rafael Kietaibl</div>
+          <div style="font-size:22px;color:var(--text-secondary);">Co-Founder &amp; Geschäftsführer</div>
+          <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
+            <img src="../../assets/logo.png" alt="immoautomation" style="height:28px;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Journey cards -->
+      <div style="display:grid;grid-template-columns:1fr 60px 1fr 60px 1fr;align-items:center;gap:0;margin-top:16px;" class="animate-up delay-3">
+
+        <!-- Card 1: Agentur -->
+        <div style="padding:40px 36px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px;position:relative;">
+          <span style="position:absolute;top:16px;right:20px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">01</span>
+          <div style="width:52px;height:52px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;">
+            <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg>
+          </div>
+          <h3 style="font-size:22px;font-weight:600;">Agentur-Inhaber</h3>
+          <p style="font-size:16px;color:var(--text-secondary);line-height:1.6;">Performance Marketing Agentur mit Fokus auf Paid Ads. Über <strong style="color:var(--blue);">3 Mio. € Adspend</strong> verwaltet.</p>
+        </div>
+
+        <!-- Arrow -->
+        <div style="display:flex;align-items:center;justify-content:center;">
+          <svg width="40" height="24" viewBox="0 0 40 24" fill="none"><path d="M0 12h32m0 0l-6-6m6 6l-6 6" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Card 2: KI & Automatisierung -->
+        <div style="padding:40px 36px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px;position:relative;">
+          <span style="position:absolute;top:16px;right:20px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">02</span>
+          <div style="width:52px;height:52px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;">
+            <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
+          </div>
+          <h3 style="font-size:22px;font-weight:600;">KI &amp; Automatisierung</h3>
+          <p style="font-size:16px;color:var(--text-secondary);line-height:1.6;">Fokus auf künstliche Intelligenz und Prozessautomatisierung in der Immobilienbranche.</p>
+        </div>
+
+        <!-- Arrow -->
+        <div style="display:flex;align-items:center;justify-content:center;">
+          <svg width="40" height="24" viewBox="0 0 40 24" fill="none"><path d="M0 12h32m0 0l-6-6m6 6l-6 6" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Card 3: immoautomation -->
+        <div style="padding:40px 36px;border:2px solid var(--blue);background:rgba(0,128,255,0.03);display:flex;flex-direction:column;gap:16px;position:relative;">
+          <span style="position:absolute;top:16px;right:20px;font-size:12px;color:rgba(0,128,255,0.25);font-variant-numeric:tabular-nums;">03</span>
+          <div style="width:52px;height:52px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;">
+            <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+          </div>
+          <h3 style="font-size:22px;font-weight:600;color:var(--blue);">immoautomation</h3>
+          <p style="font-size:16px;color:var(--text-secondary);line-height:1.6;">Software-Lösung für automatisiertes Social Media Marketing in der Immobilienbranche.</p>
+        </div>
+
+      </div>
+
+      <!-- Bottom tagline -->
+      <div style="padding:28px 36px;background:var(--gray-light);border:1px solid var(--border);display:flex;align-items:center;gap:16px;" class="animate-up delay-4">
+        <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+        <span style="font-size:18px;color:var(--text-secondary);">Vom CRM zur Sichtbarkeit in Sekunden — automatisierte Social Media Posts für Makler.</span>
+      </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function scalePresentation() {
+      var slide = document.querySelector('.slide');
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var scaleX = vw / 1920;
+      var scaleY = vh / 1080;
+      var scale = Math.min(scaleX, scaleY);
+      slide.style.transform = 'scale(' + scale + ')';
+    }
+    window.addEventListener('resize', scalePresentation);
+    scalePresentation();
+  </script>
+</body>
+</html>

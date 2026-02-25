@@ -5,34 +5,56 @@
 ### What's Done
 
 1. **Figma MCP servers registered** in `~/.claude.json` (user-scoped):
-   - `figma` → `https://mcp.figma.com/mcp` (remote, needs OAuth)
+   - `figma` → `https://mcp.figma.com/mcp` (remote, OAuth authenticated)
    - `figma-desktop` → `http://127.0.0.1:3845/mcp` (local, needs Figma desktop running)
 
-2. **CLAUDE.md updated** — Section 9 "Figma Integration" added with full workflow docs, troubleshooting, and Figma project structure guide. Committed on `main`:
-   ```
-   6134202 docs: add Figma MCP integration section to CLAUDE.md
-   ```
+2. **CLAUDE.md updated** — Section 9 "Figma Integration" added with full workflow docs, troubleshooting, and Figma project structure guide.
+
+3. **Remote Figma MCP authenticated** — OAuth flow completed via `/mcp` → `figma` → Authenticate.
+
+4. **Code to Canvas tested** — All 6 slides of `claude-code-workflow` presentation captured into Figma file `367UXfjc4t9sS925fuLZFO` ("immoautomation Presentations" in Niklas Kietaibl's team).
+
+### Proven Workflow: Sequential Slide Capture
+
+**Critical constraints discovered during testing:**
+
+| Constraint | Detail |
+|-----------|--------|
+| **Foreground only** | Background tabs expire with "Erfassung abgelaufen". Captures MUST happen one tab at a time. |
+| **One ID per slide** | Each capture ID is single-use. Pre-generate all IDs, then use sequentially. |
+| **Tab cleanup required** | Close each browser tab after capture to avoid clutter. Use AppleScript. |
+| **~8s per slide** | 2s figmadelay + ~6s processing. 6 slides ≈ 50s total. |
+
+**Correct capture sequence (minimizes permission prompts):**
+
+1. **Prep HTML** — Inject capture script + `?slide=N` query param handler (temporary)
+2. **Start server** — `python3 -m http.server 8080` from repo root
+3. **Capture slide 1** — `outputMode: newFile` → get `fileKey` from result
+4. **Pre-generate remaining capture IDs** — `outputMode: existingFile` with `fileKey`, all at once
+5. **Run single bash loop** — Opens each slide URL, waits 8s, closes tab via AppleScript, repeats
+6. **Poll all IDs** — Confirm all completed
+7. **Clean up HTML** — Remove capture script and query param handler
+
+```bash
+# Example capture loop (single permission prompt for the whole script)
+BASE="http://localhost:8080/presentations/YYYY-MM-name/file.html"
+CAPTURE_IDS=("id1" "id2" "id3" "id4" "id5" "id6")
+ENDPOINT="https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture"
+
+for i in "${!CAPTURE_IDS[@]}"; do
+  SLIDE=$((i + 1))
+  CID="${CAPTURE_IDS[$i]}"
+  open "${BASE}?slide=${SLIDE}#figmacapture=${CID}&figmaendpoint=${ENDPOINT}%2F${CID}%2Fsubmit&figmadelay=2000"
+  sleep 8
+  osascript -e 'tell application "Google Chrome" to close active tab of front window'
+  sleep 1
+done
+```
 
 ### What's NOT Done Yet
 
-#### A. Authenticate the Remote Figma MCP (required)
-```bash
-# In Claude Code, run:
-/mcp
-# → Select "figma"
-# → Choose "Authenticate"
-# → Complete OAuth flow in browser
-```
-
-#### B. Test Code to Canvas with an Existing Presentation
-```bash
-cd presentations/onoffice-c-level/
-python3 -m http.server 8080
-# Open http://localhost:8080/index.html in browser
-# In Claude Code: "Send this to Figma"
-```
-
-**Evaluate these after capture:**
+#### A. Evaluate Transfer Quality
+Check the test file (`367UXfjc4t9sS925fuLZFO`) in Figma:
 - [ ] Text is editable in Figma (not rasterized/vectorized paths)
 - [ ] Colors correct: `#0080FF` (blue), `#1a1a2e` (black), `#fcfcff` (white)
 - [ ] Slide dimensions are 1920×1080 in Figma
@@ -41,7 +63,7 @@ python3 -m http.server 8080
 - [ ] CSS custom properties resolved to final values
 - [ ] Grid background pattern (SVG) transfers or needs recreation
 
-#### C. If Code to Canvas Quality Is Poor → Set Up Fallback
+#### B. If Code to Canvas Quality Is Poor → Set Up Fallback
 ```bash
 npx claude-talk-to-figma-mcp
 # Install companion Figma plugin from:
@@ -50,32 +72,26 @@ npx claude-talk-to-figma-mcp
 claude mcp add --transport sse claude-talk-to-figma ws://localhost:3055
 ```
 
-#### D. Create Figma Project File
-Create "immoautomation Presentations" in Figma with:
-- Page per presentation (onOffice C-Level, Webinar 2026, etc.)
+#### C. Create Figma Design System Page
+In the test file or a new file, create a "Design System Reference" page with:
 - Shared color styles matching CSS custom properties
 - Shared text styles for Newsreader + Inter
 - 1920×1080 frame template
+- Reusable components (Section Label, Three-Line Headline, Numbered Card, Stat Bar)
 
-#### E. Install Google Fonts in Figma (if needed)
+#### D. Install Google Fonts in Figma (if needed)
 If fonts don't transfer via Code to Canvas:
 - Download Newsreader + Inter from Google Fonts
 - Add to Figma team font library
 
 ## Key Context
 
-### Figma Plan Requirements
-- **Pro/Organization/Enterprise** required for meaningful use
+### Figma Team & Plan
+- **Team:** Niklas Kietaibl's team (`planKey: team::1608463837990304956`)
+- **Plan requirements:** Pro/Organization/Enterprise for meaningful use
 - Pro/Org: 200 tool calls/day, 15-20/min
 - Starter: only 6 calls/month (not viable)
 - Enterprise: 600 calls/day
-
-### How Code to Canvas Works
-1. HTML must be rendered in a browser (dev server or file)
-2. "Send this to Figma" captures the **current viewport** as editable layers
-3. One slide per capture — navigate to next slide, repeat
-4. Multi-slide = multiple captures (adds token overhead)
-5. Output is editable Figma frames, not screenshots
 
 ### Fallback Option: claude-talk-to-figma-mcp
 - Community MCP by arinspunk, full read+write Figma access via WebSocket
@@ -84,8 +100,9 @@ If fonts don't transfer via Code to Canvas:
 - Slower but gives full control over output structure
 
 ### Files Modified
-- `CLAUDE.md` — added Section 9 (Figma Integration), 132 lines
-- `~/.claude.json` — added `figma` and `figma-desktop` mcpServers
+- `CLAUDE.md` — Section 9 (Figma Integration)
+- `~/.claude.json` — `figma` and `figma-desktop` mcpServers
+- `FIGMA-MCP-HANDOFF.md` — this file
 
 ### Relevant Docs
 - [Figma MCP Server](https://developers.figma.com/docs/figma-mcp-server/)
@@ -97,5 +114,5 @@ If fonts don't transfer via Code to Canvas:
 
 ## Open Questions
 1. Which Figma plan does the team have? (determines daily call limits)
-2. Multi-slide: can all slides be captured in one session, or does each need a separate prompt?
-3. Do Google Fonts resolve from the browser render, or must they be in Figma's font library?
+2. Do Google Fonts resolve from the browser render, or must they be in Figma's font library?
+3. Which browser does the user prefer? (Chrome vs Safari — affects AppleScript tab close command)

@@ -8,15 +8,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
   <style>
-    /* === RESET === */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* === CUSTOM PROPERTIES === */
     :root {
       --blue: #0080FF;
-      --blue-hover: #0066CC;
       --blue-light: rgba(0, 128, 255, 0.1);
-      --blue-glow: rgba(0, 128, 255, 0.2);
       --black: #1a1a2e;
       --white: #fcfcff;
       --gray-light: rgba(0, 0, 0, 0.04);
@@ -26,61 +22,33 @@
       --green: #10B981;
     }
 
-    /* === PRINT SETUP === */
     @page {
       size: 850mm 2000mm;
       margin: 0;
     }
 
-    @media print {
-      html, body {
-        width: 850mm;
-        height: 2000mm;
-        overflow: visible;
-      }
-      .scale-container {
-        width: 850mm !important;
-        height: 2000mm !important;
-        background: none !important;
-      }
-      .banner {
-        transform: none !important;
-      }
-    }
-
-    /* === BASE === */
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+    body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--white);
+      background: #e8e8e8;
       color: var(--black);
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      min-height: 100vh;
     }
 
-    /* === SCALE CONTAINER === */
-    .scale-container {
-      width: 100vw;
-      height: 100vh;
+    /* Banner: fixed aspect ratio via inline styles, CSS scales it down */
+    .banner {
+      width: 425px;   /* 850 / 2 */
+      height: 1000px;  /* 2000 / 2 */
+      background: var(--white);
       position: relative;
       overflow: hidden;
-      background: #e8e8e8;
-    }
-
-    /* === BANNER === */
-    /* 85x200cm at 1px per mm = 850x2000px design space */
-    .banner {
-      width: 850px;
-      height: 2000px;
-      background: var(--white);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      overflow: hidden;
-      transform-origin: center center;
       display: flex;
       flex-direction: column;
+      flex-shrink: 0;
       box-shadow: 0 4px 40px rgba(0,0,0,0.12);
+      font-size: 0.5em; /* scale all text proportionally */
     }
 
     /* Grid background */
@@ -92,99 +60,91 @@
       background-image:
         linear-gradient(#000 1px, transparent 1px),
         linear-gradient(90deg, #000 1px, transparent 1px);
-      background-size: 50px 50px;
+      background-size: 25px 25px;
       z-index: 0;
       pointer-events: none;
     }
 
-    /* Blue accent bar at top */
     .top-bar {
       width: 100%;
-      height: 8px;
+      height: 4px;
       background: var(--blue);
       flex-shrink: 0;
       position: relative;
       z-index: 2;
     }
 
-    /* === SECTIONS === */
     .banner-content {
       position: relative;
       z-index: 1;
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 60px 56px 48px;
+      padding: 30px 28px 24px;
     }
 
-    /* --- HERO SECTION (Top) --- */
+    /* --- HERO --- */
     .hero {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 32px;
-      padding-bottom: 48px;
+      gap: 16px;
+      padding-bottom: 24px;
     }
 
-    .logo {
-      height: 52px;
-    }
+    .logo { height: 26px; }
 
     .hero-headline {
-      font-size: 54px;
+      font-size: 27px;
       line-height: 1.15;
       letter-spacing: -0.02em;
     }
 
     .hero-sub {
-      font-size: 22px;
+      font-size: 11px;
       color: var(--text-secondary);
       line-height: 1.5;
-      max-width: 680px;
+      max-width: 340px;
     }
 
-    /* --- SOCIAL ICONS STRIP --- */
+    /* --- SOCIAL STRIP --- */
     .social-strip {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 28px;
-      padding: 32px 0;
+      gap: 14px;
+      padding: 16px 0;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
 
     .social-icon-box {
-      width: 72px;
-      height: 72px;
+      width: 36px;
+      height: 36px;
       background: var(--blue-light);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .social-icon-box svg {
-      width: 36px;
-      height: 36px;
-    }
+    .social-icon-box svg { width: 18px; height: 18px; }
 
-    .social-arrow {
-      color: var(--blue);
-    }
+    .social-arrow { color: var(--blue); }
+    .social-arrow svg { width: 12px; height: 12px; }
 
-    /* --- MIDDLE SECTION (Features) --- */
+    /* --- FEATURES --- */
     .features-section {
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 28px;
-      padding: 40px 0;
+      gap: 14px;
+      padding: 20px 0;
     }
 
     .section-label {
-      font-size: 14px;
+      font-size: 7px;
       text-transform: uppercase;
       letter-spacing: 0.3em;
       color: var(--text-muted);
@@ -194,49 +154,46 @@
     .feature-card {
       display: flex;
       align-items: flex-start;
-      gap: 20px;
-      padding: 28px 24px;
+      gap: 10px;
+      padding: 14px 12px;
       border: 1px solid var(--border);
       position: relative;
     }
 
     .feature-card-number {
       position: absolute;
-      top: 12px;
-      right: 16px;
-      font-size: 11px;
+      top: 6px;
+      right: 8px;
+      font-size: 6px;
       color: rgba(0, 0, 0, 0.1);
       font-variant-numeric: tabular-nums;
     }
 
     .feature-icon {
-      width: 48px;
-      height: 48px;
-      min-width: 48px;
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
       background: var(--blue-light);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .feature-icon svg {
-      width: 24px;
-      height: 24px;
-    }
+    .feature-icon svg { width: 12px; height: 12px; }
 
     .feature-text h3 {
-      font-size: 20px;
+      font-size: 10px;
       font-weight: 600;
-      margin-bottom: 6px;
+      margin-bottom: 2px;
     }
 
     .feature-text p {
-      font-size: 15px;
+      font-size: 7.5px;
       color: var(--text-secondary);
-      line-height: 1.5;
+      line-height: 1.4;
     }
 
-    /* --- STATS BAR --- */
+    /* --- STATS --- */
     .stats-bar {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -245,98 +202,82 @@
     }
 
     .stat-item {
-      padding: 24px 20px;
+      padding: 12px 10px;
       text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
     }
 
-    .stat-item + .stat-item {
-      border-left: 1px solid var(--border);
-    }
+    .stat-item + .stat-item { border-left: 1px solid var(--border); }
 
     .stat-number {
-      font-size: 36px;
+      font-size: 18px;
       font-weight: 700;
       color: var(--blue);
-      font-variant-numeric: tabular-nums;
       line-height: 1;
     }
 
     .stat-label {
-      font-size: 13px;
+      font-size: 6.5px;
       color: var(--text-secondary);
     }
 
-    /* --- BOTTOM SECTION (CTA + Trust) --- */
+    /* --- BOTTOM --- */
     .bottom-section {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 28px;
-      padding-top: 40px;
+      gap: 14px;
+      padding-top: 20px;
       border-top: 1px solid var(--border);
       margin-top: auto;
     }
 
     .cta-box {
       width: 100%;
-      padding: 28px 32px;
+      padding: 14px 16px;
       background: var(--blue);
       color: white;
       text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 4px;
     }
 
-    .cta-box .cta-headline {
-      font-size: 26px;
-      font-weight: 700;
-    }
-
-    .cta-box .cta-sub {
-      font-size: 16px;
-      opacity: 0.85;
-    }
+    .cta-headline { font-size: 13px; font-weight: 700; }
+    .cta-sub { font-size: 8px; opacity: 0.85; }
 
     .trust-badges {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 24px;
-      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .trust-badge {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 13px;
+      gap: 4px;
+      font-size: 6.5px;
       color: var(--text-secondary);
     }
 
-    .trust-badge svg {
-      width: 16px;
-      height: 16px;
-      color: var(--green);
-    }
+    .trust-badge svg { width: 8px; height: 8px; color: var(--green); }
 
     .website-url {
-      font-size: 18px;
+      font-size: 9px;
       font-weight: 500;
       color: var(--blue);
-      letter-spacing: 0.02em;
     }
 
-    /* --- DECORATION --- */
+    /* Decorative */
     .blue-corner {
       position: absolute;
       bottom: 0;
       right: 0;
-      width: 200px;
-      height: 200px;
+      width: 100px;
+      height: 100px;
       background: linear-gradient(135deg, transparent 50%, rgba(0, 128, 255, 0.04) 50%);
       z-index: 0;
       pointer-events: none;
@@ -344,219 +285,171 @@
 
     .blue-corner-top {
       position: absolute;
-      top: 8px;
+      top: 4px;
       left: 0;
-      width: 150px;
-      height: 150px;
+      width: 75px;
+      height: 75px;
       background: linear-gradient(315deg, transparent 50%, rgba(0, 128, 255, 0.03) 50%);
       z-index: 0;
       pointer-events: none;
+    }
+
+    /* Print: full size */
+    @media print {
+      body { background: none; padding: 0; }
+      .banner {
+        width: 850mm;
+        height: 2000mm;
+        font-size: 1em;
+        box-shadow: none;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="scale-container" id="scaleContainer">
-    <div class="banner" id="banner">
+  <div class="banner">
+    <div class="top-bar"></div>
+    <div class="blue-corner"></div>
+    <div class="blue-corner-top"></div>
 
-      <!-- Blue accent bar -->
-      <div class="top-bar"></div>
+    <div class="banner-content">
 
-      <!-- Decorative corners -->
-      <div class="blue-corner"></div>
-      <div class="blue-corner-top"></div>
+      <!-- HERO -->
+      <div class="hero">
+        <img src="../../assets/logo.png" alt="immoautomation" class="logo" />
 
-      <div class="banner-content">
-
-        <!-- === HERO SECTION === -->
-        <div class="hero">
-          <!-- Logo -->
-          <img src="../../assets/logo.png" alt="immoautomation" class="logo" />
-
-          <!-- Headline -->
-          <div class="hero-headline">
-            <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Automatisiertes</span><br/>
-            <span style="font-weight:700;color:var(--blue);">Social Media</span><br/>
-            <span style="font-weight:300;font-size:38px;color:var(--text-muted);">für Immobilienmakler</span>
-          </div>
-
-          <!-- Sub-headline -->
-          <p class="hero-sub">
-            Vom Exposé zum Post in 30 Sekunden — auf Instagram, Facebook & Google Business.
-          </p>
+        <div class="hero-headline">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Automatisiertes</span><br/>
+          <span style="font-weight:700;color:var(--blue);">Social Media</span><br/>
+          <span style="font-weight:300;font-size:0.7em;color:var(--text-muted);">für Immobilienmakler</span>
         </div>
 
-        <!-- === SOCIAL PLATFORMS STRIP === -->
-        <div class="social-strip">
-          <!-- Instagram -->
-          <div class="social-icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5">
-              <rect x="2" y="2" width="20" height="20" rx="5" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="12" cy="12" r="5" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="17.5" cy="6.5" r="1" fill="var(--blue)" stroke="none"/>
-            </svg>
-          </div>
-
-          <!-- Arrow -->
-          <div class="social-arrow">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-
-          <!-- Facebook -->
-          <div class="social-icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5">
-              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-
-          <!-- Arrow -->
-          <div class="social-arrow">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-
-          <!-- Google Business -->
-          <div class="social-icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5">
-              <path d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-
-          <!-- Arrow -->
-          <div class="social-arrow">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-
-          <!-- LinkedIn -->
-          <div class="social-icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" stroke-linecap="round" stroke-linejoin="round"/>
-              <rect x="2" y="9" width="4" height="12" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="4" cy="4" r="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </div>
-
-        <!-- === FEATURES SECTION === -->
-        <div class="features-section">
-          <p class="section-label">So funktioniert's</p>
-
-          <!-- Feature 1: CRM Integration -->
-          <div class="feature-card">
-            <span class="feature-card-number">01</span>
-            <div class="feature-icon">
-              <svg fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg>
-            </div>
-            <div class="feature-text">
-              <h3>CRM-Anbindung</h3>
-              <p>Direkte Verbindung zu onOffice & Propstack — Daten fließen automatisch.</p>
-            </div>
-          </div>
-
-          <!-- Feature 2: Templates -->
-          <div class="feature-card">
-            <span class="feature-card-number">02</span>
-            <div class="feature-icon">
-              <svg fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg>
-            </div>
-            <div class="feature-text">
-              <h3>Professionelle Templates</h3>
-              <p>Hunderte Designer-Vorlagen — immer im einheitlichen Corporate Design.</p>
-            </div>
-          </div>
-
-          <!-- Feature 3: AI Text -->
-          <div class="feature-card">
-            <span class="feature-card-number">03</span>
-            <div class="feature-icon">
-              <svg fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
-            </div>
-            <div class="feature-text">
-              <h3>KI-Texterstellung</h3>
-              <p>Plattformoptimierte Captions & Hashtags — automatisch generiert.</p>
-            </div>
-          </div>
-
-          <!-- Feature 4: Multi-Platform -->
-          <div class="feature-card">
-            <span class="feature-card-number">04</span>
-            <div class="feature-icon">
-              <svg fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
-            </div>
-            <div class="feature-text">
-              <h3>1-Klick Multi-Plattform</h3>
-              <p>Ein Klick veröffentlicht auf Instagram, Facebook & Google Business.</p>
-            </div>
-          </div>
-
-          <!-- Feature 5: Calendar -->
-          <div class="feature-card">
-            <span class="feature-card-number">05</span>
-            <div class="feature-icon">
-              <svg fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
-            </div>
-            <div class="feature-text">
-              <h3>Content-Kalender</h3>
-              <p>Planen & terminieren Sie Ihre Posts im Voraus.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- === STATS BAR === -->
-        <div class="stats-bar">
-          <div class="stat-item">
-            <span class="stat-number">140x</span>
-            <span class="stat-label">schneller</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">30 Sek</span>
-            <span class="stat-label">pro Post</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">100+</span>
-            <span class="stat-label">Makler vertrauen uns</span>
-          </div>
-        </div>
-
-        <!-- === BOTTOM CTA === -->
-        <div class="bottom-section">
-          <div class="cta-box">
-            <span class="cta-headline">Jetzt kostenlos testen</span>
-            <span class="cta-sub">14 Tage kostenlos — keine Kreditkarte nötig</span>
-          </div>
-
-          <div class="trust-badges">
-            <div class="trust-badge">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-              <span>DSGVO-konform</span>
-            </div>
-            <div class="trust-badge">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-              <span>Hosting in DE</span>
-            </div>
-            <div class="trust-badge">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-              <span>Made in Austria</span>
-            </div>
-          </div>
-
-          <span class="website-url">www.immoautomation.com</span>
-        </div>
-
+        <p class="hero-sub">
+          Vom Exposé zum Post in 30 Sekunden — auf Instagram, Facebook & Google Business.
+        </p>
       </div>
+
+      <!-- SOCIAL PLATFORMS -->
+      <div class="social-strip">
+        <div class="social-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="var(--blue)" stroke="none"/>
+          </svg>
+        </div>
+        <div class="social-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="social-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </div>
+        <div class="social-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="social-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5">
+            <path d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/>
+          </svg>
+        </div>
+        <div class="social-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="social-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- FEATURES -->
+      <div class="features-section">
+        <p class="section-label">So funktioniert's</p>
+
+        <div class="feature-card">
+          <span class="feature-card-number">01</span>
+          <div class="feature-icon"><svg fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg></div>
+          <div class="feature-text">
+            <h3>CRM-Anbindung</h3>
+            <p>Direkte Verbindung zu onOffice & Propstack — Daten fließen automatisch.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-card-number">02</span>
+          <div class="feature-icon"><svg fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg></div>
+          <div class="feature-text">
+            <h3>Professionelle Templates</h3>
+            <p>Hunderte Designer-Vorlagen — immer im einheitlichen Corporate Design.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-card-number">03</span>
+          <div class="feature-icon"><svg fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg></div>
+          <div class="feature-text">
+            <h3>KI-Texterstellung</h3>
+            <p>Plattformoptimierte Captions & Hashtags — automatisch generiert.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-card-number">04</span>
+          <div class="feature-icon"><svg fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg></div>
+          <div class="feature-text">
+            <h3>1-Klick Multi-Plattform</h3>
+            <p>Ein Klick veröffentlicht auf Instagram, Facebook & Google Business.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-card-number">05</span>
+          <div class="feature-icon"><svg fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg></div>
+          <div class="feature-text">
+            <h3>Content-Kalender</h3>
+            <p>Planen & terminieren Sie Ihre Posts im Voraus.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-number">140x</span>
+          <span class="stat-label">schneller</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">30 Sek</span>
+          <span class="stat-label">pro Post</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">100+</span>
+          <span class="stat-label">Makler vertrauen uns</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="bottom-section">
+        <div class="cta-box">
+          <span class="cta-headline">Jetzt kostenlos testen</span>
+          <span class="cta-sub">14 Tage kostenlos — keine Kreditkarte nötig</span>
+        </div>
+
+        <div class="trust-badges">
+          <div class="trust-badge">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span>DSGVO-konform</span>
+          </div>
+          <div class="trust-badge">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span>Hosting in DE</span>
+          </div>
+          <div class="trust-badge">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span>Made in Austria</span>
+          </div>
+        </div>
+
+        <span class="website-url">www.immoautomation.com</span>
+      </div>
+
     </div>
   </div>
 
-  <script>
-    /* === DYNAMIC SCALING === */
-    function scaleBanner() {
-      var banner = document.getElementById('banner');
-      var vw = window.innerWidth;
-      var vh = window.innerHeight;
-      var scale = Math.min(vw / 850, vh / 2000);
-      banner.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
-    }
-    window.addEventListener('resize', scaleBanner);
-    scaleBanner();
-  </script>
 </body>
 </html>

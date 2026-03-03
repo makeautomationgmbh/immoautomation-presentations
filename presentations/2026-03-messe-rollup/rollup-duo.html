@@ -57,12 +57,19 @@
     .scale-container {
       width: 100vw;
       height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
+      position: relative;
       overflow: hidden;
       background: #e8e8e8;
+    }
+
+    /* Inner wrapper for both banners */
+    .banners-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-origin: center center;
+      display: flex;
+      gap: 40px;
     }
 
     /* === BANNER (shared) === */
@@ -72,7 +79,6 @@
       background: var(--white);
       position: relative;
       overflow: hidden;
-      transform-origin: center center;
       flex-shrink: 0;
       display: flex;
       flex-direction: column;
@@ -538,6 +544,7 @@
 <body>
 
   <div class="scale-container" id="scaleContainer">
+    <div class="banners-wrapper" id="bannersWrapper">
 
     <!-- ==============================
          LEFT BANNER — Brand & Hero
@@ -792,23 +799,19 @@
       </div>
     </div>
 
+    </div><!-- /banners-wrapper -->
   </div>
 
   <script>
     /* === DYNAMIC SCALING for two banners side by side === */
     function scaleBanners() {
-      var left = document.getElementById('bannerLeft');
-      var right = document.getElementById('bannerRight');
+      var wrapper = document.getElementById('bannersWrapper');
       var vw = window.innerWidth;
       var vh = window.innerHeight;
 
       /* Two banners (850 each) + 40px gap = 1740px total width, 2000px height */
-      var scaleX = vw / 1780;
-      var scaleY = vh / 2040;
-      var scale = Math.min(scaleX, scaleY);
-
-      left.style.transform = 'scale(' + scale + ')';
-      right.style.transform = 'scale(' + scale + ')';
+      var scale = Math.min(vw / 1740, vh / 2000);
+      wrapper.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
     }
 
     window.addEventListener('resize', scaleBanners);

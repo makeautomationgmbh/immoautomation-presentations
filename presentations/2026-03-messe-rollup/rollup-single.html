@@ -62,9 +62,7 @@
     .scale-container {
       width: 100vw;
       height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: relative;
       overflow: hidden;
       background: #e8e8e8;
     }
@@ -75,12 +73,14 @@
       width: 850px;
       height: 2000px;
       background: var(--white);
-      position: relative;
+      position: absolute;
+      top: 50%;
+      left: 50%;
       overflow: hidden;
       transform-origin: center center;
-      flex-shrink: 0;
       display: flex;
       flex-direction: column;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.12);
     }
 
     /* Grid background */
@@ -553,7 +553,7 @@
       var vw = window.innerWidth;
       var vh = window.innerHeight;
       var scale = Math.min(vw / 850, vh / 2000);
-      banner.style.transform = 'scale(' + scale + ')';
+      banner.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
     }
     window.addEventListener('resize', scaleBanner);
     scaleBanner();

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slide 07 — Social Media als Touchpoint</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --blue: #0080FF;
+      --blue-light: rgba(0, 128, 255, 0.1);
+      --blue-glow: rgba(0, 128, 255, 0.2);
+      --black: #1a1a2e;
+      --white: #fcfcff;
+      --text-secondary: rgba(0, 0, 0, 0.5);
+      --text-muted: rgba(0, 0, 0, 0.35);
+      --border: rgba(0, 0, 0, 0.08);
+      --gray-light: rgba(0, 0, 0, 0.04);
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--black);
+    }
+    .scale-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #1a1a2e;
+    }
+    .slide {
+      flex-shrink: 0;
+      transform-origin: center center;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 72px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .grid-bg { position: absolute; inset: 0; pointer-events: none; }
+    .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1720px;
+      display: flex;
+      flex-direction: column;
+    }
+    .section-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-up { animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .animate-fade { animation: fadeIn 0.6s ease-out both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.35s; }
+    .delay-4 { animation-delay: 0.5s; }
+    .delay-5 { animation-delay: 0.65s; }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute">
+    <defs>
+      <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+        <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#000" stroke-width="1" opacity="0.03"/>
+      </pattern>
+    </defs>
+  </svg>
+
+  <div class="scale-container" id="scaleContainer">
+    <div class="slide" id="slide-7">
+    <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+      <rect width="1920" height="1080" fill="url(#grid)"/>
+    </svg>
+    <div class="content" style="gap: 44px;">
+
+      <div class="animate-up delay-1">
+        <p class="section-label">Die Kundenreise</p>
+      </div>
+
+      <div style="font-size:56px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+        <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Ein Touchpoint</span><br/>
+        <span style="font-weight:600;color:var(--blue);">auf einer langen Reise.</span>
+      </div>
+
+      <p style="font-size:20px;color:var(--text-secondary);line-height:1.6;max-width:1100px;" class="animate-up delay-2">
+        Niemand schreibt Ihnen direkt auf Social Media. Die Realität: Kunden informieren sich über viele Kanäle — und Social Media ist einer davon.
+      </p>
+
+      <!-- Journey Flow -->
+      <div style="display:flex;align-items:stretch;gap:0;width:100%;" class="animate-up delay-3">
+
+        <!-- Step 1: Google -->
+        <div style="flex:1;padding:28px 20px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;">
+          <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+            <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+          </div>
+          <h4 style="font-size:16px;font-weight:600;">Google-Suche</h4>
+          <p style="font-size:13px;color:var(--text-muted);line-height:1.4;">&bdquo;Makler in meiner Stadt&ldquo;</p>
+        </div>
+
+        <!-- Arrow -->
+        <div style="display:flex;align-items:center;justify-content:center;padding:0 6px;">
+          <svg width="28" height="20" viewBox="0 0 28 20" fill="none"><path d="M0 10h20m0 0l-5-5m5 5l-5 5" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Step 2: Website -->
+        <div style="flex:1;padding:28px 20px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;">
+          <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+            <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" /></svg>
+          </div>
+          <h4 style="font-size:16px;font-weight:600;">Website</h4>
+          <p style="font-size:13px;color:var(--text-muted);line-height:1.4;">Erster Eindruck, Referenzen</p>
+        </div>
+
+        <!-- Arrow -->
+        <div style="display:flex;align-items:center;justify-content:center;padding:0 6px;">
+          <svg width="28" height="20" viewBox="0 0 28 20" fill="none"><path d="M0 10h20m0 0l-5-5m5 5l-5 5" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Step 3: Social Media (highlighted) -->
+        <div style="flex:1.2;padding:28px 20px;border:2px solid var(--blue);background:rgba(0,128,255,0.04);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;position:relative;">
+          <span style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:4px 14px;color:white;background:var(--blue);">Touchpoint</span>
+          <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+            <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
+          </div>
+          <h4 style="font-size:16px;font-weight:600;color:var(--blue);">Social Media</h4>
+          <p style="font-size:13px;color:var(--text-secondary);line-height:1.4;">Zufällig entdeckt, Content gesehen</p>
+        </div>
+
+        <!-- Arrow -->
+        <div style="display:flex;align-items:center;justify-content:center;padding:0 6px;">
+          <svg width="28" height="20" viewBox="0 0 28 20" fill="none"><path d="M0 10h20m0 0l-5-5m5 5l-5 5" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Step 4: Offline -->
+        <div style="flex:1;padding:28px 20px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;">
+          <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+            <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+          </div>
+          <h4 style="font-size:16px;font-weight:600;">Plakat im Ort</h4>
+          <p style="font-size:13px;color:var(--text-muted);line-height:1.4;">Schild gesehen, Wiedererkennung</p>
+        </div>
+
+        <!-- Arrow -->
+        <div style="display:flex;align-items:center;justify-content:center;padding:0 6px;">
+          <svg width="28" height="20" viewBox="0 0 28 20" fill="none"><path d="M0 10h20m0 0l-5-5m5 5l-5 5" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Step 5: Empfehlung -->
+        <div style="flex:1;padding:28px 20px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;">
+          <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+            <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>
+          </div>
+          <h4 style="font-size:16px;font-weight:600;">Empfehlung</h4>
+          <p style="font-size:13px;color:var(--text-muted);line-height:1.4;">Bekannter empfiehlt, googelt nochmal</p>
+        </div>
+
+        <!-- Arrow -->
+        <div style="display:flex;align-items:center;justify-content:center;padding:0 6px;">
+          <svg width="28" height="20" viewBox="0 0 28 20" fill="none"><path d="M0 10h20m0 0l-5-5m5 5l-5 5" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Step 6: Kontakt -->
+        <div style="flex:1;padding:28px 20px;border:2px solid var(--blue);background:var(--blue);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;color:white;">
+          <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+            <svg width="24" height="24" fill="none" stroke="white" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
+          </div>
+          <h4 style="font-size:16px;font-weight:700;">Kontakt</h4>
+          <p style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.4;">Ruft an oder schreibt</p>
+        </div>
+
+      </div>
+
+      <!-- Bottom insight -->
+      <div style="padding:28px 40px;background:var(--gray-light);border:1px solid var(--border);display:flex;align-items:center;gap:16px;" class="animate-up delay-4">
+        <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg>
+        <span style="font-size:18px;color:var(--text-secondary);">Es braucht <strong style="color:var(--black);">im Schnitt 7+ Berührungspunkte</strong> bevor jemand zum Kunden wird. Sichtbarkeit auf jedem Kanal zählt.</span>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+  <script>
+    function scalePresentation() {
+      var slide = document.querySelector('.slide');
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var scaleX = vw / 1920;
+      var scaleY = vh / 1080;
+      var scale = Math.min(scaleX, scaleY);
+      slide.style.transform = 'scale(' + scale + ')';
+    }
+    window.addEventListener('resize', scalePresentation);
+    scalePresentation();
+  </script>
+</body>
+</html>

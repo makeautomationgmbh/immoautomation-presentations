@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slide 05 — Die 4 Probleme</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --blue: #0080FF;
+      --blue-light: rgba(0, 128, 255, 0.1);
+      --black: #1a1a2e;
+      --white: #fcfcff;
+      --text-secondary: rgba(0, 0, 0, 0.5);
+      --text-muted: rgba(0, 0, 0, 0.35);
+      --border: rgba(0, 0, 0, 0.08);
+      --red: #dc2626;
+      --red-light: rgba(220, 38, 38, 0.08);
+      --gray-light: rgba(0, 0, 0, 0.04);
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--black);
+    }
+    .scale-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #1a1a2e;
+    }
+    .slide {
+      flex-shrink: 0;
+      transform-origin: center center;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 72px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .grid-bg { position: absolute; inset: 0; pointer-events: none; }
+    .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1720px;
+      display: flex;
+      flex-direction: column;
+    }
+    .section-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-up { animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .animate-fade { animation: fadeIn 0.6s ease-out both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.35s; }
+    .delay-4 { animation-delay: 0.5s; }
+    .delay-5 { animation-delay: 0.65s; }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute">
+    <defs>
+      <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+        <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#000" stroke-width="1" opacity="0.03"/>
+      </pattern>
+    </defs>
+  </svg>
+
+  <div class="scale-container" id="scaleContainer">
+    <div class="slide" id="slide-5">
+    <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+      <rect width="1920" height="1080" fill="url(#grid)"/>
+    </svg>
+    <div class="content" style="gap: 44px;">
+
+      <div class="animate-up delay-1">
+        <p class="section-label">Die Realität</p>
+      </div>
+
+      <div style="font-size:60px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+        <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Warum Social Media</span><br/>
+        <span style="font-weight:600;color:var(--red);">oft nicht funktioniert</span>
+      </div>
+
+      <!-- 4 Problem Cards -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" class="animate-up delay-3">
+
+        <!-- Card 1: Falsche Erwartungshaltung -->
+        <div style="padding:36px 32px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px;position:relative;">
+          <span style="position:absolute;top:14px;right:18px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">01</span>
+          <div style="width:48px;height:48px;background:var(--red-light);display:flex;align-items:center;justify-content:center;">
+            <svg width="22" height="22" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+          </div>
+          <h3 style="font-size:20px;font-weight:600;">Falsche Erwartung</h3>
+          <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Der organische Account ist <strong>keine Lead-Maschine</strong> — er ist eine Branding-Maßnahme. Das wird oft verwechselt.</p>
+        </div>
+
+        <!-- Card 2: Zu wenig Zeit -->
+        <div style="padding:36px 32px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px;position:relative;">
+          <span style="position:absolute;top:14px;right:18px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">02</span>
+          <div style="width:48px;height:48px;background:var(--red-light);display:flex;align-items:center;justify-content:center;">
+            <svg width="22" height="22" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          </div>
+          <h3 style="font-size:20px;font-weight:600;">Zu wenig Zeit</h3>
+          <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Content erstellen, Bilder bearbeiten, Texte schreiben — alles muss gepflegt werden. Dafür fehlt im Alltag die Zeit.</p>
+        </div>
+
+        <!-- Card 3: Inkonsistenz -->
+        <div style="padding:36px 32px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px;position:relative;">
+          <span style="position:absolute;top:14px;right:18px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">03</span>
+          <div style="width:48px;height:48px;background:var(--red-light);display:flex;align-items:center;justify-content:center;">
+            <svg width="22" height="22" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" /></svg>
+          </div>
+          <h3 style="font-size:20px;font-weight:600;">Inkonsistenz</h3>
+          <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Alle 3 Wochen mal was posten, dann 3–4x hintereinander, dann wieder nichts. <strong>So erzielt man keine Ergebnisse.</strong></p>
+        </div>
+
+        <!-- Card 4: Keine dedizierte Person -->
+        <div style="padding:36px 32px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px;position:relative;">
+          <span style="position:absolute;top:14px;right:18px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">04</span>
+          <div style="width:48px;height:48px;background:var(--red-light);display:flex;align-items:center;justify-content:center;">
+            <svg width="22" height="22" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+          </div>
+          <h3 style="font-size:20px;font-weight:600;">Keine dedizierte Person</h3>
+          <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Es wird <strong>mitgemacht</strong> statt fokussiert betrieben. Niemand beschäftigt sich wirklich mit dem Thema.</p>
+        </div>
+
+      </div>
+
+      <!-- Bottom conclusion -->
+      <div style="display:flex;align-items:center;gap:20px;padding:32px 40px;background:var(--red-light);border:1px solid rgba(220,38,38,0.15);" class="animate-up delay-4">
+        <svg width="28" height="28" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+        <div>
+          <span style="font-size:22px;font-weight:600;color:var(--red);">Diese Dinge spielen zusammen</span>
+          <span style="font-size:20px;color:var(--text-secondary);margin-left:12px;">und dann heißt es: <strong style="font-style:italic;">&bdquo;Funktioniert für uns nicht.&ldquo;</strong></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+  <script>
+    function scalePresentation() {
+      var slide = document.querySelector('.slide');
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var scaleX = vw / 1920;
+      var scaleY = vh / 1080;
+      var scale = Math.min(scaleX, scaleY);
+      slide.style.transform = 'scale(' + scale + ')';
+    }
+    window.addEventListener('resize', scalePresentation);
+    scalePresentation();
+  </script>
+</body>
+</html>

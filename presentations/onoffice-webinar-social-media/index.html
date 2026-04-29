@@ -1,0 +1,2363 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>immoautomation — Social Media für Immobilienmakler | onOffice Webinar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    /* === RESET === */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* === CUSTOM PROPERTIES === */
+    :root {
+      --blue: #3b82f6;
+      --blue-hover: #2563eb;
+      --blue-light: rgba(59, 130, 246, 0.1);
+      --blue-glow: rgba(59, 130, 246, 0.2);
+      --black: #0f172a;
+      --white: #ffffff;
+      --bg-slide: #f0f2ff;
+      --gray-light: rgba(15, 23, 42, 0.04);
+      --text-secondary: rgba(15, 23, 42, 0.6);
+      --text-muted: rgba(15, 23, 42, 0.4);
+      --border: rgba(15, 23, 42, 0.1);
+      --red: #ef4444;
+      --red-light: rgba(239, 68, 68, 0.08);
+      --gold: #f59e0b;
+      --gold-light: rgba(245, 158, 11, 0.1);
+      --green: #10b981;
+    }
+
+    /* === BASE === */
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #1e2030;
+      color: var(--black);
+    }
+
+    /* === NEWSREADER OVERRIDE: replace italic serif with bold sans === */
+    [style*="Newsreader"] {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+      font-style: normal !important;
+      font-weight: 800 !important;
+    }
+
+    /* === SCALE CONTAINER === */
+    .scale-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* === SLIDE ENGINE === */
+    .slides-wrapper {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      transform-origin: center center;
+      flex-shrink: 0;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 72px 100px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .slide-light, .slide {
+      background: var(--bg-slide);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* === ROUNDED CARDS === */
+    .slide [style*="border:1px solid"],
+    .slide [style*="border: 1px solid"],
+    .slide [style*="border:2px solid"],
+    .slide [style*="border: 2px solid"] {
+      border-radius: 12px;
+    }
+
+    .slide .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1720px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* === GRID BACKGROUND === */
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    /* === SECTION LABEL === */
+    .section-label {
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* === WEBINAR READABILITY: boost small inline text === */
+    .slide [style*="font-size:15px"],
+    .slide [style*="font-size: 15px"] {
+      font-size: 19px !important;
+      line-height: 1.6 !important;
+    }
+    .slide [style*="font-size:16px"],
+    .slide [style*="font-size: 16px"] {
+      font-size: 20px !important;
+      line-height: 1.6 !important;
+    }
+    .slide [style*="font-size:17px"],
+    .slide [style*="font-size: 17px"] {
+      font-size: 21px !important;
+    }
+    .slide [style*="font-size:18px"],
+    .slide [style*="font-size: 18px"] {
+      font-size: 22px !important;
+    }
+    .slide [style*="font-size:13px"],
+    .slide [style*="font-size: 13px"] {
+      font-size: 16px !important;
+    }
+    .slide [style*="font-size:12px"],
+    .slide [style*="font-size: 12px"] {
+      font-size: 15px !important;
+    }
+
+    /* === ANIMATIONS === */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .animate-up { animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .animate-fade { animation: fadeIn 0.6s ease-out both; }
+    .animate-scale { animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .animate-left { animation: slideLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .animate-right { animation: slideRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.35s; }
+    .delay-4 { animation-delay: 0.5s; }
+    .delay-5 { animation-delay: 0.65s; }
+    .delay-6 { animation-delay: 0.8s; }
+    .delay-7 { animation-delay: 0.95s; }
+    .delay-8 { animation-delay: 1.1s; }
+
+    /* === NAVIGATION === */
+    .bottom-bar {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 100;
+    }
+
+    .nav-arrow {
+      width: 32px;
+      height: 32px;
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .nav-arrow:hover {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+
+    .nav-arrow svg {
+      width: 14px;
+      height: 14px;
+      color: rgba(0, 0, 0, 0.45);
+      transition: color 0.2s;
+    }
+
+    .nav-arrow:hover svg {
+      color: var(--blue);
+    }
+
+    .nav-arrow:disabled {
+      opacity: 0.2;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .slide-nav {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .slide-nav button {
+      width: 8px;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.15);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .slide-nav button.active {
+      background: var(--blue);
+      width: 32px;
+    }
+
+    .slide-counter {
+      position: fixed;
+      bottom: 28px;
+      right: 48px;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.3);
+      font-variant-numeric: tabular-nums;
+      z-index: 100;
+    }
+
+    /* === FULLSCREEN BUTTON === */
+    .fullscreen-btn {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 200;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .fullscreen-btn:hover {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+
+    .fullscreen-btn svg {
+      width: 16px;
+      height: 16px;
+      color: rgba(0,0,0,0.5);
+    }
+
+    .fullscreen-btn:hover svg {
+      color: var(--blue);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fullscreen toggle -->
+  <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Vollbild (F)">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+    </svg>
+  </button>
+
+  <!-- Grid pattern definition -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute">
+    <defs>
+      <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+        <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.04"/>
+      </pattern>
+    </defs>
+  </svg>
+
+  <div class="scale-container" id="scaleContainer">
+  <div class="slides-wrapper" id="slidesWrapper">
+
+    <!-- ============================================ -->
+    <!-- SLIDE 1: DECKBLATT                           -->
+    <!-- ============================================ -->
+    <div class="slide active" id="slide-1">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 64px;">
+        <div class="animate-up delay-1">
+          <div style="display:flex;align-items:center;gap:20px;">
+            <img src="../../assets/logo.png" alt="immoautomation" style="height:48px;" />
+            <div style="width:1px;height:36px;background:rgba(0,0,0,0.1);"></div>
+            <span style="font-size:18px;color:var(--text-secondary);">onOffice Webinar</span>
+          </div>
+        </div>
+
+        <div style="font-size:80px;line-height:1.08;letter-spacing:-0.025em;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Social Media Update 2026 —</span><br/>
+          <span style="font-weight:700;color:var(--blue);">wie Du soziale Präsenz aufbaust.</span>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:40px;" class="animate-up delay-3">
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div style="width:56px;height:56px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--blue);">RK</div>
+            <div>
+              <div style="font-size:20px;font-weight:600;">Rafael Kietaibl</div>
+              <div style="font-size:15px;color:var(--text-secondary);">Co-Founder, immoautomation</div>
+            </div>
+          </div>
+          <div style="width:1px;height:40px;background:var(--border);"></div>
+          <div style="font-size:15px;color:var(--text-muted);">April 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 2: ÜBER MICH                           -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-2">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 48px;">
+        <div class="animate-up delay-1">
+          <p class="section-label">Über mich</p>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:48px;" class="animate-up delay-2">
+          <img src="post-examples/rafael-photo.png" style="width:130px;height:130px;border-radius:50%;object-fit:cover;object-position:center top;flex-shrink:0;border:3px solid var(--blue-light);" />
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="font-size:48px;font-weight:700;letter-spacing:-0.02em;">Rafael Kietaibl</div>
+            <div style="font-size:22px;color:var(--text-secondary);">Co-Founder &amp; Geschäftsführer</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
+              <img src="../../assets/logo.png" alt="immoautomation" style="height:28px;" />
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 48px 1fr 48px 1fr 48px 1fr;align-items:center;gap:0;margin-top:8px;" class="animate-up delay-3">
+
+          <!-- 01 Ecommerce -->
+          <div style="padding:32px 28px;border:1px solid var(--border);display:flex;flex-direction:column;gap:14px;position:relative;">
+            <span style="position:absolute;top:14px;right:16px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">01</span>
+            <div style="width:48px;height:48px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
+            </div>
+            <h3 style="font-size:20px;font-weight:600;">E-Commerce</h3>
+            <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Aufbau eines <strong style="color:var(--black);">E-Commerce Stores</strong> &amp; erfolgreicher Exit.</p>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:center;">
+            <svg width="36" height="24" viewBox="0 0 40 24" fill="none"><path d="M0 12h32m0 0l-6-6m6 6l-6 6" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <!-- 02 Agentur -->
+          <div style="padding:32px 28px;border:1px solid var(--border);display:flex;flex-direction:column;gap:14px;position:relative;">
+            <span style="position:absolute;top:14px;right:16px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">02</span>
+            <div style="width:48px;height:48px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg>
+            </div>
+            <h3 style="font-size:20px;font-weight:600;">Agentur-Inhaber</h3>
+            <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Performance Marketing Agentur. Über <strong style="color:var(--blue);">4 Mio. € Adspend</strong> verwaltet.</p>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:center;">
+            <svg width="36" height="24" viewBox="0 0 40 24" fill="none"><path d="M0 12h32m0 0l-6-6m6 6l-6 6" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <!-- 03 KI -->
+          <div style="padding:32px 28px;border:1px solid var(--border);display:flex;flex-direction:column;gap:14px;position:relative;">
+            <span style="position:absolute;top:14px;right:16px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">03</span>
+            <div style="width:48px;height:48px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
+            </div>
+            <h3 style="font-size:20px;font-weight:600;">KI &amp; Automatisierung</h3>
+            <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Fokus auf KI und Prozessautomatisierung in der Immobilienbranche.</p>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:center;">
+            <svg width="36" height="24" viewBox="0 0 40 24" fill="none"><path d="M0 12h32m0 0l-6-6m6 6l-6 6" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <!-- 04 immoautomation -->
+          <div style="padding:32px 28px;border:2px solid var(--blue);background:rgba(0,128,255,0.03);display:flex;flex-direction:column;gap:14px;position:relative;">
+            <span style="position:absolute;top:14px;right:16px;font-size:12px;color:rgba(0,128,255,0.25);font-variant-numeric:tabular-nums;">04</span>
+            <div style="width:48px;height:48px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+            </div>
+            <h3 style="font-size:20px;font-weight:600;color:var(--blue);">immoautomation</h3>
+            <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Software für automatisiertes Social Media Marketing in der Immobilienbranche.</p>
+          </div>
+
+        </div>
+
+        <div style="padding:28px 36px;background:var(--gray-light);border:1px solid var(--border);display:flex;align-items:center;gap:16px;" class="animate-up delay-4">
+          <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+          <span style="font-size:18px;color:var(--text-secondary);">Vom CRM zur Sichtbarkeit in Sekunden — automatisierte Social Media Posts für Makler.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 3: WAS IST IMMOAUTOMATION?             -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-immo-pitch">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 56px;">
+
+        <div class="animate-up delay-1">
+          <p class="section-label">Was ist immoautomation?</p>
+        </div>
+
+        <div style="font-size:76px;line-height:1.2;letter-spacing:-0.02em;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Vom CRM zur</span><br/>
+          <span style="font-weight:700;color:var(--blue);">Sichtbarkeit auf Knopfdruck.</span>
+        </div>
+
+        <!-- Flow: 3 big boxes -->
+        <div style="display:flex;align-items:stretch;gap:0;width:100%;" class="animate-up delay-3">
+          <div style="flex:1;padding:52px 48px;border:1px solid var(--border);display:flex;flex-direction:column;gap:20px;">
+            <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.2em;color:var(--text-muted);">Schritt 1</div>
+            <img src="onoffice-logo.png" alt="onOffice" style="height:40px;object-fit:contain;display:block;align-self:flex-start;" />
+            <p style="font-size:18px;color:var(--text-secondary);line-height:1.65;">Immobiliendaten, Bilder und Exposé-Details werden automatisch abgerufen.</p>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;padding:0 36px;flex-shrink:0;">
+            <svg width="40" height="24" viewBox="0 0 40 24" fill="none"><path d="M0 12h32m0 0l-6-6m6 6l-6 6" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div style="flex:1.3;padding:52px 48px;border:2px solid var(--blue);background:rgba(0,128,255,0.03);display:flex;flex-direction:column;gap:20px;">
+            <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.2em;color:var(--blue);">Schritt 2</div>
+            <div>
+              <img src="../../assets/logo.png" alt="" style="height:32px;" onerror="this.style.display='none'" />
+            </div>
+            <p style="font-size:18px;color:var(--text-secondary);line-height:1.65;">KI erstellt Captions &amp; wählt Bilder aus. Templates werden automatisch befüllt — in unter 60 Sekunden fertig.</p>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;padding:0 36px;flex-shrink:0;">
+            <svg width="40" height="24" viewBox="0 0 40 24" fill="none"><path d="M0 12h32m0 0l-6-6m6 6l-6 6" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div style="flex:1;padding:52px 48px;border:1px solid var(--border);display:flex;flex-direction:column;gap:20px;">
+            <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.2em;color:var(--text-muted);">Schritt 3</div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <!-- Facebook Icon -->
+              <div style="width:44px;height:44px;background:#1877F2;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </div>
+              <!-- Instagram Icon -->
+              <div style="width:44px;height:44px;background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              </div>
+              <!-- Google Icon -->
+              <div style="width:44px;height:44px;background:white;border:1.5px solid rgba(0,0,0,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                <svg width="22" height="22" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              </div>
+            </div>
+            <p style="font-size:18px;color:var(--text-secondary);line-height:1.65;">1 Klick — Instagram, Facebook &amp; Google Business gleichzeitig. Professionell. Konsistent.</p>
+          </div>
+        </div>
+
+        <!-- Stat bar -->
+        <div style="display:flex;align-items:center;gap:48px;padding:36px 48px;border:1px solid var(--border);background:var(--gray-light);" class="animate-up delay-4">
+          <div style="font-size:72px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--blue);line-height:1;white-space:nowrap;letter-spacing:-0.03em;">45×</div>
+          <div style="width:1px;height:52px;background:var(--border);flex-shrink:0;"></div>
+          <div>
+            <strong style="font-size:22px;display:block;margin-bottom:8px;">schneller als manuell</strong>
+            <span style="font-size:17px;color:var(--text-secondary);">unter 60 Sekunden mit immoautomation — statt 45 Minuten ohne.</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SLIDE: POSTING-TYPEN MIT CAROUSEL            -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-beispiele">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="flex-direction:row;gap:72px;align-items:stretch;padding:72px 100px;">
+
+        <!-- Links: Kategorienliste -->
+        <div style="flex:0 0 480px;display:flex;flex-direction:column;gap:32px;justify-content:center;" class="animate-up delay-1">
+
+          <div>
+            <p class="section-label">Was kannst du posten?</p>
+          </div>
+
+          <div style="font-size:52px;line-height:1.15;letter-spacing:-0.02em;font-weight:800;">
+            <span style="color:var(--black);">Für jeden Anlass</span><br/>
+            <span style="color:var(--blue);">das passende Posting.</span>
+          </div>
+
+          <!-- Mit Beispiel -->
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:4px;">Mit Beispiel</div>
+            <button onclick="event.stopPropagation();setCategory('coming-soon')" id="btn-coming-soon" style="text-align:left;padding:16px 22px;background:var(--blue);color:white;border:none;border-radius:10px;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;">🕐 Coming Soon / Bald bei uns</button>
+            <button onclick="event.stopPropagation();setCategory('verkauf')" id="btn-verkauf" style="text-align:left;padding:16px 22px;background:white;border:1px solid var(--border);border-radius:10px;font-size:20px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--black);">🏠 Neu im Verkauf</button>
+            <button onclick="event.stopPropagation();setCategory('verkauft')" id="btn-verkauft" style="text-align:left;padding:16px 22px;background:white;border:1px solid var(--border);border-radius:10px;font-size:20px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--black);">✅ Verkauft</button>
+          </div>
+
+          <!-- Weitere ohne Beispiel -->
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:4px;">Weitere Postingarten</div>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;">
+              <span style="padding:10px 18px;background:white;border:1px solid var(--border);border-radius:8px;font-size:17px;color:var(--text-secondary);font-weight:500;">Neu in der Vermietung</span>
+              <span style="padding:10px 18px;background:white;border:1px solid var(--border);border-radius:8px;font-size:17px;color:var(--text-secondary);font-weight:500;">Vermietet</span>
+              <span style="padding:10px 18px;background:white;border:1px solid var(--border);border-radius:8px;font-size:17px;color:var(--text-secondary);font-weight:500;">Reserviert</span>
+              <span style="padding:10px 18px;background:white;border:1px solid var(--border);border-radius:8px;font-size:17px;color:var(--text-secondary);font-weight:500;">Reaktivierungspostings</span>
+              <span style="padding:10px 18px;background:white;border:1px solid var(--border);border-radius:8px;font-size:17px;color:var(--text-secondary);font-weight:500;">Open House</span>
+              <span style="padding:10px 18px;background:white;border:1px solid var(--border);border-radius:8px;font-size:17px;color:var(--text-secondary);font-weight:500;">Preisreduktion</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Rechts: Instagram Carousel -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:20px;justify-content:center;align-items:center;" class="animate-up delay-2">
+
+          <!-- IG Mockup -->
+          <div style="width:380px;background:white;border-radius:16px;border:1px solid var(--border);overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.1);">
+
+            <!-- IG Header -->
+            <div style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);">
+              <div id="ig-avatar" style="width:36px;height:36px;border-radius:50%;background:#d45c00;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <span id="ig-avatar-letter" style="font-size:12px;font-weight:800;color:white;">W</span>
+              </div>
+              <div style="flex:1;">
+                <div id="ig-handle" style="font-size:14px;font-weight:700;color:var(--black);">wuestenrot_immobilien</div>
+                <div style="font-size:12px;color:var(--blue);font-weight:500;">via immoautomation</div>
+              </div>
+              <svg width="20" height="20" fill="none" stroke="rgba(0,0,0,0.3)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>
+            </div>
+
+            <!-- Carousel Bild -->
+            <div style="position:relative;aspect-ratio:4/5;background:#f0f2ff;overflow:hidden;">
+              <img id="carousel-img" src="post-examples/coming-soon-1.png"
+                   style="width:100%;height:100%;object-fit:cover;display:block;transition:opacity 0.3s ease;" />
+
+              <!-- Pfeil Links -->
+              <button id="carousel-prev" onclick="event.stopPropagation();carouselPrev()" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;background:rgba(255,255,255,0.9);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+                <svg width="16" height="16" fill="none" stroke="var(--black)" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+
+              <!-- Pfeil Rechts -->
+              <button id="carousel-next" onclick="event.stopPropagation();carouselNext()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;background:rgba(255,255,255,0.9);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+                <svg width="16" height="16" fill="none" stroke="var(--black)" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </button>
+
+              <!-- Dots -->
+              <div id="carousel-dots" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;">
+                <div style="width:6px;height:6px;border-radius:50%;background:white;opacity:1;"></div>
+                <div style="width:6px;height:6px;border-radius:50%;background:white;opacity:0.5;"></div>
+              </div>
+            </div>
+
+            <!-- IG Footer -->
+            <div style="padding:12px 16px;display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;gap:16px;">
+                <svg width="22" height="22" fill="none" stroke="rgba(0,0,0,0.6)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+                <svg width="22" height="22" fill="none" stroke="rgba(0,0,0,0.6)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"/></svg>
+                <svg width="22" height="22" fill="none" stroke="rgba(0,0,0,0.6)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg>
+              </div>
+              <div id="carousel-caption" style="font-size:13px;color:var(--text-secondary);line-height:1.4;">
+                <strong style="color:var(--black);">wuestenrot_immobilien</strong> Dein neues Zuhause in Loose — bald bei uns! 🏡 #Immobilien #ComingSoon
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <script>
+        var igProfiles = {
+          'coming-soon': { handle: 'wuestenrot_immobilien', letter: 'W', color: '#d45c00' },
+          'verkauf':     { handle: 'vr_immoservice_mainfranken', letter: 'VR', color: '#003b7a' },
+          'verkauft':    { handle: 'thater_immobilien', letter: 'T', color: '#1a4a2e' }
+        };
+
+        var carouselData = {
+          'coming-soon': {
+            images: ['post-examples/coming-soon-1.png', 'post-examples/coming-soon-2.png'],
+            captions: [
+              '<strong style="color:var(--black);">wuestenrot_immobilien</strong> Dein neues Zuhause in Loose — bald bei uns! 🏡 #Immobilien #ComingSoon',
+              '<strong style="color:var(--black);">wuestenrot_immobilien</strong> Du suchst einen Makler auf Augenhöhe? Machen wir. 📞 #Immobilien #Makler'
+            ]
+          },
+          'verkauf': {
+            images: ['post-examples/Neu1.png','post-examples/Neu2.png','post-examples/Neu3.png','post-examples/Neu4.png'],
+            captions: [
+              '<strong style="color:var(--black);">vr_immoservice_mainfranken</strong> Neu im Verkauf! 🏠 #NeuImVerkauf #Immobilien',
+              '<strong style="color:var(--black);">vr_immoservice_mainfranken</strong> Neu im Verkauf! 🏠 #NeuImVerkauf #Immobilien',
+              '<strong style="color:var(--black);">vr_immoservice_mainfranken</strong> Neu im Verkauf! 🏠 #NeuImVerkauf #Immobilien',
+              '<strong style="color:var(--black);">vr_immoservice_mainfranken</strong> Neu im Verkauf! 🏠 #NeuImVerkauf #Immobilien'
+            ]
+          },
+          'verkauft': {
+            images: ['post-examples/Verkauft1.png'],
+            captions: ['<strong style="color:var(--black);">thater_immobilien</strong> Erfolgreich vermittelt! Herzlichen Glückwunsch 🎉 #Verkauft #Immobilien']
+          }
+        };
+        var currentCategory = 'coming-soon';
+        var currentIndex = 0;
+
+        function setCategory(cat) {
+          currentCategory = cat;
+          currentIndex = 0;
+          updateCarousel();
+          var profile = igProfiles[cat];
+          if (profile) {
+            var handle = document.getElementById('ig-handle');
+            var avatar = document.getElementById('ig-avatar');
+            var letter = document.getElementById('ig-avatar-letter');
+            if (handle) handle.textContent = profile.handle;
+            if (avatar) avatar.style.background = profile.color;
+            if (letter) letter.textContent = profile.letter;
+          }
+          ['coming-soon','verkauf','verkauft'].forEach(function(c) {
+            var btn = document.getElementById('btn-' + c);
+            if (btn) {
+              btn.style.background = c === cat ? 'var(--blue)' : 'white';
+              btn.style.color = c === cat ? 'white' : 'var(--black)';
+              btn.style.border = c === cat ? 'none' : '1px solid var(--border)';
+            }
+          });
+        }
+
+        function updateCarousel() {
+          var data = carouselData[currentCategory];
+          if (!data) return;
+          var img = document.getElementById('carousel-img');
+          var cap = document.getElementById('carousel-caption');
+          var dots = document.getElementById('carousel-dots');
+          img.style.opacity = '0';
+          setTimeout(function() {
+            img.src = data.images[currentIndex] || data.images[0];
+            if (cap) cap.innerHTML = data.captions[currentIndex] || data.captions[0];
+            img.style.opacity = '1';
+          }, 150);
+          if (dots) {
+            dots.innerHTML = '';
+            data.images.forEach(function(_, i) {
+              var d = document.createElement('div');
+              d.style.cssText = 'width:6px;height:6px;border-radius:50%;background:white;opacity:' + (i === currentIndex ? '1' : '0.5') + ';';
+              dots.appendChild(d);
+            });
+          }
+        }
+
+        function carouselNext() {
+          var data = carouselData[currentCategory];
+          if (!data) return;
+          currentIndex = (currentIndex + 1) % data.images.length;
+          updateCarousel();
+        }
+
+        function carouselPrev() {
+          var data = carouselData[currentCategory];
+          if (!data) return;
+          currentIndex = (currentIndex - 1 + data.images.length) % data.images.length;
+          updateCarousel();
+        }
+      </script>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE: OBJEKTPOSTINGS VOLLAUTOMATISCH — GIF    -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-immo-pitch-produkt">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="flex-direction:row;gap:56px;align-items:center;padding:56px 80px;">
+
+        <!-- Links: Marketplace Badge + Headline -->
+        <div style="flex:0 0 340px;display:flex;flex-direction:column;gap:32px;" class="animate-up delay-1">
+
+          <div>
+            <p class="section-label">Ab sofort verfügbar</p>
+          </div>
+
+          <div style="font-size:48px;font-weight:800;line-height:1.1;letter-spacing:-0.02em;">
+            Jetzt im<br/><span style="color:var(--blue);">onOffice<br/>Marketplace.</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="padding:20px 24px;background:white;border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;gap:14px;">
+              <svg width="20" height="20" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="2" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span style="font-size:17px;font-weight:600;">Direkt aus onOffice starten</span>
+            </div>
+            <div style="padding:20px 24px;background:white;border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;gap:14px;">
+              <svg width="20" height="20" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="2" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span style="font-size:17px;font-weight:600;">Keine separate Anmeldung</span>
+            </div>
+            <div style="padding:20px 24px;background:white;border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;gap:14px;">
+              <svg width="20" height="20" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="2" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span style="font-size:17px;font-weight:600;">Objekte direkt synchronisiert</span>
+            </div>
+          </div>
+
+          <!-- Marketplace Logo -->
+          <img src="onoffice-marketplace.png" alt="onOffice Marketplace" style="width:100%;max-width:280px;object-fit:contain;border-radius:10px;" />
+
+        </div>
+
+        <!-- Rechts: Video -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:0;" class="animate-up delay-2">
+          <div style="background:#e8e8e8;border:1px solid var(--border);border-bottom:none;padding:10px 16px;display:flex;align-items:center;gap:8px;border-radius:10px 10px 0 0;">
+            <div style="width:12px;height:12px;border-radius:50%;background:#ff5f57;"></div>
+            <div style="width:12px;height:12px;border-radius:50%;background:#febc2e;"></div>
+            <div style="width:12px;height:12px;border-radius:50%;background:#28c840;"></div>
+            <div style="flex:1;margin-left:12px;background:white;border:1px solid var(--border);padding:5px 14px;font-size:13px;color:var(--text-muted);font-family:monospace;border-radius:4px;">app.immoautomation.at</div>
+          </div>
+          <div style="border:1px solid var(--border);overflow:hidden;line-height:0;background:#000;border-radius:0 0 10px 10px;">
+            <video src="demo.mp4" style="width:100%;display:block;" controls preload="metadata">
+              Ihr Browser unterstützt kein Video.
+            </video>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ============================================ -->
+    <!-- SLIDE: MARKETPLACE FREISCHALTEN              -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-marketplace-cta">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/></svg>
+
+      <div class="content" style="flex-direction:column;gap:56px;align-items:center;justify-content:center;padding:72px 160px;">
+
+        <!-- Headline -->
+        <div class="animate-up delay-1" style="text-align:center;">
+          <p style="font-size:13px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin:0 0 16px;">Jetzt freischalten</p>
+          <div style="font-size:52px;font-weight:800;line-height:1.1;letter-spacing:-0.02em;color:var(--black);">
+            Direkt im <span style="color:var(--blue);">onOffice Marketplace</span> verfügbar.
+          </div>
+        </div>
+
+        <!-- Karten-Reihe -->
+        <div style="display:flex;gap:64px;align-items:flex-start;justify-content:center;">
+
+          <!-- Links: Marketplace Kachel -->
+          <div class="animate-up delay-2" style="display:flex;flex-direction:column;align-items:center;gap:20px;">
+            <p style="font-size:13px;font-weight:600;letter-spacing:0.10em;text-transform:uppercase;color:var(--text-muted);margin:0;">So findest du uns</p>
+            <div style="background:#fff;border-radius:16px;padding:20px;box-shadow:0 8px 40px rgba(0,0,0,0.10);">
+              <img src="marketplace-kachel.png" alt="immoautomation im onOffice Marketplace" style="width:380px;height:auto;display:block;border-radius:8px;" />
+            </div>
+            <p style="font-size:16px;color:var(--text-muted);margin:0;text-align:center;">onOffice → Marketplace → immoautomation</p>
+          </div>
+
+          <!-- Trennlinie -->
+          <div style="width:1px;height:380px;background:var(--border);flex-shrink:0;align-self:center;"></div>
+
+          <!-- Rechts: QR + Link -->
+          <div class="animate-up delay-3" style="display:flex;flex-direction:column;align-items:center;gap:24px;">
+            <p style="font-size:13px;font-weight:600;letter-spacing:0.10em;text-transform:uppercase;color:var(--text-muted);margin:0;">Mehr erfahren</p>
+            <div style="background:#fff;border-radius:16px;padding:24px;box-shadow:0 8px 40px rgba(0,0,0,0.10);">
+              <img src="qr-website.png" alt="QR Code immoautomation.at" style="width:240px;height:240px;display:block;" />
+            </div>
+            <div style="text-align:center;">
+              <p style="font-size:28px;font-weight:800;color:var(--blue);margin:0;letter-spacing:-0.01em;">app.immoautomation.at</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE: AGENDA / ZEITSTRAHL                   -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-agenda">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap:64px;justify-content:center;">
+
+        <div class="animate-up delay-1">
+          <p class="section-label">Das Webinar heute</p>
+          <div style="font-size:60px;font-weight:800;line-height:1.1;letter-spacing:-0.025em;margin-top:12px;">
+            <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Was uns heute</span>
+            <span style="color:var(--blue);"> erwartet.</span>
+          </div>
+        </div>
+
+        <!-- Zeitstrahl -->
+        <div style="position:relative;width:100%;" class="animate-up delay-2">
+
+          <!-- Verbindungslinie -->
+          <div style="position:absolute;top:28px;left:28px;right:28px;height:2px;background:var(--border);z-index:0;"></div>
+          <div style="position:absolute;top:28px;left:28px;width:calc(83% - 28px);height:2px;background:var(--blue);z-index:0;opacity:0.3;"></div>
+
+          <div style="display:flex;justify-content:space-between;position:relative;z-index:1;">
+
+            <div style="display:flex;flex-direction:column;align-items:center;gap:20px;flex:1;">
+              <div style="width:56px;height:56px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--blue-light);">
+                <span style="font-size:18px;font-weight:800;color:white;">01</span>
+              </div>
+              <div style="text-align:center;padding:0 8px;">
+                <div style="font-size:18px;font-weight:700;margin-bottom:6px;">Was sich<br/>2026 verändert</div>
+                <div style="font-size:15px;color:var(--text-muted);line-height:1.4;">KI, Content-Flut<br/>&amp; Sichtbarkeit</div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;align-items:center;gap:20px;flex:1;">
+              <div style="width:56px;height:56px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--blue-light);">
+                <span style="font-size:18px;font-weight:800;color:white;">02</span>
+              </div>
+              <div style="text-align:center;padding:0 8px;">
+                <div style="font-size:18px;font-weight:700;margin-bottom:6px;">Paid vs.<br/>Organisch</div>
+                <div style="font-size:15px;color:var(--text-muted);line-height:1.4;">Was wirklich<br/>funktioniert</div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;align-items:center;gap:20px;flex:1;">
+              <div style="width:56px;height:56px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--blue-light);">
+                <span style="font-size:18px;font-weight:800;color:white;">03</span>
+              </div>
+              <div style="text-align:center;padding:0 8px;">
+                <div style="font-size:18px;font-weight:700;margin-bottom:6px;">Die Reise einer<br/>Makler-Suche</div>
+                <div style="font-size:15px;color:var(--text-muted);line-height:1.4;">Von der Impression<br/>zur Anfrage</div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;align-items:center;gap:20px;flex:1;">
+              <div style="width:56px;height:56px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--blue-light);">
+                <span style="font-size:18px;font-weight:800;color:white;">04</span>
+              </div>
+              <div style="text-align:center;padding:0 8px;">
+                <div style="font-size:18px;font-weight:700;margin-bottom:6px;">Deine Strategie<br/>2026</div>
+                <div style="font-size:15px;color:var(--text-muted);line-height:1.4;">Content, Frequenz<br/>&amp; Reichweite</div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;align-items:center;gap:20px;flex:1;">
+              <div style="width:56px;height:56px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--blue-light);">
+                <span style="font-size:18px;font-weight:800;color:white;">05</span>
+              </div>
+              <div style="text-align:center;padding:0 8px;">
+                <div style="font-size:18px;font-weight:700;margin-bottom:6px;">Live-Analyse</div>
+                <div style="font-size:15px;color:var(--text-muted);line-height:1.4;">Euren Account<br/>gemeinsam ansehen</div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;align-items:center;gap:20px;flex:1;">
+              <div style="width:56px;height:56px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px rgba(16,185,129,0.15);">
+                <svg width="22" height="22" fill="none" stroke="white" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div style="text-align:center;padding:0 8px;">
+                <div style="font-size:18px;font-weight:700;margin-bottom:6px;color:var(--green);">Webinar-Angebot</div>
+                <div style="font-size:15px;color:var(--text-muted);line-height:1.4;">Exklusiv für<br/>Teilnehmer</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE: WAS SICH 2026 VERÄNDERT               -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-2026-veraenderung">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap:48px;">
+
+        <!-- Headline -->
+        <div class="animate-up delay-1">
+          <p class="section-label">Warum das Webinar heute</p>
+          <div style="font-size:68px;line-height:1.1;letter-spacing:-0.025em;margin-top:16px;">
+            <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Was sich 2026</span><br/>
+            <span style="font-weight:700;color:var(--blue);">verändert — und warum das dich betrifft.</span>
+          </div>
+        </div>
+
+        <!-- 3 Blöcke -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;width:100%;flex:1;" class="animate-up delay-2">
+
+          <!-- Block 1: Mehr Content -->
+          <div style="padding:48px 44px;background:#fff5f5;border:2px solid rgba(220,38,38,0.15);display:flex;flex-direction:column;gap:20px;position:relative;border-radius:16px 0 0 16px;">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:52px;height:52px;background:var(--red-light);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="24" height="24" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
+              </div>
+              <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--red);">Trend #1</div>
+            </div>
+            <div style="font-size:36px;font-weight:800;line-height:1.15;letter-spacing:-0.02em;">Mehr Content<br/>= weniger Sichtbarkeit</div>
+            <p style="font-size:19px;color:var(--text-secondary);line-height:1.65;flex:1;">KI ermöglicht es jedem, in Minuten Content zu produzieren. Der Feed ist gleich groß — aber es kämpfen immer mehr Posts um denselben Platz.</p>
+            <div style="padding:16px 20px;background:rgba(220,38,38,0.07);border-radius:8px;">
+              <span style="font-size:17px;font-weight:600;color:var(--red);">Dein Anteil am Feed schrumpft — automatisch.</span>
+            </div>
+          </div>
+
+          <!-- Block 2: Kein Posting -->
+          <div style="padding:48px 44px;background:#fff0f0;border:2px solid rgba(220,38,38,0.3);border-left:none;display:flex;flex-direction:column;gap:20px;position:relative;">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:52px;height:52px;background:rgba(220,38,38,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="24" height="24" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
+              </div>
+              <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--red);">Trend #2</div>
+            </div>
+            <div style="font-size:36px;font-weight:800;line-height:1.15;letter-spacing:-0.02em;">Wenig posten<br/>= unsichtbar</div>
+            <p style="font-size:19px;color:var(--text-secondary);line-height:1.65;flex:1;">Der Algorithmus bevorzugt aktive Accounts. Wer sporadisch postet, wird seltener ausgespielt — ein Teufelskreis, der sich 2026 weiter verschärft.</p>
+            <div style="padding:16px 20px;background:rgba(220,38,38,0.1);border-radius:8px;">
+              <span style="font-size:17px;font-weight:600;color:var(--red);">Inkonsistenz wird von der Plattform bestraft.</span>
+            </div>
+          </div>
+
+          <!-- Block 3: Lösung -->
+          <div style="padding:48px 44px;background:rgba(59,130,246,0.04);border:2px solid var(--blue);border-left:none;display:flex;flex-direction:column;gap:20px;position:relative;border-radius:0 16px 16px 0;">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:52px;height:52px;background:var(--blue-light);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+              </div>
+              <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--blue);">Die Antwort</div>
+            </div>
+            <div style="font-size:36px;font-weight:800;line-height:1.15;letter-spacing:-0.02em;color:var(--blue);">Kein System<br/>= verloren</div>
+            <p style="font-size:19px;color:var(--text-secondary);line-height:1.65;flex:1;">Wer 2026 sichtbar bleiben will, braucht ein System das <strong style="color:var(--black);">automatisch und konstant</strong> postet — ohne dass du jeden Tag Zeit dafür aufwenden musst.</p>
+            <div style="padding:16px 20px;background:var(--blue-light);border-radius:8px;">
+              <span style="font-size:17px;font-weight:600;color:var(--blue);">Genau das löst immoautomation.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- KI Verstärker-Bar -->
+        <div style="padding:24px 40px;background:var(--black);border-radius:12px;display:flex;align-items:center;gap:20px;" class="animate-up delay-3">
+          <div style="width:40px;height:40px;background:rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" fill="none" stroke="white" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+          </div>
+          <span style="font-size:19px;color:rgba(255,255,255,0.9);line-height:1.5;"><strong style="color:white;">KI-Verstärker:</strong> 2026 produziert jeder Mitbewerber automatisch Content — auch wenn er keine Ahnung von Social Media hat. Dieser Trend wird sich weiter beschleunigen.</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 4: UMFRAGE 1                           -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-3">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 56px;align-items:center;justify-content:center;text-align:center;">
+        <div class="animate-up delay-1">
+          <p class="section-label">Kurze Umfrage</p>
+        </div>
+
+        <div class="animate-scale delay-2" style="width:120px;height:120px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;">
+          <svg width="56" height="56" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>
+        </div>
+
+        <div style="font-size:72px;line-height:1.1;letter-spacing:-0.025em;max-width:1200px;" class="animate-up delay-3">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Wer von euch</span><br/>
+          <span style="font-weight:700;color:var(--blue);">macht aktiv Social Media?</span>
+        </div>
+
+        <div style="font-size:28px;color:var(--text-secondary);font-weight:300;max-width:900px;line-height:1.5;" class="animate-up delay-4">
+          Wer postet regelmäßig und ist aktiv auf Social Media unterwegs?
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 4: UMFRAGE 2                           -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-4">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 56px;align-items:center;justify-content:center;text-align:center;">
+        <div class="animate-up delay-1">
+          <p class="section-label">Noch eine Frage</p>
+        </div>
+
+        <div class="animate-scale delay-2" style="width:120px;height:120px;background:rgba(16,185,129,0.1);display:flex;align-items:center;justify-content:center;">
+          <svg width="56" height="56" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904m7.723-9.772H5.904m7.723 0c.006 0-.005 0 0 0zm-7.723 0H3.75" /></svg>
+        </div>
+
+        <div style="font-size:72px;line-height:1.1;letter-spacing:-0.025em;max-width:1300px;" class="animate-up delay-3">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Und wer ist</span><br/>
+          <span style="font-weight:700;color:var(--green);">zufrieden damit?</span>
+        </div>
+
+        <div style="font-size:28px;color:var(--text-secondary);font-weight:300;max-width:900px;line-height:1.5;" class="animate-up delay-4">
+          Wer von euch ist wirklich zufrieden mit dem eigenen Social Media Auftritt?
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 5: DIE 4 PROBLEME                      -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-5">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 44px;">
+        <div class="animate-up delay-1">
+          <p class="section-label">Die Realität</p>
+        </div>
+
+        <div style="font-size:60px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Warum Social Media</span><br/>
+          <span style="font-weight:600;color:var(--red);">oft nicht funktioniert</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" class="animate-up delay-3">
+          <div style="padding:36px 32px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px;position:relative;">
+            <span style="position:absolute;top:14px;right:18px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">01</span>
+            <div style="width:48px;height:48px;background:var(--red-light);display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            </div>
+            <h3 style="font-size:20px;font-weight:600;">Falsche Erwartung</h3>
+            <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Der organische Account ist <strong>keine Lead-Maschine</strong> — er ist eine Branding-Maßnahme. Das wird oft verwechselt.</p>
+          </div>
+
+          <div style="padding:36px 32px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px;position:relative;">
+            <span style="position:absolute;top:14px;right:18px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">02</span>
+            <div style="width:48px;height:48px;background:var(--red-light);display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <h3 style="font-size:20px;font-weight:600;">Zu wenig Zeit</h3>
+            <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Content erstellen, Bilder bearbeiten, Texte schreiben — alles muss gepflegt werden. Dafür fehlt im Alltag die Zeit.</p>
+          </div>
+
+          <div style="padding:36px 32px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px;position:relative;">
+            <span style="position:absolute;top:14px;right:18px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">03</span>
+            <div style="width:48px;height:48px;background:var(--red-light);display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" /></svg>
+            </div>
+            <h3 style="font-size:20px;font-weight:600;">Inkonsistenz</h3>
+            <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Alle 3 Wochen mal was posten, dann 3–4x hintereinander, dann wieder nichts. <strong>So erzielt man keine Ergebnisse.</strong></p>
+          </div>
+
+          <div style="padding:36px 32px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px;position:relative;">
+            <span style="position:absolute;top:14px;right:18px;font-size:12px;color:rgba(0,0,0,0.12);font-variant-numeric:tabular-nums;">04</span>
+            <div style="width:48px;height:48px;background:var(--red-light);display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+            </div>
+            <h3 style="font-size:20px;font-weight:600;">Keine dedizierte Person</h3>
+            <p style="font-size:15px;color:var(--text-secondary);line-height:1.6;">Es wird <strong>mitgemacht</strong> statt fokussiert betrieben. Niemand beschäftigt sich wirklich mit dem Thema.</p>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:20px;padding:32px 40px;background:var(--red-light);border:1px solid rgba(220,38,38,0.15);" class="animate-up delay-4">
+          <svg width="28" height="28" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+          <div>
+            <span style="font-size:22px;font-weight:600;color:var(--red);">Diese Dinge spielen zusammen</span>
+            <span style="font-size:20px;color:var(--text-secondary);margin-left:12px;">und dann heißt es: <strong style="font-style:italic;">&bdquo;Funktioniert für uns nicht.&ldquo;</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TRANSITION: PAID VS. ORGANISCH               -->
+    <!-- ============================================ -->
+    <div class="slide" id="transition-paid-organisch">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap:32px;justify-content:center;">
+        <div class="animate-up delay-1" style="display:flex;align-items:center;gap:16px;">
+          <div style="width:36px;height:2px;background:var(--blue);"></div>
+          <span style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.35em;color:var(--blue);">Paid oder Organisch?</span>
+        </div>
+        <div style="font-size:88px;font-weight:800;line-height:1.05;letter-spacing:-0.03em;color:var(--black);max-width:1400px;" class="animate-up delay-2">
+          Muss ich für Social Media<br/>bezahlen?<br/><span style="color:var(--blue);">Oder geht's auch ohne?</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 6: PAID VS. ORGANISCH                  -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-6">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 48px;">
+        <div class="animate-up delay-1">
+          <p class="section-label">Paid vs. Organisch</p>
+        </div>
+
+        <div style="font-size:60px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Zwei Welten</span> —<br/>
+          <span style="font-weight:600;color:var(--blue);">ein gemeinsames Ziel.</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1px 1fr;gap:0;" class="animate-up delay-3">
+          <!-- Paid Ads -->
+          <div style="padding:48px;display:flex;flex-direction:column;gap:28px;">
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div style="width:56px;height:56px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;">
+                <svg width="26" height="26" fill="none" stroke="var(--gold)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg>
+              </div>
+              <h3 style="font-size:28px;font-weight:600;">Bezahlte Werbeanzeigen</h3>
+              <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;padding:4px 12px;background:var(--gold-light);color:var(--gold);margin-left:auto;">Kurzfristig</span>
+            </div>
+
+            <p style="font-size:17px;color:var(--text-secondary);line-height:1.7;">Direkte Lead-Generierung ist möglich — aber man bezahlt entsprechend dafür. Gerade in schwierigeren Marktphasen wie jetzt wird es nicht einfacher, kostengünstige Leads zu generieren.</p>
+
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px;">
+              <div style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.5;">
+                <svg width="20" height="20" fill="none" stroke="var(--gold)" viewBox="0 0 24 24" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                <span>Direkte Leads generierbar</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.5;">
+                <svg width="20" height="20" fill="none" stroke="var(--gold)" viewBox="0 0 24 24" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                <span>Sofortige Ergebnisse messbar</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.5;color:var(--text-muted);">
+                <svg width="20" height="20" fill="none" stroke="rgba(0,0,0,0.25)" viewBox="0 0 24 24" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                <span>Hohe Kosten, steigende CPLs</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.5;color:var(--text-muted);">
+                <svg width="20" height="20" fill="none" stroke="rgba(0,0,0,0.25)" viewBox="0 0 24 24" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                <span>Schwierig in aktueller Marktlage</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--border);width:1px;"></div>
+
+          <!-- Organisch -->
+          <div style="padding:48px;display:flex;flex-direction:column;gap:28px;">
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div style="width:56px;height:56px;background:rgba(16,185,129,0.1);display:flex;align-items:center;justify-content:center;">
+                <svg width="26" height="26" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" /></svg>
+              </div>
+              <h3 style="font-size:28px;font-weight:600;">Organischer Account</h3>
+              <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;padding:4px 12px;background:rgba(16,185,129,0.1);color:var(--green);margin-left:auto;">Langfristig</span>
+            </div>
+
+            <p style="font-size:17px;color:var(--text-secondary);line-height:1.7;">Bringt vielleicht nicht direkt Leads — aber baut <strong>Branding und Vertrauen</strong> auf. Gerade bei Immobilien ist das Gold wert, weil der Verkaufsprozess lange dauert.</p>
+
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px;">
+              <div style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.5;">
+                <svg width="20" height="20" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                <span>Vertrauensaufbau über Zeit</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.5;">
+                <svg width="20" height="20" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                <span>Branding &amp; Wiedererkennungswert</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.5;">
+                <svg width="20" height="20" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                <span>Keine laufenden Werbekosten</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.5;">
+                <svg width="20" height="20" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                <span>Langfristiger Compound-Effekt</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE: UMFRAGE PAID 1                         -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-umfrage-paid-1">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 56px;align-items:center;justify-content:center;text-align:center;">
+        <div class="animate-up delay-1">
+          <p class="section-label">Kurze Umfrage</p>
+        </div>
+
+        <div class="animate-scale delay-2" style="width:120px;height:120px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;">
+          <svg width="56" height="56" fill="none" stroke="var(--gold)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg>
+        </div>
+
+        <div style="font-size:72px;line-height:1.1;letter-spacing:-0.025em;max-width:1300px;" class="animate-up delay-3">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Wer hatte schon mal Erfahrung mit</span><br/>
+          <span style="font-weight:700;color:var(--gold);">bezahlten Werbeanzeigen?</span>
+        </div>
+
+        <div style="font-size:28px;color:var(--text-secondary);font-weight:300;max-width:900px;line-height:1.5;" class="animate-up delay-4">
+          Auf Instagram, Facebook oder anderen Social Media Plattformen.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE: UMFRAGE PAID 2                         -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-umfrage-paid-2">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 56px;align-items:center;justify-content:center;text-align:center;">
+        <div class="animate-up delay-1">
+          <p class="section-label">Und weiter</p>
+        </div>
+
+        <div style="font-size:68px;line-height:1.1;letter-spacing:-0.025em;max-width:1400px;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Wer hatte</span>
+          <span style="font-weight:700;color:var(--red);"> negative</span>
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;"> — und wer</span>
+          <span style="font-weight:700;color:var(--green);"> positive</span><br/>
+          <span style="font-weight:600;">Ergebnisse damit?</span>
+        </div>
+
+        <div style="display:flex;gap:48px;justify-content:center;" class="animate-up delay-3">
+          <div style="display:flex;align-items:center;gap:20px;padding:32px 56px;border:1.5px solid rgba(220,38,38,0.2);background:var(--red-light);">
+            <svg width="36" height="36" fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            <span style="font-size:26px;font-weight:600;color:var(--red);">Negative Erfahrung</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:20px;padding:32px 56px;border:1.5px solid rgba(16,185,129,0.2);background:rgba(16,185,129,0.08);">
+            <svg width="36" height="36" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span style="font-size:26px;font-weight:600;color:var(--green);">Positive Erfahrung</span>
+          </div>
+        </div>
+
+        <div style="font-size:22px;color:var(--text-muted);font-weight:300;" class="animate-up delay-4">
+          Beide Antworten sind wertvoll — und vollkommen erklärbar.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 7: ORGANISCH STÄRKT PAID               -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-organisch-paid">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 56px;">
+
+        <div class="animate-up delay-1">
+          <p class="section-label">Die Synergie</p>
+        </div>
+
+        <div style="font-size:72px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Organisch baut auf —</span><br/>
+          <span style="font-weight:600;color:var(--blue);">Paid erntet die Früchte.</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 120px 1fr;align-items:stretch;gap:0;" class="animate-up delay-3">
+
+          <!-- Links: Organisch -->
+          <div style="padding:48px;border:1px solid rgba(16,185,129,0.3);background:rgba(16,185,129,0.03);display:flex;flex-direction:column;gap:28px;">
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div style="width:52px;height:52px;background:rgba(16,185,129,0.1);display:flex;align-items:center;justify-content:center;">
+                <svg width="24" height="24" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" /></svg>
+              </div>
+              <h3 style="font-size:26px;font-weight:700;">Organischer Content</h3>
+              <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;padding:4px 12px;background:rgba(16,185,129,0.1);color:var(--green);margin-left:auto;">Langfristig</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:20px;">
+              <div style="display:flex;align-items:flex-start;gap:16px;">
+                <div style="width:8px;height:8px;background:var(--green);margin-top:8px;flex-shrink:0;"></div>
+                <div>
+                  <div style="font-size:19px;font-weight:600;margin-bottom:4px;">Marke wird sichtbar</div>
+                  <div style="font-size:16px;color:var(--text-secondary);line-height:1.5;">Regelmäßige Falc-Posts erzeugen Wiedererkennungswert in der Region.</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:16px;">
+                <div style="width:8px;height:8px;background:var(--green);margin-top:8px;flex-shrink:0;"></div>
+                <div>
+                  <div style="font-size:19px;font-weight:600;margin-bottom:4px;">Vertrauen wächst passiv</div>
+                  <div style="font-size:16px;color:var(--text-secondary);line-height:1.5;">Menschen sehen Falc-Inhalte, ohne aktiv zu suchen — Vertrauen entsteht über Zeit.</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:16px;">
+                <div style="width:8px;height:8px;background:var(--green);margin-top:8px;flex-shrink:0;"></div>
+                <div>
+                  <div style="font-size:19px;font-weight:600;margin-bottom:4px;">Zielgruppe wird „warm"</div>
+                  <div style="font-size:16px;color:var(--text-secondary);line-height:1.5;">Follower, Likes und Interaktionen schaffen eine Audience, die Falc bereits kennt.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mitte: Pfeil -->
+          <div style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:0 16px;">
+            <svg width="48" height="32" viewBox="0 0 48 32" fill="none"><path d="M0 16h40m0 0l-8-8m8 8l-8 8" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-muted);text-align:center;">Warm<br/>Traffic</span>
+          </div>
+
+          <!-- Rechts: Paid -->
+          <div style="padding:48px;border:1px solid rgba(202,138,4,0.3);background:rgba(202,138,4,0.03);display:flex;flex-direction:column;gap:28px;">
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div style="width:52px;height:52px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;">
+                <svg width="24" height="24" fill="none" stroke="var(--gold)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg>
+              </div>
+              <h3 style="font-size:26px;font-weight:700;">Bezahlte Werbeanzeigen</h3>
+              <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;padding:4px 12px;background:var(--gold-light);color:var(--gold);margin-left:auto;">Kurzfristig</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:20px;">
+              <div style="display:flex;align-items:flex-start;gap:16px;">
+                <div style="width:8px;height:8px;background:var(--gold);margin-top:8px;flex-shrink:0;"></div>
+                <div>
+                  <div style="font-size:19px;font-weight:600;margin-bottom:4px;">Günstigerer CPL</div>
+                  <div style="font-size:16px;color:var(--text-secondary);line-height:1.5;">Wer die Marke bereits kennt, klickt öfter — und kostet weniger pro Lead.</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:16px;">
+                <div style="width:8px;height:8px;background:var(--gold);margin-top:8px;flex-shrink:0;"></div>
+                <div>
+                  <div style="font-size:19px;font-weight:600;margin-bottom:4px;">Höhere Conversion</div>
+                  <div style="font-size:16px;color:var(--text-secondary);line-height:1.5;">„Kenn ich, vertrau ich" — warme Zielgruppen konvertieren deutlich besser.</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:16px;">
+                <div style="width:8px;height:8px;background:var(--gold);margin-top:8px;flex-shrink:0;"></div>
+                <div>
+                  <div style="font-size:19px;font-weight:600;margin-bottom:4px;">Custom Audiences</div>
+                  <div style="font-size:16px;color:var(--text-secondary);line-height:1.5;">Social-Follower &amp; Profilbesucher als Retargeting-Zielgruppe für Paid Ads nutzen.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom insight -->
+        <div style="padding:28px 40px;background:var(--blue-light);border:1px solid rgba(0,128,255,0.15);display:flex;align-items:center;gap:20px;" class="animate-up delay-4">
+          <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg>
+          <span style="font-size:18px;color:var(--blue);font-weight:500;">Wer Falc bereits aus den sozialen Medien kennt, klickt öfter auf eine Anzeige — und kostet Sie weniger.</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TRANSITION: KUNDENREISE                      -->
+    <!-- ============================================ -->
+    <div class="slide" id="transition-kundenreise">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap:32px;justify-content:center;">
+        <div class="animate-up delay-1" style="display:flex;align-items:center;gap:16px;">
+          <div style="width:36px;height:2px;background:var(--blue);"></div>
+          <span style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.35em;color:var(--blue);">Die Kundenreise</span>
+        </div>
+        <div style="font-size:96px;font-weight:800;line-height:1.05;letter-spacing:-0.03em;color:var(--black);max-width:1300px;" class="animate-up delay-2">
+          Die Reise einer<br/><span style="color:var(--blue);">Makler-Suche.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 8: CUSTOMER JOURNEY                    -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-7">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 44px;">
+        <div class="animate-up delay-1">
+          <p class="section-label">Die Kundenreise</p>
+        </div>
+
+        <div style="font-size:56px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Ein Touchpoint</span><br/>
+          <span style="font-weight:600;color:var(--blue);">auf einer langen Reise.</span>
+        </div>
+
+        <p style="font-size:20px;color:var(--text-secondary);line-height:1.6;max-width:1100px;" class="animate-up delay-2">
+          Niemand schreibt Ihnen direkt auf Social Media. Die Realität: Kunden informieren sich über viele Kanäle — und Social Media ist einer davon.
+        </p>
+
+        <div style="display:flex;align-items:stretch;gap:0;width:100%;" class="animate-up delay-3">
+          <div style="flex:1;padding:28px 20px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;">
+            <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+              <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+            </div>
+            <h4 style="font-size:16px;font-weight:600;">Google-Suche</h4>
+            <p style="font-size:13px;color:var(--text-muted);line-height:1.4;">&bdquo;Makler in meiner Stadt&ldquo;</p>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:center;padding:0 6px;">
+            <svg width="28" height="20" viewBox="0 0 28 20" fill="none"><path d="M0 10h20m0 0l-5-5m5 5l-5 5" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <div style="flex:1;padding:28px 20px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;">
+            <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+              <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" /></svg>
+            </div>
+            <h4 style="font-size:16px;font-weight:600;">Website</h4>
+            <p style="font-size:13px;color:var(--text-muted);line-height:1.4;">Erster Eindruck, Referenzen</p>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:center;padding:0 6px;">
+            <svg width="28" height="20" viewBox="0 0 28 20" fill="none"><path d="M0 10h20m0 0l-5-5m5 5l-5 5" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <div style="flex:1.2;padding:28px 20px;border:2px solid var(--blue);background:rgba(0,128,255,0.04);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;position:relative;">
+            <span style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:4px 14px;color:white;background:var(--blue);">Touchpoint</span>
+            <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+              <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
+            </div>
+            <h4 style="font-size:16px;font-weight:600;color:var(--blue);">Social Media</h4>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.4;">Zufällig entdeckt, Content gesehen</p>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:center;padding:0 6px;">
+            <svg width="28" height="20" viewBox="0 0 28 20" fill="none"><path d="M0 10h20m0 0l-5-5m5 5l-5 5" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <div style="flex:1;padding:28px 20px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;">
+            <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+              <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            </div>
+            <h4 style="font-size:16px;font-weight:600;">Plakat im Ort</h4>
+            <p style="font-size:13px;color:var(--text-muted);line-height:1.4;">Schild gesehen, Wiedererkennung</p>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:center;padding:0 6px;">
+            <svg width="28" height="20" viewBox="0 0 28 20" fill="none"><path d="M0 10h20m0 0l-5-5m5 5l-5 5" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <div style="flex:1;padding:28px 20px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;">
+            <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+              <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>
+            </div>
+            <h4 style="font-size:16px;font-weight:600;">Empfehlung</h4>
+            <p style="font-size:13px;color:var(--text-muted);line-height:1.4;">Bekannter empfiehlt, googelt nochmal</p>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:center;padding:0 6px;">
+            <svg width="28" height="20" viewBox="0 0 28 20" fill="none"><path d="M0 10h20m0 0l-5-5m5 5l-5 5" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <div style="flex:1;padding:28px 20px;border:2px solid var(--blue);background:var(--blue);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;color:white;">
+            <div style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;">
+              <svg width="24" height="24" fill="none" stroke="white" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
+            </div>
+            <h4 style="font-size:16px;font-weight:700;">Kontakt</h4>
+            <p style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.4;">Ruft an oder schreibt</p>
+          </div>
+        </div>
+
+        <div style="padding:28px 40px;background:var(--gray-light);border:1px solid var(--border);display:flex;align-items:center;gap:16px;" class="animate-up delay-4">
+          <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg>
+          <span style="font-size:18px;color:var(--text-secondary);">Es braucht <strong style="color:var(--black);">im Schnitt 7+ Berührungspunkte</strong> bevor jemand zum Kunden wird. Sichtbarkeit auf jedem Kanal zählt.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 11: WARUM SOCIAL MEDIA FÜR MAKLER     -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-warum-social">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 56px;">
+
+        <div class="animate-up delay-1">
+          <p class="section-label">Warum gerade Immobilienmakler?</p>
+        </div>
+
+        <div style="font-size:72px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Alles was du brauchst,</span><br/>
+          <span style="font-weight:600;color:var(--blue);">hast du bereits.</span>
+        </div>
+
+        <!-- 3 big cards -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;" class="animate-up delay-3">
+
+          <!-- Card 01: Lokal -->
+          <div style="padding:52px 44px;border:1px solid rgba(16,185,129,0.25);background:rgba(16,185,129,0.04);display:flex;flex-direction:column;gap:24px;position:relative;border-right:none;">
+            <span style="position:absolute;top:28px;right:32px;font-size:96px;font-weight:800;color:rgba(16,185,129,0.1);line-height:1;letter-spacing:-0.04em;">01</span>
+            <div style="width:56px;height:56px;background:rgba(16,185,129,0.12);display:flex;align-items:center;justify-content:center;">
+              <svg width="26" height="26" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+            </div>
+            <h3 style="font-size:28px;font-weight:700;letter-spacing:-0.02em;">Nur lokal aktiv sein reicht</h3>
+            <p style="font-size:17px;color:var(--text-secondary);line-height:1.65;">Du musst nicht viral gehen. 1.000 Menschen in deiner Region kennen dich — das ist mehr wert als 100.000 Fremde.</p>
+          </div>
+
+          <!-- Card 02: Objekte = Content -->
+          <div style="padding:52px 44px;border:1px solid rgba(0,128,255,0.25);background:var(--blue-light);display:flex;flex-direction:column;gap:24px;position:relative;border-right:none;">
+            <span style="position:absolute;top:28px;right:32px;font-size:96px;font-weight:800;color:rgba(0,128,255,0.12);line-height:1;letter-spacing:-0.04em;">02</span>
+            <div style="width:56px;height:56px;background:rgba(0,128,255,0.1);display:flex;align-items:center;justify-content:center;">
+              <svg width="26" height="26" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
+            </div>
+            <h3 style="font-size:28px;font-weight:700;letter-spacing:-0.02em;">Objekte sind dein Content</h3>
+            <p style="font-size:17px;color:var(--text-secondary);line-height:1.65;">Jedes Objekt, jede Besichtigung, jeder Abschluss — Content der anderen fehlt, dir aber täglich passiert.</p>
+          </div>
+
+          <!-- Card 03: Immobilien interessieren -->
+          <div style="padding:52px 44px;border:1px solid rgba(202,138,4,0.25);background:var(--gold-light);display:flex;flex-direction:column;gap:24px;position:relative;">
+            <span style="position:absolute;top:28px;right:32px;font-size:96px;font-weight:800;color:rgba(202,138,4,0.12);line-height:1;letter-spacing:-0.04em;">03</span>
+            <div style="width:56px;height:56px;background:rgba(202,138,4,0.1);display:flex;align-items:center;justify-content:center;">
+              <svg width="26" height="26" fill="none" stroke="var(--gold)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <h3 style="font-size:28px;font-weight:700;letter-spacing:-0.02em;">Immobilien faszinieren</h3>
+            <p style="font-size:17px;color:var(--text-secondary);line-height:1.65;">Menschen schauen Haustouren, Grundrisse und Preise aus purer Neugier — ohne kaufbereit zu sein. Dein Content gewinnt Aufmerksamkeit von selbst.</p>
+          </div>
+
+        </div>
+
+        <!-- Bottom insight -->
+        <div style="padding:28px 40px;background:var(--gray-light);border:1px solid var(--border);display:flex;align-items:center;gap:20px;" class="animate-up delay-4">
+          <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+          <span style="font-size:18px;color:var(--text-secondary);">Du musst nicht mal dein Gesicht zeigen — <strong style="color:var(--black);">Objekte, Markttipps und Einblicke hinter die Kulissen reichen völlig</strong> für einen starken Account.</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TRANSITION: DEINE STRATEGIE 2026             -->
+    <!-- ============================================ -->
+    <div class="slide" id="transition-strategie">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap:32px;justify-content:center;">
+        <div class="animate-up delay-1" style="display:flex;align-items:center;gap:16px;">
+          <div style="width:36px;height:2px;background:var(--blue);"></div>
+          <span style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.35em;color:var(--blue);">Deine Strategie 2026</span>
+        </div>
+        <div style="font-size:96px;font-weight:800;line-height:1.05;letter-spacing:-0.03em;color:var(--black);max-width:1300px;" class="animate-up delay-2">
+          So startest du 2026<br/><span style="color:var(--blue);">richtig durch.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 12: CONTENT-KATEGORIEN                 -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-content-kategorien">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 52px;">
+
+        <div class="animate-up delay-1">
+          <p class="section-label">Content-Strategie</p>
+        </div>
+
+        <div style="font-size:72px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">So kann dein Account</span><br/>
+          <span style="font-weight:600;color:var(--blue);">aufgebaut sein.</span>
+        </div>
+
+        <!-- 4 content categories -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;" class="animate-up delay-3">
+
+          <!-- 01 Objektpostings (blue) -->
+          <div style="padding:40px 36px;border:1px solid rgba(0,128,255,0.2);background:rgba(0,128,255,0.04);border-right:none;display:flex;flex-direction:column;gap:20px;position:relative;">
+            <span style="position:absolute;top:20px;right:24px;font-size:72px;font-weight:800;color:rgba(0,128,255,0.1);line-height:1;letter-spacing:-0.04em;">01</span>
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--blue);">Objektpostings</div>
+            <h3 style="font-size:22px;font-weight:700;letter-spacing:-0.02em;">Deine Immobilien</h3>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--blue);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Bilder &amp; Karussell-Posts</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--blue);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Objekt-Videos &amp; Rundgänge</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--blue);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Stories mit Tages-Updates</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--blue);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Reels aus Besichtigungen</span></div>
+            </div>
+          </div>
+
+          <!-- 02 Vertrauenspostings (green) -->
+          <div style="padding:40px 36px;border:1px solid rgba(16,185,129,0.2);background:rgba(16,185,129,0.04);border-right:none;display:flex;flex-direction:column;gap:20px;position:relative;">
+            <span style="position:absolute;top:20px;right:24px;font-size:72px;font-weight:800;color:rgba(16,185,129,0.1);line-height:1;letter-spacing:-0.04em;">02</span>
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--green);">Vertrauenspostings</div>
+            <h3 style="font-size:22px;font-weight:700;letter-spacing:-0.02em;">Social Proof</h3>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--green);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Google-Bewertungen als Post</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--green);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Kunden-Testimonials (Video)</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--green);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Abschlüsse feiern</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--green);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Vorher / Nachher Stories</span></div>
+            </div>
+          </div>
+
+          <!-- 03 Fachcontent (gold) -->
+          <div style="padding:40px 36px;border:1px solid rgba(202,138,4,0.2);background:var(--gold-light);border-right:none;display:flex;flex-direction:column;gap:20px;position:relative;">
+            <span style="position:absolute;top:20px;right:24px;font-size:72px;font-weight:800;color:rgba(202,138,4,0.1);line-height:1;letter-spacing:-0.04em;">03</span>
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--gold);">Fachcontent</div>
+            <h3 style="font-size:22px;font-weight:700;letter-spacing:-0.02em;">Expertise zeigen</h3>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--gold);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Kaufprozess Schritt für Schritt</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--gold);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Marktberichte &amp; Preistrends</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--gold);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">FAQ-Serien für Käufer</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:var(--gold);flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Tipps für Verkäufer</span></div>
+            </div>
+          </div>
+
+          <!-- 04 Regionaler Content (indigo) -->
+          <div style="padding:40px 36px;border:1px solid rgba(99,102,241,0.2);background:rgba(99,102,241,0.04);display:flex;flex-direction:column;gap:20px;position:relative;">
+            <span style="position:absolute;top:20px;right:24px;font-size:72px;font-weight:800;color:rgba(99,102,241,0.1);line-height:1;letter-spacing:-0.04em;">04</span>
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:#6366f1;">Regionaler Content</div>
+            <h3 style="font-size:22px;font-weight:700;letter-spacing:-0.02em;">Lokale Expertise</h3>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:#6366f1;flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Lieblingsorte im Viertel</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:#6366f1;flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Neubauten &amp; Stadtentwicklung</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:#6366f1;flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">Lokale Partner vorstellen</span></div>
+              <div style="display:flex;align-items:center;gap:10px;"><div style="width:6px;height:6px;background:#6366f1;flex-shrink:0;"></div><span style="font-size:15px;color:var(--text-secondary);">„Leben in [Stadt/Viertel]"</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom insight -->
+        <div style="padding:28px 40px;background:var(--gray-light);border:1px solid var(--border);display:flex;align-items:center;gap:20px;" class="animate-up delay-4">
+          <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+          <span style="font-size:18px;color:var(--text-secondary);">Schon <strong style="color:var(--black);">1 Objekt = 4–6 Content-Stücke</strong> — Bild-Post, Video-Rundgang, Story, Reel, Preisvergleich, Marktupdate.</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 13: MIT GESICHT — NÄCHSTES LEVEL       -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-mit-gesicht">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 48px;">
+
+        <div class="animate-up delay-1">
+          <p class="section-label">Nächstes Level</p>
+        </div>
+
+        <div style="font-size:72px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Mit Gesicht —</span><br/>
+          <span style="font-weight:600;color:var(--blue);">noch mehr Wirkung.</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" class="animate-up delay-3">
+
+          <!-- Links: Was es bringt -->
+          <div style="padding:44px;border:1px solid rgba(0,128,255,0.2);background:rgba(0,128,255,0.03);display:flex;flex-direction:column;gap:28px;">
+            <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--blue);">Was es bringt</div>
+            <div style="display:flex;flex-direction:column;gap:20px;">
+              <div style="display:flex;align-items:flex-start;gap:20px;">
+                <div style="font-size:40px;font-weight:800;color:var(--blue);line-height:1;letter-spacing:-0.03em;white-space:nowrap;flex-shrink:0;">2–3×</div>
+                <div>
+                  <div style="font-size:18px;font-weight:600;margin-bottom:4px;">mehr organische Reichweite</div>
+                  <div style="font-size:14px;color:var(--text-secondary);line-height:1.5;">Reels und Videos mit echten Personen werden vom Algorithmus deutlich bevorzugt.</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:20px;">
+                <div style="font-size:40px;font-weight:800;color:var(--green);line-height:1;letter-spacing:-0.03em;white-space:nowrap;flex-shrink:0;">+Trust</div>
+                <div>
+                  <div style="font-size:18px;font-weight:600;margin-bottom:4px;">"Ich kenn den Makler schon"</div>
+                  <div style="font-size:14px;color:var(--text-secondary);line-height:1.5;">Potenzielle Kunden fühlen sich vertraut bevor sie je angerufen haben.</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:20px;">
+                <div style="font-size:40px;font-weight:800;color:var(--gold);line-height:1;letter-spacing:-0.03em;white-space:nowrap;flex-shrink:0;">↑↑</div>
+                <div>
+                  <div style="font-size:18px;font-weight:600;margin-bottom:4px;">Alle 4 Kategorien werden stärker</div>
+                  <div style="font-size:14px;color:var(--text-secondary);line-height:1.5;">Objekte mit dir, Testimonials mit dir, Fachtipps von dir, Region erklärt von dir — dasselbe Konzept, persönlicher.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rechts: Was es bedeutet (Trade-off) -->
+          <div style="padding:44px;border:1px solid rgba(220,38,38,0.15);background:var(--red-light);display:flex;flex-direction:column;gap:28px;">
+            <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--red);">Was das bedeutet</div>
+            <div style="display:flex;flex-direction:column;gap:20px;">
+              <div style="display:flex;align-items:flex-start;gap:16px;">
+                <div style="width:8px;height:8px;background:var(--red);margin-top:9px;flex-shrink:0;"></div>
+                <div>
+                  <div style="font-size:18px;font-weight:600;color:var(--text-secondary);">Deutlich mehr Aufwand</div>
+                  <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Kamera, Licht, Skript, Schnitt — das ist nicht mehr „mal kurz posten".</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:16px;">
+                <div style="width:8px;height:8px;background:var(--red);margin-top:9px;flex-shrink:0;"></div>
+                <div>
+                  <div style="font-size:18px;font-weight:600;color:var(--text-secondary);">Eigener Marketingkanal</div>
+                  <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Wie ein eigener Podcast oder YouTube-Kanal — erfordert Strategie und Regelmäßigkeit.</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:16px;">
+                <div style="width:8px;height:8px;background:var(--red);margin-top:9px;flex-shrink:0;"></div>
+                <div>
+                  <div style="font-size:18px;font-weight:600;color:var(--text-secondary);">Nicht mehr nebenbei</div>
+                  <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Eine Person kann das nicht alleine stemmen — oder es muss die Hauptaufgabe sein.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom -->
+        <div style="padding:28px 40px;background:var(--gray-light);border:1px solid var(--border);display:flex;align-items:center;gap:20px;" class="animate-up delay-4">
+          <svg width="24" height="24" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
+          <span style="font-size:18px;color:var(--text-secondary);">Die Basis (ohne Gesicht) funktioniert sehr gut und ist alleine stemmbar. <strong style="color:var(--black);">Gesicht ist das Upgrade — nicht die Voraussetzung.</strong></span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TRANSITION: JETZT LIVE                       -->
+    <!-- ============================================ -->
+    <div class="slide" id="transition-live">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap:32px;justify-content:center;">
+        <div class="animate-up delay-1" style="display:flex;align-items:center;gap:16px;">
+          <div style="width:36px;height:2px;background:var(--blue);"></div>
+          <span style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.35em;color:var(--blue);">Live-Analyse</span>
+        </div>
+        <div style="font-size:96px;font-weight:800;line-height:1.05;letter-spacing:-0.03em;color:var(--black);max-width:1300px;" class="animate-up delay-2">
+          Ich analysiere<br/>deinen Account<br/><span style="color:var(--blue);">LIVE.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 14: LIVE-ANALYSE                       -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-live-analyse">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 48px;">
+
+        <div class="animate-up delay-1">
+          <p class="section-label">Live-Analyse</p>
+        </div>
+
+        <div style="font-size:72px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Live Account</span><br/>
+          <span style="font-weight:600;color:var(--blue);">Analyse.</span>
+        </div>
+
+        <!-- 3 Instagram-Stil Mockups -->
+        <div style="display:flex;gap:48px;justify-content:center;align-items:stretch;flex:1;" class="animate-up delay-3">
+
+          <!-- Account 1 -->
+          <div style="width:280px;border:1.5px dashed rgba(0,0,0,0.12);background:var(--white);display:flex;flex-direction:column;overflow:hidden;">
+            <div style="padding:16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);">
+              <div style="width:40px;height:40px;border-radius:50%;background:var(--gray-light);border:1.5px dashed rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="18" height="18" fill="none" stroke="rgba(0,0,0,0.2)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:7px;">
+                <div style="height:10px;background:var(--border);width:65%;"></div>
+                <div style="height:8px;background:var(--gray-light);width:45%;"></div>
+              </div>
+            </div>
+            <div style="display:flex;border-bottom:1px solid var(--border);">
+              <div style="flex:1;padding:12px 8px;text-align:center;border-right:1px solid var(--border);">
+                <div style="height:12px;background:var(--border);margin:0 auto 6px;width:28px;"></div>
+                <div style="font-size:9px;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;">Posts</div>
+              </div>
+              <div style="flex:1;padding:12px 8px;text-align:center;border-right:1px solid var(--border);">
+                <div style="height:12px;background:var(--border);margin:0 auto 6px;width:32px;"></div>
+                <div style="font-size:9px;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;">Follower</div>
+              </div>
+              <div style="flex:1;padding:12px 8px;text-align:center;">
+                <div style="height:12px;background:var(--border);margin:0 auto 6px;width:28px;"></div>
+                <div style="font-size:9px;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;">Folgt</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(0,0,0,0.06);flex:1;">
+              <div style="aspect-ratio:1;background:rgba(0,0,0,0.04);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.06);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.04);"></div>
+              <div style="aspect-ratio:1;background:rgba(0,0,0,0.06);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.04);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.06);"></div>
+              <div style="aspect-ratio:1;background:rgba(0,0,0,0.04);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.06);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.04);"></div>
+            </div>
+            <div style="padding:14px;text-align:center;border-top:1px solid var(--border);">
+              <span style="font-size:13px;font-weight:600;color:var(--text-muted);">Account 1</span>
+            </div>
+          </div>
+
+          <!-- Account 2 — Hauptfokus (blau hervorgehoben) -->
+          <div style="width:320px;border:2px solid var(--blue);background:var(--white);display:flex;flex-direction:column;overflow:hidden;">
+            <div style="padding:8px 16px;background:var(--blue);text-align:center;">
+              <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:white;">Live</span>
+            </div>
+            <div style="padding:16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);">
+              <div style="width:44px;height:44px;border-radius:50%;background:var(--blue-light);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="20" height="20" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:7px;">
+                <div style="height:10px;background:var(--blue-light);width:65%;"></div>
+                <div style="height:8px;background:rgba(0,128,255,0.06);width:45%;"></div>
+              </div>
+            </div>
+            <div style="display:flex;border-bottom:1px solid var(--border);">
+              <div style="flex:1;padding:12px 8px;text-align:center;border-right:1px solid var(--border);">
+                <div style="height:12px;background:var(--blue-light);margin:0 auto 6px;width:28px;"></div>
+                <div style="font-size:9px;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;">Posts</div>
+              </div>
+              <div style="flex:1;padding:12px 8px;text-align:center;border-right:1px solid var(--border);">
+                <div style="height:12px;background:var(--blue-light);margin:0 auto 6px;width:32px;"></div>
+                <div style="font-size:9px;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;">Follower</div>
+              </div>
+              <div style="flex:1;padding:12px 8px;text-align:center;">
+                <div style="height:12px;background:var(--blue-light);margin:0 auto 6px;width:28px;"></div>
+                <div style="font-size:9px;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;">Folgt</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(0,128,255,0.1);flex:1;">
+              <div style="aspect-ratio:1;background:var(--blue-light);"></div><div style="aspect-ratio:1;background:rgba(0,128,255,0.06);"></div><div style="aspect-ratio:1;background:var(--blue-light);"></div>
+              <div style="aspect-ratio:1;background:rgba(0,128,255,0.06);"></div><div style="aspect-ratio:1;background:var(--blue-light);"></div><div style="aspect-ratio:1;background:rgba(0,128,255,0.06);"></div>
+              <div style="aspect-ratio:1;background:var(--blue-light);"></div><div style="aspect-ratio:1;background:rgba(0,128,255,0.06);"></div><div style="aspect-ratio:1;background:var(--blue-light);"></div>
+            </div>
+            <div style="padding:14px;text-align:center;border-top:1px solid rgba(0,128,255,0.2);">
+              <span style="font-size:14px;font-weight:700;color:var(--blue);">Ihr Account</span>
+            </div>
+          </div>
+
+          <!-- Account 3 -->
+          <div style="width:280px;border:1.5px dashed rgba(0,0,0,0.12);background:var(--white);display:flex;flex-direction:column;overflow:hidden;">
+            <div style="padding:16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);">
+              <div style="width:40px;height:40px;border-radius:50%;background:var(--gray-light);border:1.5px dashed rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="18" height="18" fill="none" stroke="rgba(0,0,0,0.2)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:7px;">
+                <div style="height:10px;background:var(--border);width:55%;"></div>
+                <div style="height:8px;background:var(--gray-light);width:40%;"></div>
+              </div>
+            </div>
+            <div style="display:flex;border-bottom:1px solid var(--border);">
+              <div style="flex:1;padding:12px 8px;text-align:center;border-right:1px solid var(--border);">
+                <div style="height:12px;background:var(--border);margin:0 auto 6px;width:28px;"></div>
+                <div style="font-size:9px;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;">Posts</div>
+              </div>
+              <div style="flex:1;padding:12px 8px;text-align:center;border-right:1px solid var(--border);">
+                <div style="height:12px;background:var(--border);margin:0 auto 6px;width:32px;"></div>
+                <div style="font-size:9px;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;">Follower</div>
+              </div>
+              <div style="flex:1;padding:12px 8px;text-align:center;">
+                <div style="height:12px;background:var(--border);margin:0 auto 6px;width:28px;"></div>
+                <div style="font-size:9px;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;">Folgt</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(0,0,0,0.06);flex:1;">
+              <div style="aspect-ratio:1;background:rgba(0,0,0,0.06);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.04);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.06);"></div>
+              <div style="aspect-ratio:1;background:rgba(0,0,0,0.04);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.06);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.04);"></div>
+              <div style="aspect-ratio:1;background:rgba(0,0,0,0.06);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.04);"></div><div style="aspect-ratio:1;background:rgba(0,0,0,0.06);"></div>
+            </div>
+            <div style="padding:14px;text-align:center;border-top:1px solid var(--border);">
+              <span style="font-size:13px;font-weight:600;color:var(--text-muted);">Account 2</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom -->
+        <div style="padding:26px 40px;background:var(--gray-light);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:12px;" class="animate-up delay-4">
+          <svg width="20" height="20" fill="none" stroke="var(--text-muted)" viewBox="0 0 24 24" stroke-width="1.5" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
+          <span style="font-size:17px;color:var(--text-secondary);">Alternativ: Ich zeige <strong style="color:var(--black);">3 spannende Makler-Accounts</strong> — was funktioniert, was nicht.</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE: IMMOAUTOMATION FINAL PITCH            -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-immo-final-pitch">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 48px;">
+
+        <div class="animate-up delay-1">
+          <p class="section-label">Die Lösung</p>
+        </div>
+
+        <div style="font-size:64px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Es war noch nie so einfach,</span><br/>
+          <span style="font-weight:600;color:var(--blue);">Social Media als Makler zu machen.</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;" class="animate-up delay-3">
+
+          <!-- 01 -->
+          <div style="padding:40px 36px;border:1px solid var(--border);display:flex;flex-direction:column;gap:20px;position:relative;">
+            <span style="position:absolute;top:14px;right:18px;font-size:12px;color:rgba(0,0,0,0.12);font-family:monospace;">01</span>
+            <div style="width:52px;height:52px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;">
+              <svg width="26" height="26" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <h3 style="font-size:22px;font-weight:700;">Objektpostings — automatisch</h3>
+            <p style="font-size:16px;color:var(--text-secondary);line-height:1.65;">immoautomation holt die Daten direkt aus dem CRM und erstellt in unter einer Minute fertige Postings im Corporate Design — ohne Aufwand.</p>
+          </div>
+
+          <!-- 02 -->
+          <div style="padding:40px 36px;border:1px solid var(--border);display:flex;flex-direction:column;gap:20px;position:relative;">
+            <span style="position:absolute;top:14px;right:18px;font-size:12px;color:rgba(0,0,0,0.12);font-family:monospace;">02</span>
+            <div style="width:52px;height:52px;background:rgba(16,185,129,0.1);display:flex;align-items:center;justify-content:center;">
+              <svg width="26" height="26" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>
+            </div>
+            <h3 style="font-size:22px;font-weight:700;">Zeitersparnis = mehr echter Content</h3>
+            <p style="font-size:16px;color:var(--text-secondary);line-height:1.65;">Die gesparte Zeit fließt in echten Content — Tipps, Einblicke, Persönlichkeit. Genau das, was langfristig Reichweite und Vertrauen aufbaut.</p>
+          </div>
+
+          <!-- 03 -->
+          <div style="padding:40px 36px;border:2px solid var(--blue);background:var(--blue-light);display:flex;flex-direction:column;gap:20px;position:relative;">
+            <span style="position:absolute;top:14px;right:18px;font-size:12px;color:rgba(0,128,255,0.2);font-family:monospace;">03</span>
+            <div style="width:52px;height:52px;background:rgba(0,128,255,0.15);display:flex;align-items:center;justify-content:center;">
+              <svg width="26" height="26" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" /></svg>
+            </div>
+            <h3 style="font-size:22px;font-weight:700;color:var(--blue);">Besser als 80&nbsp;% der Makler draußen</h3>
+            <p style="font-size:16px;color:var(--blue);opacity:0.85;line-height:1.65;">Über 80 % der Makler sind auf Social Media kaum aktiv. Wer regelmäßig postet — und dabei professionell aussieht — sticht sofort heraus.</p>
+          </div>
+
+        </div>
+
+        <!-- Bottom claim -->
+        <div style="padding:28px 48px;background:var(--black);display:flex;align-items:center;gap:20px;" class="animate-up delay-4">
+          <svg width="24" height="24" fill="none" stroke="white" viewBox="0 0 24 24" stroke-width="1.5" style="flex-shrink:0;opacity:0.5;"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
+          <span style="font-size:20px;color:white;font-weight:400;">Die Designs sehen aus, als wären sie von Hand erstellt — <strong style="color:var(--blue);">der Aufwand war gleich null.</strong></span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE: WAS JETZT? — AKTIONSPLAN              -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-was-jetzt">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 52px;">
+
+        <div class="animate-up delay-1">
+          <p class="section-label">Dein Aktionsplan</p>
+        </div>
+
+        <div style="font-size:72px;line-height:1.1;letter-spacing:-0.02em;" class="animate-up delay-2">
+          <span style="font-weight:800;color:var(--black);">3 Dinge —</span><br/>
+          <span style="font-weight:800;color:var(--blue);">diese Woche.</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;flex:1;" class="animate-up delay-3">
+
+          <!-- Schritt 1: Profil -->
+          <div style="padding:44px 40px;border:1px solid rgba(16,185,129,0.25);background:rgba(16,185,129,0.06);border-radius:16px;display:flex;flex-direction:column;gap:24px;position:relative;overflow:hidden;">
+            <span style="position:absolute;top:16px;right:28px;font-size:80px;font-weight:900;color:rgba(16,185,129,0.1);line-height:1;">01</span>
+            <div style="font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:var(--green);">Heute noch</div>
+            <h3 style="font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1.2;">Profil aufräumen</h3>
+            <div style="display:flex;flex-direction:column;gap:18px;">
+              <div style="display:flex;align-items:flex-start;gap:14px;">
+                <div style="width:8px;height:8px;background:var(--green);margin-top:10px;border-radius:50%;flex-shrink:0;"></div>
+                <span style="font-size:21px;color:var(--text-secondary);line-height:1.5;">Profilbild — klares Gesicht, kein Logo</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:14px;">
+                <div style="width:8px;height:8px;background:var(--green);margin-top:10px;border-radius:50%;flex-shrink:0;"></div>
+                <span style="font-size:21px;color:var(--text-secondary);line-height:1.5;">Bio: Wer bist du? Wo? Was bietest du?</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:14px;">
+                <div style="width:8px;height:8px;background:var(--green);margin-top:10px;border-radius:50%;flex-shrink:0;"></div>
+                <span style="font-size:21px;color:var(--text-secondary);line-height:1.5;">Kontaktbutton &amp; Website-Link setzen</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Schritt 2: Erster Post -->
+          <div style="padding:44px 40px;border:2px solid var(--blue);background:rgba(59,130,246,0.06);border-radius:16px;display:flex;flex-direction:column;gap:24px;position:relative;overflow:hidden;">
+            <span style="position:absolute;top:16px;right:28px;font-size:80px;font-weight:900;color:rgba(59,130,246,0.1);line-height:1;">02</span>
+            <div style="font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:var(--blue);">Diese Woche</div>
+            <h3 style="font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1.2;">Ersten Post machen</h3>
+            <div style="display:flex;flex-direction:column;gap:18px;">
+              <div style="display:flex;align-items:flex-start;gap:14px;">
+                <div style="width:8px;height:8px;background:var(--blue);margin-top:10px;border-radius:50%;flex-shrink:0;"></div>
+                <span style="font-size:21px;color:var(--text-secondary);line-height:1.5;">Aktuelles Objekt als Ausgangspunkt nehmen</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:14px;">
+                <div style="width:8px;height:8px;background:var(--blue);margin-top:10px;border-radius:50%;flex-shrink:0;"></div>
+                <span style="font-size:21px;color:var(--text-secondary);line-height:1.5;">1 Bild-Post + 1 Story — reicht zum Start</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:14px;">
+                <div style="width:8px;height:8px;background:var(--blue);margin-top:10px;border-radius:50%;flex-shrink:0;"></div>
+                <span style="font-size:21px;font-weight:700;color:var(--black);line-height:1.5;">Nicht perfekt — einfach anfangen.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Schritt 3: immoautomation testen -->
+          <div style="padding:44px 40px;border:2px solid var(--blue);background:var(--blue-light);border-radius:16px;display:flex;flex-direction:column;gap:24px;position:relative;overflow:hidden;">
+            <span style="position:absolute;top:16px;right:28px;font-size:80px;font-weight:900;color:rgba(59,130,246,0.12);line-height:1;">03</span>
+            <div style="font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:var(--blue);">Kostenlos starten</div>
+            <h3 style="font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1.2;color:var(--blue);">immoautomation testen</h3>
+            <p style="font-size:21px;color:var(--text-secondary);line-height:1.55;">14 Tage kostenlos — direkt aus deinem onOffice-Account heraus starten.</p>
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px;">
+              <div style="display:flex;align-items:center;gap:16px;padding:18px 24px;background:white;border-radius:10px;border:1px solid rgba(59,130,246,0.2);">
+                <svg width="22" height="22" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253M3 12a8.959 8.959 0 01.284-2.253"/></svg>
+                <span style="font-size:20px;font-weight:700;color:var(--blue);">app.immoautomation.at</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;padding:18px 24px;background:white;border-radius:10px;border:1px solid rgba(59,130,246,0.2);">
+                <svg width="22" height="22" fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="1.5" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+                <span style="font-size:20px;font-weight:600;color:var(--text-secondary);">rafael@makeautomation.at</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SLIDE: WEBINAR-ANGEBOT                        -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-angebot">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="flex-direction:row;gap:80px;align-items:stretch;">
+
+        <!-- Links: Angebot -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:36px;" class="animate-up delay-1">
+
+          <!-- Badge -->
+          <div style="display:inline-flex;align-items:center;gap:12px;padding:10px 20px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.25);border-radius:100px;width:fit-content;">
+            <div style="width:8px;height:8px;background:var(--blue);border-radius:50%;"></div>
+            <span style="font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--blue);">Nur für Webinar-Teilnehmer</span>
+          </div>
+
+          <!-- Headline -->
+          <div style="font-size:64px;line-height:1.1;letter-spacing:-0.02em;">
+            <span style="font-weight:800;color:var(--black);">Kostenlose</span><br/>
+            <span style="font-weight:800;color:var(--blue);">Account-Analyse</span><br/>
+            <span style="font-weight:700;font-size:40px;color:var(--text-secondary);">im Wert von 750 €</span>
+          </div>
+
+          <!-- Was ist das -->
+          <div style="display:flex;flex-direction:column;gap:0;background:white;border-radius:16px;border:1px solid var(--border);overflow:hidden;">
+            <div style="padding:20px 28px;border-bottom:1px solid var(--border);background:rgba(59,130,246,0.04);">
+              <span style="font-size:17px;font-weight:700;color:var(--black);">Was prüfen wir bei dir?</span>
+            </div>
+            <div style="padding:24px 28px;display:flex;flex-direction:column;gap:16px;">
+              <div style="display:flex;align-items:center;gap:16px;">
+                <div style="width:10px;height:10px;background:var(--blue);border-radius:50%;flex-shrink:0;"></div>
+                <span style="font-size:21px;color:var(--text-secondary);">Admin-Rechte &amp; Zugänge richtig vergeben?</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;">
+                <div style="width:10px;height:10px;background:var(--blue);border-radius:50%;flex-shrink:0;"></div>
+                <span style="font-size:21px;color:var(--text-secondary);">Zwei-Faktor-Authentifizierung (2FA) aktiv?</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;">
+                <div style="width:10px;height:10px;background:var(--blue);border-radius:50%;flex-shrink:0;"></div>
+                <span style="font-size:21px;color:var(--text-secondary);">Tracking-Pixel korrekt eingerichtet?</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;">
+                <div style="width:10px;height:10px;background:var(--blue);border-radius:50%;flex-shrink:0;"></div>
+                <span style="font-size:21px;color:var(--text-secondary);">Schutz gegen Account-Übernahmen &amp; Hacking</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stat -->
+          <div style="display:flex;align-items:center;gap:20px;padding:22px 32px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:12px;">
+            <span style="font-size:52px;font-weight:900;color:var(--red);line-height:1;flex-shrink:0;">70%</span>
+            <span style="font-size:22px;color:var(--text-secondary);line-height:1.4;">der Accounts haben kritische Sicherheitslücken — Account-Sperren und Übernahmen passieren derzeit täglich.</span>
+          </div>
+
+        </div>
+
+        <!-- Rechts: Pläne + QR -->
+        <div style="flex:0 0 520px;display:flex;flex-direction:column;gap:20px;justify-content:center;" class="animate-up delay-2">
+
+          <!-- Pläne -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <!-- MaklerPlus -->
+            <div style="padding:24px 22px;background:white;border:1px solid var(--border);border-radius:14px;display:flex;flex-direction:column;gap:10px;">
+              <div style="font-size:15px;font-weight:700;color:var(--black);">MaklerPlus</div>
+              <div style="font-size:36px;font-weight:900;color:var(--black);line-height:1;">49 €<span style="font-size:16px;font-weight:500;color:var(--text-muted);">/Mo</span></div>
+              <div style="font-size:16px;color:var(--text-secondary);">Unbegrenzte Posts, KI-Texte, Instagram &amp; Facebook</div>
+            </div>
+            <!-- MaklerPremium -->
+            <div style="padding:24px 22px;background:var(--blue);border-radius:14px;display:flex;flex-direction:column;gap:10px;position:relative;">
+              <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);padding:4px 14px;background:var(--green);border-radius:100px;white-space:nowrap;">
+                <span style="font-size:13px;font-weight:700;color:white;">Beliebteste Wahl</span>
+              </div>
+              <div style="font-size:15px;font-weight:700;color:rgba(255,255,255,0.85);">MaklerPremium</div>
+              <div style="font-size:36px;font-weight:900;color:white;line-height:1;">99 €<span style="font-size:16px;font-weight:500;color:rgba(255,255,255,0.7);">/Mo</span></div>
+              <div style="font-size:16px;color:rgba(255,255,255,0.8);">+ Google Business, Content-Kalender, Stories</div>
+            </div>
+          </div>
+
+          <!-- Analyse-Bonus -->
+          <div style="padding:22px 28px;background:white;border:2px solid var(--green);border-radius:14px;display:flex;align-items:center;gap:20px;">
+            <div style="width:48px;height:48px;background:rgba(16,185,129,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="24" height="24" fill="none" stroke="var(--green)" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:19px;font-weight:800;color:var(--black);">+ kostenlose Account-Analyse</div>
+              <div style="font-size:17px;color:var(--text-secondary);">Normalpreis <span style="text-decoration:line-through;">750 €</span> — heute gratis dazu</div>
+            </div>
+          </div>
+
+          <!-- Free Trial Info -->
+          <div style="padding:22px 28px;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.2);border-radius:14px;display:flex;flex-direction:column;gap:10px;">
+            <div style="font-size:18px;font-weight:700;color:var(--black);">Erst testen, dann entscheiden</div>
+            <div style="font-size:19px;color:var(--text-secondary);line-height:1.5;">14 Tage komplett kostenlos — alles in Ruhe ansehen, keine Kreditkarte, keine Verpflichtung.</div>
+          </div>
+
+          <!-- QR + CTA -->
+          <div style="display:flex;align-items:center;gap:24px;padding:24px 28px;background:white;border:2px solid var(--blue);border-radius:14px;">
+            <img src="qr-cal.png" alt="Termin buchen" style="width:220px;height:220px;border-radius:6px;flex-shrink:0;" />
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="font-size:22px;font-weight:800;color:var(--black);">Termin buchen</div>
+              <div style="font-size:16px;color:var(--blue);font-weight:600;">30-Min. Gespräch — kostenlos</div>
+              <div style="font-size:15px;color:var(--text-muted);line-height:1.4;">QR scannen oder:<br/>cal.com/rafael-kietaibl-fj9kbk/…</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SLIDE 17: Q&A / ABSCHLUSS                    -->
+    <!-- ============================================ -->
+    <div class="slide" id="slide-qanda">
+      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#grid)"/>
+      </svg>
+      <div class="content" style="gap: 56px; justify-content: center;">
+
+        <!-- Top label -->
+        <div class="animate-up delay-1">
+          <p class="section-label">Fragen &amp; Antworten</p>
+        </div>
+
+        <!-- Main: two-column -->
+        <div style="display:grid;grid-template-columns:1fr 1px 1fr;gap:0;flex:1;" class="animate-up delay-2">
+
+          <!-- Links: Danke + Kontakt -->
+          <div style="padding:64px 72px;display:flex;flex-direction:column;justify-content:space-between;gap:48px;">
+
+            <div>
+              <div style="font-size:96px;line-height:1;letter-spacing:-0.03em;margin-bottom:24px;">
+                <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Danke —</span><br/>
+                <span style="font-weight:700;color:var(--blue);">habt ihr Fragen?</span>
+              </div>
+              <p style="font-size:20px;color:var(--text-secondary);line-height:1.6;max-width:580px;">Ich bin noch eine Weile hier. Gerne auch einzeln nachher ansprechen.</p>
+            </div>
+
+            <!-- Kontakt -->
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div style="display:flex;align-items:center;gap:16px;">
+                <div style="width:44px;height:44px;background:var(--gray-light);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="20" height="20" fill="none" stroke="rgba(0,0,0,0.4)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253M3 12a8.959 8.959 0 01.284-2.253"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:2px;">Website</div>
+                  <div style="font-size:18px;font-weight:600;color:var(--blue);">app.immoautomation.at</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Divider -->
+          <div style="background:var(--border);"></div>
+
+          <!-- Rechts: Photo + QR + Kontakt -->
+          <div style="padding:56px 72px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:28px;text-align:center;">
+
+            <!-- Round photo -->
+            <img src="post-examples/rafael-photo.png"
+                 style="width:160px;height:160px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid var(--blue-light);"
+                 onerror="this.style.display='none'" />
+
+            <!-- Name -->
+            <div>
+              <div style="font-size:28px;font-weight:700;letter-spacing:-0.01em;">Rafael Kietaibl</div>
+              <div style="font-size:16px;color:var(--text-secondary);margin-top:4px;">Co-Founder &middot; immoautomation</div>
+            </div>
+
+            <!-- QR Code -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+              <img src="qr-cal.png" alt="Termin buchen" style="width:240px;height:240px;border:1px solid var(--border);border-radius:8px;" />
+              <div style="font-size:13px;color:var(--text-muted);max-width:260px;line-height:1.4;">30-Min. Gespräch buchen<br/>immoautomation × onOffice Webinar</div>
+            </div>
+
+            <!-- Kontakt -->
+            <div style="display:flex;flex-direction:column;gap:12px;width:100%;max-width:360px;">
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 20px;border:1px solid var(--border);background:var(--gray-light);">
+                <svg width="18" height="18" fill="none" stroke="var(--text-secondary)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+                <span style="font-size:15px;font-weight:500;">rafael@makeautomation.at</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 20px;border:1px solid var(--border);background:var(--gray-light);">
+                <svg width="18" height="18" fill="none" stroke="var(--text-secondary)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z"/></svg>
+                <span style="font-size:15px;font-weight:500;">Rafael Kietaibl</span>
+                <span style="font-size:12px;color:var(--text-muted);margin-left:auto;">LinkedIn</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  </div><!-- /scale-container -->
+
+  <!-- Navigation -->
+  <div class="bottom-bar">
+    <button class="nav-arrow" id="prevBtn" onclick="prevSlide()" title="Vorherige Folie (←)">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="slide-nav" id="slideNav"></div>
+    <button class="nav-arrow" id="nextBtn" onclick="nextSlide()" title="Nächste Folie (→)">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+  <div class="slide-counter" id="slideCounter"></div>
+
+  <script>
+    var defined = new URLSearchParams(window.location.search);
+    var slides = document.querySelectorAll('.slide');
+    var current = defined.get('slide') ? parseInt(defined.get('slide')) - 1 : 0;
+
+    function showSlide(index) {
+      for (var i = 0; i < slides.length; i++) {
+        slides[i].classList.remove('active');
+        if (i === index) {
+          var animated = slides[i].querySelectorAll('[class*="animate-"]');
+          for (var j = 0; j < animated.length; j++) {
+            animated[j].style.animation = 'none';
+            animated[j].offsetHeight;
+            animated[j].style.animation = '';
+          }
+        }
+      }
+      slides[index].classList.add('active');
+      current = index;
+      updateNav();
+    }
+
+    function nextSlide() {
+      if (current < slides.length - 1) showSlide(current + 1);
+    }
+
+    function prevSlide() {
+      if (current > 0) showSlide(current - 1);
+    }
+
+    function updateNav() {
+      var nav = document.getElementById('slideNav');
+      nav.innerHTML = '';
+      for (var i = 0; i < slides.length; i++) {
+        var btn = document.createElement('button');
+        if (i === current) btn.classList.add('active');
+        btn.setAttribute('data-index', i);
+        btn.addEventListener('click', function() {
+          showSlide(parseInt(this.getAttribute('data-index')));
+        });
+        nav.appendChild(btn);
+      }
+      document.getElementById('slideCounter').textContent =
+        (current + 1) + ' / ' + slides.length;
+      document.getElementById('prevBtn').disabled = current === 0;
+      document.getElementById('nextBtn').disabled = current === slides.length - 1;
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+      if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+    });
+
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.bottom-bar') || e.target.closest('.fullscreen-btn')) return;
+      if (e.target.closest('#slide-beispiele')) return;
+      if (e.clientX > window.innerWidth / 2) nextSlide();
+      else prevSlide();
+    });
+
+    // === DYNAMIC SCALING ===
+    function scalePresentation() {
+      var wrapper = document.getElementById('slidesWrapper');
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var scaleX = vw / 1920;
+      var scaleY = vh / 1080;
+      var scale = Math.min(scaleX, scaleY);
+      wrapper.style.transform = 'scale(' + scale + ')';
+    }
+
+    window.addEventListener('resize', scalePresentation);
+    document.addEventListener('fullscreenchange', function() {
+      setTimeout(scalePresentation, 100);
+    });
+
+    scalePresentation();
+    showSlide(current);
+  </script>
+</body>
+</html>

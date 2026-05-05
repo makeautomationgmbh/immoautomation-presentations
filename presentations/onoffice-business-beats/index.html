@@ -155,6 +155,21 @@ section[data-deck-active]{display:flex}
   animation:slideInLeft .8s cubic-bezier(0.16,1,0.3,1) forwards;
 }
 
+/* Slide 04 — echte Schere (zwei Linien divergieren) */
+@keyframes drawPath{to{stroke-dashoffset:0}}
+@keyframes fadeIn{to{opacity:1}}
+.chart-volumen{stroke-dasharray:1500;stroke-dashoffset:1500}
+.chart-reach{stroke-dasharray:1500;stroke-dashoffset:1500}
+.chart-gap,.chart-label-blue,.chart-label-red,.chart-dot-blue,.chart-dot-red,.chart-year-end{opacity:0}
+[data-deck-active] .chart-volumen{animation:drawPath 1.6s cubic-bezier(0.4,0,0.2,1) .55s forwards}
+[data-deck-active] .chart-reach{animation:drawPath 1.6s cubic-bezier(0.4,0,0.2,1) .55s forwards}
+[data-deck-active] .chart-gap{animation:fadeIn .9s ease-out .7s forwards}
+[data-deck-active] .chart-dot-blue{animation:fadeIn .4s ease-out 2.0s forwards}
+[data-deck-active] .chart-dot-red{animation:fadeIn .4s ease-out 2.0s forwards}
+[data-deck-active] .chart-label-blue{animation:fadeIn .5s ease-out 2.1s forwards}
+[data-deck-active] .chart-label-red{animation:fadeIn .5s ease-out 2.1s forwards}
+[data-deck-active] .chart-year-end{animation:fadeIn .4s ease-out 2.1s forwards}
+
 /* Pill badge */
 .pill{
   display:inline-flex;align-items:center;gap:10px;
@@ -267,137 +282,9 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SLIDE 02 — KI STATS (NEU: Noch mehr Impact!)
+     SLIDE 02 — VORSTELLUNG (Bio + Timeline + Logo Wall)
 ════════════════════════════════════════════════════════════════ -->
-<section class="light" data-screen-label="02 KI Stats">
-  <div class="grid"></div>
-
-  <div class="inner" style="gap:64px">
-    <!-- Opener -->
-    <div class="a1" style="text-align:center">
-      <div class="eyebrow" style="margin-bottom:24px">Metricool Report 2025</div>
-      <h2 style="font-size:76px;line-height:1.1">
-        KI hat Social Media <span class="serif-italic">übernommen.</span>
-      </h2>
-      <p style="font:400 24px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary);margin-top:24px">
-        Das ist nicht die Zukunft. Das ist jetzt.
-      </p>
-    </div>
-
-    <!-- Stats Grid -->
-    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;max-width:1400px;margin:0 auto;width:100%">
-
-      <!-- Hero stat 96% - SPAN 2 -->
-      <div class="a2" style="grid-column:span 2;background:#fff;border:1px solid var(--ia-border);padding:64px 72px;display:flex;align-items:center;gap:56px">
-        <div style="font:700 180px/1 var(--ia-font-body);letter-spacing:-0.05em;color:var(--ia-blue);flex-shrink:0">96%</div>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="font:700 42px/1.15 var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.02em">nutzen KI für Content</div>
-          <div style="font:400 22px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
-            davon <strong style="color:var(--ia-black);font-weight:600">72% täglich</strong>, nicht gelegentlich.
-          </div>
-        </div>
-      </div>
-
-      <!-- +21% Instagram -->
-      <div class="a3" style="background:#fff;border:1px solid var(--ia-border);padding:48px 40px;display:flex;flex-direction:column;gap:16px;justify-content:center">
-        <div style="font:700 96px/1 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-blue)">+21%</div>
-        <div style="font:500 20px/1.4 var(--ia-font-body);color:var(--ia-fg-secondary)">mehr Instagram-Posts in 12 Monaten</div>
-      </div>
-
-      <!-- 40% Facebook -->
-      <div class="a4" style="background:#fff;border:1px solid var(--ia-border);padding:48px 40px;display:flex;flex-direction:column;gap:16px;justify-content:center">
-        <div style="font:700 96px/1 var(--ia-font-body);letter-spacing:-0.04em;color:#0066CC">40%</div>
-        <div style="font:500 20px/1.4 var(--ia-font-body);color:var(--ia-fg-secondary)">der Facebook-Posts KI-generiert</div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="foot">
-    <span>Metricool Social Media Report 2025</span>
-    <span>02</span>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SLIDE 03 — REICHWEITE PARADOX
-════════════════════════════════════════════════════════════════ -->
-<section class="light" data-screen-label="03 Reichweite">
-  <div class="grid"></div>
-  <div class="ambient"></div>
-  
-  <div class="inner" style="justify-content:center;align-items:center;gap:48px">
-    <div class="a1" style="text-align:center">
-      <div class="eyebrow" style="margin-bottom:16px">Die Konsequenz</div>
-      <h2>Mehr Beiträge. <span class="red">Weniger Reichweite.</span></h2>
-    </div>
-    
-    <!-- Diverging Bars: Posts +21% UP / Reach –31% DOWN -->
-    <div class="a3" style="position:relative;max-width:1200px;width:100%;height:620px;margin:0 auto">
-
-      <!-- Baseline -->
-      <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:var(--ia-black);z-index:2"></div>
-
-      <!-- Baseline tag -->
-      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;background:var(--ia-white);padding:8px 20px;font:600 11px var(--ia-font-body);letter-spacing:0.2em;text-transform:uppercase;color:var(--ia-fg-muted);border:1px solid var(--ia-border)">2024 Baseline</div>
-
-      <!-- Posts (top, bar grows UP toward baseline) -->
-      <div style="position:absolute;top:0;height:50%;left:0;width:50%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end">
-        <div style="text-align:center;margin-bottom:20px">
-          <div class="eyebrow" style="margin-bottom:10px">Instagram Posts 2024 → 2025</div>
-          <div style="font:900 84px/1 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-blue)">+21%</div>
-        </div>
-        <div style="width:140px;height:120px;background:var(--ia-blue)"></div>
-      </div>
-
-      <!-- Reach (bottom, bar grows DOWN from baseline) -->
-      <div style="position:absolute;bottom:0;height:50%;right:0;width:50%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start">
-        <div style="width:140px;height:178px;background:var(--ia-red)"></div>
-        <div style="text-align:center;margin-top:20px">
-          <div style="font:900 84px/1 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-red)">–31%</div>
-          <div class="eyebrow red" style="margin-top:8px">Organische Reichweite</div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Quote -->
-    <p class="a4 serif-italic" style="font-size:22px;color:var(--ia-fg-muted);text-align:center">
-      Der Algorithmus entscheidet. Nicht mehr deine Follower.
-    </p>
-  </div>
-  
-  <div class="foot">
-    <span>Metricool · Socialinsider · Meta</span>
-    <span>03</span>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SLIDE 04 — KAPITEL 01
-════════════════════════════════════════════════════════════════ -->
-<section class="light" data-screen-label="04 Kapitel 1">
-  <div class="grid"></div>
-  <div class="chapter-num">01</div>
-
-  <div class="inner" style="justify-content:center;gap:20px">
-    <div class="eyebrow a1">Kapitel 01</div>
-    <h1 class="a2">Wer steckt<br>dahinter?</h1>
-    <div class="chapter-bar a3"></div>
-  </div>
-  
-  <div class="foot">
-    <span>immoautomation</span>
-    <span>04</span>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SLIDE 05 — ÜBER MICH (Timeline)
-════════════════════════════════════════════════════════════════ -->
-<section class="light" data-screen-label="05 Über mich">
+<section class="light" data-screen-label="02 Vorstellung">
   <div class="grid"></div>
   <div class="ambient"></div>
 
@@ -476,6 +363,186 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
 
   <div class="foot">
     <span>immoautomation</span>
+    <span>02</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 03 — PAIN (−30% Reichweite YoY)
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="03 Pain">
+  <div class="grid"></div>
+
+  <div class="inner" style="justify-content:center;align-items:center;gap:32px;text-align:center">
+
+    <div class="a1">
+      <div class="eyebrow">Reichweite · 2024 → 2025</div>
+    </div>
+
+    <div class="a2" style="display:flex;align-items:baseline;justify-content:center">
+      <div style="font:900 320px/0.9 var(--ia-font-body);letter-spacing:-0.05em;color:var(--ia-red)">−30<span style="font-size:0.5em;letter-spacing:-0.04em">%</span></div>
+    </div>
+
+    <div class="a3" style="max-width:1100px;margin-top:8px">
+      <h2 style="font-size:60px;line-height:1.1;letter-spacing:-0.025em">
+        So viel weniger Reichweite haben<br>deine Posts gegenüber dem Vorjahr.
+      </h2>
+    </div>
+
+    <div class="a4" style="margin-top:24px;max-width:900px">
+      <p style="font:400 22px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
+        Über alle Formate. Reels, Carousel, Bilder.<br>
+        Und du machst nichts falsch.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span>Emplifi 2026 Social Media Benchmark · 1,9 Mio. Posts · 9.678 Marken</span>
+    <span>03</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 04 — MECHANISMUS (Schere: Volumen ↑ vs. Aufmerksamkeit →)
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="04 Mechanismus">
+  <div class="grid"></div>
+
+  <div class="inner" style="gap:32px">
+
+    <!-- Headline -->
+    <div class="a1" style="text-align:center">
+      <div class="eyebrow" style="margin-bottom:20px">Warum das passiert</div>
+      <h2>Du machst nichts falsch.<br><span class="serif-italic">Die Bühne wird voller.</span></h2>
+    </div>
+
+    <!-- Schere-Chart: zwei Linien divergieren von links -->
+    <div class="a2" style="flex:1;display:flex;align-items:center;justify-content:center;width:100%;max-width:1500px;margin:0 auto;padding:0 40px">
+      <svg viewBox="0 0 1240 460" style="width:100%;height:auto;max-height:560px" preserveAspectRatio="xMidYMid meet">
+
+        <defs>
+          <linearGradient id="scissorsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="rgba(220,38,38,0)"/>
+            <stop offset="100%" stop-color="rgba(220,38,38,0.16)"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Subtle reference line at start-y -->
+        <line x1="80" y1="200" x2="1140" y2="200" stroke="rgba(12,12,12,0.08)" stroke-width="1" stroke-dasharray="3,7"/>
+
+        <!-- Common starting dot -->
+        <circle cx="80" cy="200" r="6" fill="rgba(12,12,12,0.55)"/>
+
+        <!-- Scissors gap area -->
+        <path class="chart-gap" d="M 80 200 C 460 195 800 130 1140 60 L 1140 340 C 800 270 460 205 80 200 Z" fill="url(#scissorsGrad)" stroke="none"/>
+
+        <!-- Reichweite: red falling curve -->
+        <path class="chart-reach" d="M 80 200 C 460 205 800 270 1140 340" stroke="#dc2626" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Content-Volumen: blue rising curve -->
+        <path class="chart-volumen" d="M 80 200 C 460 195 800 130 1140 60" stroke="#0080FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Endpoint dots -->
+        <circle class="chart-dot-blue" cx="1140" cy="60" r="9" fill="#0080FF"/>
+        <circle class="chart-dot-red" cx="1140" cy="340" r="9" fill="#dc2626"/>
+
+        <!-- Endpoint labels -->
+        <text class="chart-label-blue" x="1135" y="34" text-anchor="end" style="font:700 22px 'Inter',sans-serif;fill:#0080FF;letter-spacing:-0.015em">↑ Content-Volumen</text>
+        <text class="chart-label-red" x="1135" y="378" text-anchor="end" style="font:700 22px 'Inter',sans-serif;fill:#dc2626;letter-spacing:-0.015em">↓ Reichweite pro Post</text>
+
+        <!-- X-axis years -->
+        <g style="font:600 13px 'Inter',sans-serif;fill:rgba(12,12,12,0.4);letter-spacing:0.22em">
+          <text x="80" y="430" text-anchor="middle">2020</text>
+          <text x="430" y="430" text-anchor="middle">2022</text>
+          <text x="780" y="430" text-anchor="middle">2024</text>
+          <text class="chart-year-end" x="1140" y="430" text-anchor="middle" style="fill:#0C0C0C;font-weight:700">2026</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Caption -->
+    <div class="a3" style="text-align:center;max-width:1100px;margin:0 auto">
+      <p style="font:400 22px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
+        Mehr Posts. Gleiche Aufmerksamkeit. <span class="serif-italic">Deine Sichtbarkeit verdünnt sich.</span>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span>Schematische Darstellung · Quellen: Metricool 2025, eMarketer Time-Spent</span>
+    <span>04</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 05 — KONSEQUENZ + REISE-SETUP
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="05 Konsequenz">
+  <div class="grid"></div>
+
+  <div class="inner" style="justify-content:center;align-items:center;gap:36px;text-align:center">
+
+    <div class="a1">
+      <div class="eyebrow">Was bedeutet das?</div>
+    </div>
+
+    <div class="a2" style="max-width:1500px">
+      <h1 style="font-size:80px;line-height:1.08;letter-spacing:-0.025em">
+        Wie wir Social Media machen,<br>
+        ändert sich <span class="serif-italic">grundlegend</span>.
+      </h1>
+    </div>
+
+    <div class="a3" style="max-width:1100px">
+      <p style="font:400 26px/1.55 var(--ia-font-body);color:var(--ia-fg-secondary)">
+        Bessere Qualität. Höherer Output.<br>
+        Und eine höhere Latte, damit du nicht untergehst.
+      </p>
+    </div>
+
+    <!-- Journey preview -->
+    <div class="a4" style="margin-top:48px;padding-top:40px;border-top:1px solid var(--ia-border);display:flex;align-items:center;gap:36px;justify-content:center">
+
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--ia-blue-light);border:2px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;font:700 13px var(--ia-font-body);color:var(--ia-blue)">01</div>
+        <div style="text-align:left">
+          <div class="eyebrow" style="margin-bottom:2px">Status Quo</div>
+          <div style="font:600 20px var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">Wo wir heute stehen</div>
+        </div>
+      </div>
+
+      <div style="width:48px;height:1px;background:var(--ia-border)"></div>
+
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--ia-blue-light);border:2px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;font:700 13px var(--ia-font-body);color:var(--ia-blue)">02</div>
+        <div style="text-align:left">
+          <div class="eyebrow" style="margin-bottom:2px">Ausblick</div>
+          <div style="font:600 20px var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">Wohin es geht</div>
+        </div>
+      </div>
+
+      <div style="width:48px;height:1px;background:var(--ia-border)"></div>
+
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--ia-blue);display:flex;align-items:center;justify-content:center;font:700 13px var(--ia-font-body);color:#fff">03</div>
+        <div style="text-align:left">
+          <div class="eyebrow blue" style="margin-bottom:2px">Live</div>
+          <div style="font:600 20px var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">Wie das in der Praxis aussieht</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span>immoautomation</span>
     <span>05</span>
   </div>
 </section>
@@ -486,11 +553,10 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
 ════════════════════════════════════════════════════════════════ -->
 <section class="light" data-screen-label="06 Kapitel 2">
   <div class="grid"></div>
-  <div class="chapter-num">02</div>
 
   <div class="inner" style="justify-content:center;gap:20px">
-    <div class="eyebrow a1">Kapitel 02</div>
-    <h1 class="a2">Wie wird KI<br><span class="blue">genutzt?</span></h1>
+    <div class="eyebrow a1">Kapitel</div>
+    <h1 class="a2">Wo wir<br><span class="blue">heute stehen.</span></h1>
     <div class="chapter-bar a3"></div>
   </div>
 
@@ -665,10 +731,9 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
 <section class="light" data-screen-label="09 Kapitel 3">
   <div class="grid"></div>
   <div class="ambient"></div>
-  <div class="chapter-num">03</div>
 
   <div class="inner" style="justify-content:center;gap:20px">
-    <div class="eyebrow a1">Kapitel 03</div>
+    <div class="eyebrow a1">Kapitel</div>
     <h1 class="a2">Was kommt als<br><span class="blue">Nächstes?</span></h1>
     <div class="chapter-bar a3"></div>
   </div>

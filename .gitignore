@@ -11,5 +11,8 @@ Thumbs.db
 # Node (if ever needed)
 node_modules/
 
-# Claude Code local skills (personal, not shared)
-.claude/skills/
+# Claude Code local state (personal, not shared)
+.claude/
+
+# Tool-use logs / session telemetry
+logs/

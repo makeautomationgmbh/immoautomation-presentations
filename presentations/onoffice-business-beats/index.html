@@ -1,0 +1,2336 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media als Makler: Was KI möglich macht</title>
+<meta name="ext-resource-dependency" content="uploads/rafael-photo-4e40c627.png" data-resource-id="rafaelPhoto1" />
+<meta name="ext-resource-dependency" content="uploads/rafael-photo.png" data-resource-id="rafaelPhoto2" />
+<template id="__bundler_thumbnail" data-bg-color="#0a0a14">
+  <svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+    <!-- Blue gradient circle representing AI agent -->
+    <circle cx="960" cy="540" r="120" fill="url(#agentGrad)" opacity="0.9"/>
+    <defs>
+      <linearGradient id="agentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#0080FF;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#0066CC;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    <!-- Robot emoji placeholder -->
+    <text x="960" y="580" font-size="80" text-anchor="middle" fill="#fff">🤖</text>
+  </svg>
+</template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ia-blue: #0080FF;
+  --ia-blue-hover: #0066CC;
+  --ia-blue-light: rgba(0,128,255,0.05);
+  --ia-blue-border: rgba(0,128,255,0.15);
+  --ia-black: #0C0C0C;
+  --ia-white: #FAFBFF;
+  --ia-surface: #F5F4FB;
+  --ia-fg-primary: #0C0C0C;
+  --ia-fg-secondary: rgba(0,0,0,0.6);
+  --ia-fg-tertiary: rgba(0,0,0,0.5);
+  --ia-fg-muted: rgba(0,0,0,0.4);
+  --ia-border: rgba(0,0,0,0.05);
+  --ia-border-soft: rgba(0,0,0,0.04);
+  --ia-red: #dc2626;
+  --ia-green: #22C55E;
+  --ia-orange: #F59E0B;
+  --ia-font-display: 'Inter', -apple-system, sans-serif;
+  --ia-font-body: 'Inter', -apple-system, sans-serif;
+  --shadow-sm: 0 2px 8px hsl(250 30% 30% / 0.04);
+  --shadow-md: 0 4px 16px hsl(250 30% 30% / 0.08);
+  --shadow-lg: 0 8px 32px hsl(250 30% 30% / 0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ia-font-body);margin:0;padding:0}
+body{background:#000}
+
+/* Scale container */
+.scale-container{
+  width:100vw;height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.slides-wrapper{
+  width:1920px;height:1080px;
+  position:relative;
+  transform-origin:center center;
+  flex-shrink:0;
+}
+
+/* Slide structure - each section is positioned absolutely, only active one shown */
+section{
+  position:absolute;top:0;left:0;
+  width:1920px;height:1080px;
+  display:none;flex-direction:column;
+  overflow:hidden;
+}
+section[data-deck-active]{display:flex}
+
+/* Navigation UI */
+.nav-bar{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:12px;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);
+  padding:10px 16px;border-radius:999px;
+  z-index:1000;
+}
+.nav-btn{
+  width:36px;height:36px;border:none;background:rgba(255,255,255,0.1);
+  color:#fff;cursor:pointer;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.nav-btn:hover{background:rgba(255,255,255,0.2)}
+.nav-btn:disabled{opacity:0.3;cursor:not-allowed}
+.slide-counter{
+  font:600 13px var(--ia-font-body);color:#fff;
+  padding:0 12px;letter-spacing:0.05em;
+  min-width:60px;text-align:center;
+}
+.fs-btn{
+  position:fixed;top:24px;right:24px;
+  width:40px;height:40px;border:none;
+  background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);
+  color:#fff;cursor:pointer;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  z-index:1000;transition:background .2s;
+}
+.fs-btn:hover{background:rgba(0,0,0,0.85)}
+.light{background:var(--ia-white);color:var(--ia-black)}
+.dark{background:#0a0a14;color:#fff}
+
+/* Grid + ambient */
+.grid{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,0,0,.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,0,0,.02) 1px,transparent 1px);
+  background-size:100px 100px;
+}
+.dark .grid{
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+}
+.ambient{position:absolute;inset:0;z-index:0;pointer-events:none}
+.light .ambient::before{content:none}
+.dark .ambient::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(900px 700px at 50% 70%, rgba(0,128,255,0.18), transparent 60%),
+    radial-gradient(700px 500px at 90% 0%, rgba(0,128,255,0.06), transparent 55%);
+}
+
+/* Inner content */
+.inner{flex:1;padding:80px 120px;position:relative;z-index:2;display:flex;flex-direction:column}
+.foot{
+  padding:20px 120px;font:500 12px var(--ia-font-body);z-index:2;
+  display:flex;justify-content:space-between;color:var(--ia-fg-muted);
+}
+.dark .foot{color:rgba(255,255,255,0.25)}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:translateX(0)}}
+[data-deck-active] .a1{animation:fadeUp .7s cubic-bezier(0.16,1,0.3,1) .05s both}
+[data-deck-active] .a2{animation:fadeUp .7s cubic-bezier(0.16,1,0.3,1) .2s both}
+[data-deck-active] .a3{animation:fadeUp .7s cubic-bezier(0.16,1,0.3,1) .35s both}
+[data-deck-active] .a4{animation:fadeUp .7s cubic-bezier(0.16,1,0.3,1) .5s both}
+[data-deck-active] .a5{animation:fadeUp .7s cubic-bezier(0.16,1,0.3,1) .65s both}
+[data-deck-active] .a6{animation:fadeUp .7s cubic-bezier(0.16,1,0.3,1) .8s both}
+[data-deck-active] .a7{animation:fadeUp .7s cubic-bezier(0.16,1,0.3,1) .95s both}
+[data-deck-active] .a8{animation:fadeUp .7s cubic-bezier(0.16,1,0.3,1) 1.1s both}
+/* Substep support: hide until revealed */
+[data-substep]{
+  opacity:0 !important;
+  transform:translateX(-60px) !important;
+  pointer-events:none;
+}
+[data-substep].substep-visible{
+  opacity:1 !important;
+  transform:translateX(0) !important;
+  pointer-events:auto;
+  animation:slideInLeft .8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+/* Pill badge */
+.pill{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:10px 18px;
+  border:1px solid var(--ia-blue-border);
+  background:var(--ia-blue-light);
+  font:600 13px var(--ia-font-body);
+  letter-spacing:.3em;text-transform:uppercase;
+  color:var(--ia-blue);
+}
+.pill .dot{width:6px;height:6px;background:var(--ia-blue);border-radius:50%}
+
+/* Typography utilities */
+.eyebrow{
+  font:600 13px var(--ia-font-body);
+  letter-spacing:.3em;text-transform:uppercase;
+  color:var(--ia-fg-muted);
+}
+h1{font:800 96px/1.02 var(--ia-font-body);letter-spacing:-0.025em;color:var(--ia-black)}
+h2{font:800 68px/1.05 var(--ia-font-body);letter-spacing:-0.025em;color:var(--ia-black)}
+h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-black)}
+.dark h1,.dark h2,.dark h3{color:#fff}
+.serif-italic{font-family:var(--ia-font-body);font-style:normal;font-weight:700;color:var(--ia-blue)}
+.blue{color:var(--ia-blue)}
+.red{color:var(--ia-red)}
+.green{color:var(--ia-green)}
+.orange{color:var(--ia-orange)}
+
+/* Card styles */
+.card{
+  background:#fff;
+  border:1px solid var(--ia-border);
+  padding:36px 32px;
+  display:flex;flex-direction:column;gap:16px;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.stat-card{
+  background:#fff;
+  border:1px solid var(--ia-border);
+  padding:28px 32px;
+  display:flex;align-items:center;gap:20px;
+}
+.icon-wrap{
+  width:56px;height:56px;
+  border-radius:50%;
+  background:var(--ia-blue-light);
+  border:1px solid var(--ia-blue-border);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.icon-wrap svg{width:28px;height:28px;color:var(--ia-blue);stroke-width:1.5}
+
+/* Chapter slide specific */
+.chapter-num{
+  position:absolute;right:-20px;bottom:-80px;
+  font:900 420px/1 var(--ia-font-body);
+  color:rgba(255,255,255,0.025);
+  letter-spacing:-0.06em;z-index:0;
+  pointer-events:none;user-select:none;
+}
+.chapter-bar{
+  width:52px;height:4px;
+  background:var(--ia-blue);
+  margin-top:20px;
+}
+</style>
+</head>
+<body>
+<div class="scale-container" id="scaleContainer">
+<div class="slides-wrapper" id="slidesWrapper">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 01 — TITEL
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="01 Titel">
+  <div class="grid"></div>
+
+  <div class="inner" style="justify-content:center;gap:52px">
+
+    <!-- Eyebrow -->
+    <div class="a1">
+      <div class="eyebrow">Business Beats · KI Power Hour 2026</div>
+    </div>
+
+    <!-- Haupttitel -->
+    <div class="a2" style="max-width:1400px">
+      <h1 style="font-size:96px;line-height:1.04;letter-spacing:-0.03em">
+        Social Media als Makler.<br>
+        Was KI möglich macht,<br>
+        <span class="serif-italic">und was nicht.</span>
+      </h1>
+    </div>
+
+    <!-- Author -->
+    <div class="a3" style="display:flex;align-items:center;gap:20px">
+      <span style="font:500 22px/1 var(--ia-font-body);color:var(--ia-fg-secondary)">Rafael Kietaibl</span>
+      <span style="width:4px;height:4px;background:var(--ia-border);display:inline-block"></span>
+      <span style="font:600 22px/1 var(--ia-font-body);color:var(--ia-blue)">immoautomation.at</span>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span>Rafael Kietaibl · immoautomation.at</span>
+    <span>01</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 02 — KI STATS (NEU: Noch mehr Impact!)
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="02 KI Stats">
+  <div class="grid"></div>
+
+  <div class="inner" style="gap:64px">
+    <!-- Opener -->
+    <div class="a1" style="text-align:center">
+      <div class="eyebrow" style="margin-bottom:24px">Metricool Report 2025</div>
+      <h2 style="font-size:76px;line-height:1.1">
+        KI hat Social Media <span class="serif-italic">übernommen.</span>
+      </h2>
+      <p style="font:400 24px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary);margin-top:24px">
+        Das ist nicht die Zukunft. Das ist jetzt.
+      </p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;max-width:1400px;margin:0 auto;width:100%">
+
+      <!-- Hero stat 96% - SPAN 2 -->
+      <div class="a2" style="grid-column:span 2;background:#fff;border:1px solid var(--ia-border);padding:64px 72px;display:flex;align-items:center;gap:56px">
+        <div style="font:700 180px/1 var(--ia-font-body);letter-spacing:-0.05em;color:var(--ia-blue);flex-shrink:0">96%</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="font:700 42px/1.15 var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.02em">nutzen KI für Content</div>
+          <div style="font:400 22px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
+            davon <strong style="color:var(--ia-black);font-weight:600">72% täglich</strong>, nicht gelegentlich.
+          </div>
+        </div>
+      </div>
+
+      <!-- +21% Instagram -->
+      <div class="a3" style="background:#fff;border:1px solid var(--ia-border);padding:48px 40px;display:flex;flex-direction:column;gap:16px;justify-content:center">
+        <div style="font:700 96px/1 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-green)">+21%</div>
+        <div style="font:500 20px/1.4 var(--ia-font-body);color:var(--ia-fg-secondary)">mehr Instagram-Posts in 12 Monaten</div>
+      </div>
+
+      <!-- 40% Facebook -->
+      <div class="a4" style="background:#fff;border:1px solid var(--ia-border);padding:48px 40px;display:flex;flex-direction:column;gap:16px;justify-content:center">
+        <div style="font:700 96px/1 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-blue)">40%</div>
+        <div style="font:500 20px/1.4 var(--ia-font-body);color:var(--ia-fg-secondary)">der Facebook-Posts KI-generiert</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>Metricool Social Media Report 2025</span>
+    <span>02</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 03 — REICHWEITE PARADOX
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="03 Reichweite">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="justify-content:center;align-items:center;gap:48px">
+    <div class="a1" style="text-align:center">
+      <div class="eyebrow" style="margin-bottom:16px">Die Konsequenz</div>
+      <h2>Mehr Beiträge. <span class="red">Weniger Reichweite.</span></h2>
+    </div>
+    
+    <!-- Paradox: +21% → –31% -->
+    <div class="a3" style="display:grid;grid-template-columns:1fr 80px 1fr;gap:0;max-width:1400px;width:100%;background:#fff;border:1px solid var(--ia-border);overflow:hidden">
+      <!-- Left: +21% -->
+      <div style="padding:56px 48px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
+        <div class="eyebrow">Instagram Posts 2024 → 2025</div>
+        <div style="font:900 120px/1 var(--ia-font-body);letter-spacing:-0.05em;color:var(--ia-black)">+21%</div>
+        <div style="font:400 16px var(--ia-font-body);color:var(--ia-fg-secondary)">mehr Beiträge veröffentlicht</div>
+      </div>
+      
+      <!-- Arrow -->
+      <div style="background:rgba(220,38,38,0.03);border-left:1px solid var(--ia-border);border-right:1px solid var(--ia-border);display:flex;align-items:center;justify-content:center">
+        <svg width="32" height="20" viewBox="0 0 32 20" fill="none">
+          <path d="M0 10 L28 10 M20 3 L28 10 L20 17" stroke="rgba(220,38,38,0.5)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      
+      <!-- Right: –31% -->
+      <div style="padding:56px 48px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:linear-gradient(135deg,rgba(220,38,38,0.04),rgba(220,38,38,0.08))">
+        <div class="eyebrow red">Organische Reichweite</div>
+        <div style="font:900 120px/1 var(--ia-font-body);letter-spacing:-0.05em;color:var(--ia-red)">–31%</div>
+        <div style="font:400 16px var(--ia-font-body);color:var(--ia-fg-secondary)">Reichweite pro Beitrag gesunken</div>
+      </div>
+    </div>
+    
+    <!-- Quote -->
+    <p class="a4 serif-italic" style="font-size:22px;color:var(--ia-fg-muted);text-align:center">
+      Der Algorithmus entscheidet. Nicht mehr eure Follower.
+    </p>
+  </div>
+  
+  <div class="foot">
+    <span>Metricool · Socialinsider · Meta</span>
+    <span>03</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 04 — KAPITEL 01
+════════════════════════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="04 Kapitel 1">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  <div class="chapter-num">01</div>
+  
+  <div class="inner" style="justify-content:center;gap:20px">
+    <div class="eyebrow a1" style="color:rgba(255,255,255,0.3)">Kapitel 01</div>
+    <h1 class="a2">Wer steckt<br>dahinter?</h1>
+    <div class="chapter-bar a3"></div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>04</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 05 — ÜBER MICH (Timeline)
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="05 Über mich">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="flex-direction:row;gap:80px;padding:80px 120px">
+    <!-- Left: Identity -->
+    <div class="a1" style="flex:0 0 360px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px;background:#fff;padding:56px 40px;border:1px solid var(--ia-border)">
+      <img id="rafaelPhoto1Img" style="width:140px;height:140px;border-radius:50%;object-fit:cover;border:3px solid var(--ia-blue);box-shadow:0 8px 24px rgba(0,128,255,.2)">
+      <script>document.getElementById('rafaelPhoto1Img').src = window.__resources?.rafaelPhoto1 || 'uploads/rafael-photo-4e40c627.png';</script>
+      <div>
+        <div style="font:900 32px var(--ia-font-body);color:var(--ia-black);margin-bottom:8px">Rafael Kietaibl</div>
+        <div style="font:400 16px var(--ia-font-body);color:var(--ia-fg-secondary)">immoautomation.at</div>
+      </div>
+      <div class="pill">Der rote Faden: Social Media</div>
+    </div>
+    
+    <!-- Right: Timeline -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:48px">
+      <!-- Step 1 -->
+      <div class="a3" style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0">
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--ia-blue-light);border:2px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;font:700 16px var(--ia-font-body);color:var(--ia-blue)">01</div>
+          <div style="width:2px;height:48px;background:var(--ia-border);margin-top:8px"></div>
+        </div>
+        <div style="padding-top:8px">
+          <div class="eyebrow" style="margin-bottom:8px">E-Commerce</div>
+          <div style="font:800 24px var(--ia-font-body);color:var(--ia-black);margin-bottom:6px">Mehrere Shops aufgebaut & verkauft</div>
+          <div style="font:400 16px var(--ia-font-body);color:var(--ia-fg-secondary)">Wachstum 100% über Social Media</div>
+        </div>
+      </div>
+      
+      <!-- Step 2 -->
+      <div class="a4" style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0">
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--ia-blue-light);border:2px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;font:700 16px var(--ia-font-body);color:var(--ia-blue)">02</div>
+          <div style="width:2px;height:48px;background:var(--ia-border);margin-top:8px"></div>
+        </div>
+        <div style="padding-top:8px">
+          <div class="eyebrow" style="margin-bottom:8px">Social Media Agentur</div>
+          <div style="font:800 24px var(--ia-font-body);color:var(--ia-black);margin-bottom:6px"><span class="blue">€4 Mio.</span> Werbebudget für Kunden</div>
+          <div style="font:400 16px var(--ia-font-body);color:var(--ia-fg-secondary)">Tausende Kampagnen — was funktioniert, was nicht</div>
+        </div>
+      </div>
+      
+      <!-- Step 3 -->
+      <div class="a5" style="display:flex;gap:28px;align-items:flex-start">
+        <div style="flex-shrink:0">
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--ia-blue);display:flex;align-items:center;justify-content:center;font:700 16px var(--ia-font-body);color:#fff">03</div>
+        </div>
+        <div style="padding-top:8px">
+          <div class="eyebrow blue" style="margin-bottom:8px">immoautomation</div>
+          <div style="font:800 24px var(--ia-font-body);color:var(--ia-black);margin-bottom:6px">Software die Maklern das <span class="blue">Posten vereinfacht</span></div>
+          <div style="font:400 16px var(--ia-font-body);color:var(--ia-fg-secondary)">Wieder Social Media — diesmal für euch</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>05</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 06 — KAPITEL 02
+════════════════════════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="06 Kapitel 2">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  <div class="chapter-num">02</div>
+  
+  <div class="inner" style="justify-content:center;gap:20px">
+    <div class="eyebrow a1" style="color:rgba(255,255,255,0.3)">Kapitel 02</div>
+    <h1 class="a2">Wie wird KI<br><span class="blue">genutzt?</span></h1>
+    <div class="chapter-bar a3"></div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>06</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 07 — KI NUTZUNG (mit Substeps)
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="07 KI Nutzung" data-substeps="4">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="gap:48px;padding:80px 120px">
+    <div style="text-align:center">
+      <div class="eyebrow" style="margin-bottom:16px">KI & Social Media 2025</div>
+      <h2 style="font-size:72px">So wird KI für Social Media <span class="blue">eingesetzt.</span></h2>
+    </div>
+    
+    <div style="flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:28px;max-width:1200px;margin:0 auto">
+      <!-- Texte & Captions -->
+      <div data-substep="1" style="padding:56px 44px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04)">
+        <div style="width:96px;height:96px;border-radius:50%;background:var(--ia-blue-light);border:1px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center">
+          <span style="font-size:56px;line-height:1">💬</span>
+        </div>
+        <div>
+          <div style="font:800 28px var(--ia-font-body);color:var(--ia-black);margin-bottom:10px">Texte & Captions</div>
+          <div style="font:400 17px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5">KI schreibt den ersten Entwurf — ihr verfeinert ihn.</div>
+        </div>
+      </div>
+      
+      <!-- Bilder & Grafiken -->
+      <div data-substep="2" style="padding:56px 44px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04)">
+        <div style="width:96px;height:96px;border-radius:50%;background:var(--ia-blue-light);border:1px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center">
+          <span style="font-size:56px;line-height:1">🖼️</span>
+        </div>
+        <div>
+          <div style="font:800 28px var(--ia-font-body);color:var(--ia-black);margin-bottom:10px">Bilder & Grafiken</div>
+          <div style="font:400 17px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5">Visuals erstellen ohne Designerin — oder Vorlagen anpassen.</div>
+        </div>
+      </div>
+      
+      <!-- Reels & Kurzvideos -->
+      <div data-substep="3" style="padding:56px 44px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04)">
+        <div style="width:96px;height:96px;border-radius:50%;background:var(--ia-blue-light);border:1px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center">
+          <span style="font-size:56px;line-height:1">🎬</span>
+        </div>
+        <div>
+          <div style="font:800 28px var(--ia-font-body);color:var(--ia-black);margin-bottom:10px">Reels & Kurzvideos</div>
+          <div style="font:400 17px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5">Schneiden, untertiteln, optimieren — in einem Bruchteil der Zeit.</div>
+        </div>
+      </div>
+      
+      <!-- Ideen & Sparring -->
+      <div data-substep="4" style="padding:56px 44px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04)">
+        <div style="width:96px;height:96px;border-radius:50%;background:var(--ia-blue-light);border:1px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center">
+          <span style="font-size:56px;line-height:1">💡</span>
+        </div>
+        <div>
+          <div style="font:800 28px var(--ia-font-body);color:var(--ia-black);margin-bottom:10px">Ideen & Sparring</div>
+          <div style="font:400 17px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5">KI als Denkpartner für Themen, Planung und Strategie.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>07</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 08 — DIE 3 STUFEN
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="08 3 Stufen">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="gap:48px;padding:100px 120px">
+    <div style="text-align:center">
+      <div class="eyebrow a1" style="margin-bottom:16px">Wo wir stehen</div>
+      <h2 class="a2" style="font-size:72px">Wir bewegen uns durch <span class="blue">3 Stufen.</span></h2>
+    </div>
+    
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:60px;max-width:1500px;margin:0 auto">
+      <!-- Stufe 1 -->
+      <div class="a3" data-pptx-animation="fade" data-pptx-delay="0" style="flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px;padding:48px 40px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04)">
+        <div style="width:100px;height:100px;border-radius:50%;background:rgba(0,0,0,0.04);border:2px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center">
+          <span style="font:900 40px var(--ia-font-body);color:rgba(0,0,0,0.25)">1</span>
+        </div>
+        <div>
+          <div style="font:700 14px var(--ia-font-body);letter-spacing:.22em;text-transform:uppercase;color:var(--ia-fg-muted);margin-bottom:12px">Alles manuell</div>
+          <div style="font:700 28px var(--ia-font-body);color:var(--ia-black);margin-bottom:16px">Jeder Schritt<br>von Hand</div>
+          <!-- Emoji-Flow größer -->
+          <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:8px">
+            <div style="font-size:36px;line-height:1">📷</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(0,0,0,0.15)">→</div>
+            <div style="font-size:36px;line-height:1">✍️</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(0,0,0,0.15)">→</div>
+            <div style="font-size:36px;line-height:1">📤</div>
+          </div>
+        </div>
+        <div style="font:400 15px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5;padding:0 12px">
+          Fotos machen, Text schreiben, manuell posten — alles Handarbeit.
+        </div>
+      </div>
+      
+      <!-- Stufe 2 — AKTIV -->
+      <div class="a4" data-pptx-animation="fade" data-pptx-delay="400" style="flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px;padding:48px 40px;background:linear-gradient(135deg, var(--ia-blue) 0%, #0066CC 100%);border:1.5px solid var(--ia-blue);box-shadow:0 8px 32px rgba(0,128,255,.25);position:relative">
+        <div style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);white-space:nowrap;font:700 12px var(--ia-font-body);color:var(--ia-blue);background:#fff;border:1.5px solid var(--ia-blue);padding:6px 16px;letter-spacing:.14em;text-transform:uppercase">📍 Wir sind hier</div>
+        <div style="width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center">
+          <span style="font:900 40px var(--ia-font-body);color:#fff">2</span>
+        </div>
+        <div>
+          <div style="font:700 14px var(--ia-font-body);letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:12px">Tools als Werkzeuge</div>
+          <div style="font:700 28px var(--ia-font-body);color:#fff;margin-bottom:16px">KI-Tools<br>parallel nutzen</div>
+          <!-- Emoji-Flow größer -->
+          <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:8px">
+            <div style="font-size:36px;line-height:1">🛠️</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(255,255,255,0.3)">+</div>
+            <div style="font-size:36px;line-height:1">🛠️</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(255,255,255,0.3)">+</div>
+            <div style="font-size:36px;line-height:1">🛠️</div>
+          </div>
+        </div>
+        <div style="font:400 15px var(--ia-font-body);color:rgba(255,255,255,0.85);line-height:1.5;padding:0 12px">
+          ChatGPT für Text, Canva für Design, manuell zusammenführen.
+        </div>
+      </div>
+      
+      <!-- Stufe 3 -->
+      <div class="a5" data-pptx-animation="fade" data-pptx-delay="800" style="flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px;padding:48px 40px;background:#fff;border:2px dashed rgba(0,128,255,0.25);box-shadow:0 2px 8px rgba(26,26,46,.04)">
+        <div style="width:100px;height:100px;border-radius:50%;background:rgba(245,158,11,0.08);border:2px dashed rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center">
+          <span style="font:900 40px var(--ia-font-body);color:var(--ia-orange)">3</span>
+        </div>
+        <div>
+          <div style="font:700 14px var(--ia-font-body);letter-spacing:.22em;text-transform:uppercase;color:var(--ia-orange);margin-bottom:12px">Agentic AI</div>
+          <div style="font:700 28px var(--ia-font-body);color:var(--ia-black);margin-bottom:16px">Agenten<br>koordinieren sich</div>
+          <!-- Emoji-Flow größer -->
+          <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:8px">
+            <div style="font-size:36px;line-height:1">🤖</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(0,0,0,0.15)">↔</div>
+            <div style="font-size:36px;line-height:1">🤖</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(0,0,0,0.15)">↔</div>
+            <div style="font-size:36px;line-height:1">🤖</div>
+          </div>
+        </div>
+        <div style="font:400 15px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5;padding:0 12px">
+          Das System plant, recherchiert und erstellt — ihr gebt nur das Ziel vor.
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>08</span>
+  </div>
+</section>
+
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 09 — KAPITEL 03
+════════════════════════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="09 Kapitel 3">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  <div class="chapter-num">03</div>
+  
+  <div class="inner" style="justify-content:center;gap:20px">
+    <div class="eyebrow a1" style="color:rgba(255,255,255,0.3)">Kapitel 03</div>
+    <h1 class="a2">Was kommt als<br><span class="blue">Nächstes?</span></h1>
+    <div class="chapter-bar a3"></div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>09</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 10 — AGENTIC AI (Konzept-Intro)
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="10 Agentic AI">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <style>
+    /* Agent Network Visualization - Horizontal */
+    .agent-network {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 0 auto 20px;
+    }
+    .agent-node {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    
+    .agent-arrow {
+      font: 900 20px var(--ia-font-body);
+      color: rgba(255,255,255,0.3);
+    }
+    
+    [data-deck-active] .agent-node {
+      animation: agentNodePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    [data-deck-active] .agent-arrow {
+      animation: agentArrowFade 0.4s ease-out forwards;
+      opacity: 0;
+    }
+    [data-deck-active] .agent-node:nth-child(1) { animation-delay: 0.5s; }
+    [data-deck-active] .agent-arrow:nth-child(2) { animation-delay: 0.7s; }
+    [data-deck-active] .agent-node:nth-child(3) { animation-delay: 0.75s; }
+    [data-deck-active] .agent-arrow:nth-child(4) { animation-delay: 0.95s; }
+    [data-deck-active] .agent-node:nth-child(5) { animation-delay: 1s; }
+    
+    @keyframes agentNodePop {
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes agentArrowFade {
+      to { opacity: 1; }
+    }
+  </style>
+  
+  <div class="inner" style="gap:48px;padding:100px 120px">
+    <!-- Header -->
+    <div style="text-align:center">
+      <div class="pill a1 blue" style="margin-bottom:16px">
+        <span style="width:8px;height:8px;background:var(--ia-blue);border-radius:50%;box-shadow:0 0 12px var(--ia-blue)"></span>
+        AGENTIC AI
+      </div>
+      <h2 class="a2" style="font-size:72px;line-height:1.1;letter-spacing:-0.02em;margin-bottom:16px">
+        Aufgaben delegieren<br>statt <span class="blue">Tools bedienen.</span>
+      </h2>
+      <p class="a3" style="font:400 20px var(--ia-font-body);color:var(--ia-fg-secondary);max-width:800px;margin:0 auto">
+        Mehrere Agenten koordinieren sich — wie ein Team von Mitarbeitern.
+      </p>
+    </div>
+    
+    <!-- 3 Cards -->
+    <div style="flex:1;display:flex;gap:40px;align-items:center;justify-content:center;max-width:1300px;margin:0 auto">
+      <!-- Card 1: Du delegierst -->
+      <div class="a4" style="flex:1;padding:40px 32px;display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04)">
+        <div style="width:72px;height:72px;border-radius:50%;background:rgba(0,128,255,0.08);border:2px solid rgba(0,128,255,0.15);display:flex;align-items:center;justify-content:center;font-size:38px">💬</div>
+        <div>
+          <div style="font:700 26px var(--ia-font-body);color:var(--ia-black);text-align:center;line-height:1.2;margin-bottom:10px">Du delegierst</div>
+          <div style="font:400 15px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary);text-align:center">Ein Satz reicht. Kein Tool öffnen, kein Briefing schreiben.</div>
+        </div>
+      </div>
+      
+      <!-- Card 2: Agenten koordinieren (highlighted mit Network Visual) -->
+      <div class="a5" style="flex:1;padding:40px 32px;display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;background:linear-gradient(135deg, var(--ia-blue) 0%, #0066CC 100%);border:2px solid var(--ia-blue);box-shadow:0 12px 40px rgba(0,128,255,.3);position:relative;overflow:hidden">
+        <!-- Decorative corner accent -->
+        <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:rgba(255,255,255,0.08);border-radius:50%;pointer-events:none"></div>
+        <div style="position:absolute;bottom:-30px;left:-30px;width:100px;height:100px;background:rgba(255,255,255,0.06);border-radius:50%;pointer-events:none"></div>
+        
+        <!-- Agent Network Visual - Horizontal -->
+        <div class="agent-network">
+          <div class="agent-node">🤖</div>
+          <div class="agent-arrow">↔</div>
+          <div class="agent-node">🤖</div>
+          <div class="agent-arrow">↔</div>
+          <div class="agent-node">🤖</div>
+        </div>
+        <div style="position:relative;z-index:1">
+          <div style="font:700 26px var(--ia-font-body);color:#fff;text-align:center;line-height:1.2;margin-bottom:10px">Agenten koordinieren sich</div>
+          <div style="font:400 15px/1.5 var(--ia-font-body);color:rgba(255,255,255,0.9);text-align:center">Jeder hat seine Rolle, sie sprechen sich ab — wie ein eingespieltes Team.</div>
+        </div>
+      </div>
+      
+      <!-- Card 3: Ergebnis -->
+      <div class="a6" style="flex:1;padding:40px 32px;display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04)">
+        <div style="width:72px;height:72px;border-radius:50%;background:rgba(16,185,129,0.08);border:2px solid rgba(16,185,129,0.2);display:flex;align-items:center;justify-content:center;font-size:38px">✅</div>
+        <div>
+          <div style="font:700 26px var(--ia-font-body);color:var(--ia-black);text-align:center;line-height:1.2;margin-bottom:10px">Du bekommst das Ergebnis</div>
+          <div style="font:400 15px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary);text-align:center">Einsatzbereit — kein Tool-Output, sondern fertige Arbeit.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>10</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 09 — MAKLER PERFEKT VORBEREITET
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="11 Makler vorbereitet">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="gap:48px;padding:80px 120px">
+    <div style="text-align:center">
+      <div class="pill a1 green" style="border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.08);color:var(--ia-green);margin-bottom:20px">
+        <span style="width:8px;height:8px;background:var(--ia-green);border-radius:50%;box-shadow:0 0 12px var(--ia-green)"></span>
+        DIE GUTE NACHRICHT
+      </div>
+      
+      <h2 class="a2" style="font-size:84px;line-height:1.02;letter-spacing:-0.025em;max-width:none;margin-bottom:24px">
+        Makler sind <span class="blue">perfekt vorbereitet.</span>
+      </h2>
+      
+      <p class="a3" style="font:400 20px var(--ia-font-body);color:var(--ia-fg-secondary);max-width:800px;margin:0 auto">
+        Ihr habt was KI braucht: <strong style="color:var(--ia-black)">Struktur, lokale Expertise und kontinuierlich neue Themen.</strong>
+      </p>
+    </div>
+    
+    <!-- Four reasons grid -->
+    <div style="margin-top:auto;margin-bottom:20px;display:flex;flex-direction:column;align-items:center;gap:0">
+      <div style="width:100%;max-width:1400px;display:grid;grid-template-columns:repeat(2,1fr);gap:24px">
+        
+        <!-- Reason 1 -->
+        <div class="a4" style="padding:40px 36px;display:flex;align-items:center;gap:24px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04);transition:transform .3s ease">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--ia-blue-light);border:1px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:36px">🏘️</div>
+          <div style="flex:1">
+            <div style="font:800 24px var(--ia-font-body);color:var(--ia-black);margin-bottom:8px">Strukturierte Objektdaten</div>
+            <div style="font:400 16px var(--ia-font-body);color:var(--ia-fg-secondary)">Preis, Fläche, Lage — immer gleich aufgebaut. KI liebt Struktur.</div>
+          </div>
+        </div>
+        
+        <!-- Reason 2 -->
+        <div class="a5" style="padding:40px 36px;display:flex;align-items:center;gap:24px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04);transition:transform .3s ease">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--ia-blue-light);border:1px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:36px">📍</div>
+          <div style="flex:1">
+            <div style="font:800 24px var(--ia-font-body);color:var(--ia-black);margin-bottom:8px">Klare Zielgruppe</div>
+            <div style="font:400 16px var(--ia-font-body);color:var(--ia-fg-secondary)">Lokal begrenzt, klar definiert — perfekt für den Algorithmus.</div>
+          </div>
+        </div>
+        
+        <!-- Reason 3 -->
+        <div class="a6" style="padding:40px 36px;display:flex;align-items:center;gap:24px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04);transition:transform .3s ease">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--ia-blue-light);border:1px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:36px">🏠</div>
+          <div style="flex:1">
+            <div style="font:800 24px var(--ia-font-body);color:var(--ia-black);margin-bottom:8px">Neues Objekt = Neuer Beitrag</div>
+            <div style="font:400 16px var(--ia-font-body);color:var(--ia-fg-secondary)">Jede Neuaufnahme ist ein fertiger Content-Anlass.</div>
+          </div>
+        </div>
+        
+        <!-- Reason 4 -->
+        <div class="a7" style="padding:40px 36px;display:flex;align-items:center;gap:24px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04);transition:transform .3s ease">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--ia-blue-light);border:1px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:36px">📊</div>
+          <div style="flex:1">
+            <div style="font:800 24px var(--ia-font-body);color:var(--ia-black);margin-bottom:8px">Ungenutztes Themenreservoir</div>
+            <div style="font:400 16px var(--ia-font-body);color:var(--ia-fg-secondary)">Marktberichte, Bewertungen, Alltag — wartet darauf genutzt zu werden.</div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <!-- CTA bar -->
+    <div class="a8" style="padding:24px 40px;background:var(--ia-blue);display:flex;align-items:center;justify-content:center;gap:16px;max-width:1000px;margin:0 auto;width:100%">
+      <span style="font-size:24px;color:rgba(255,255,255,0.5)">→</span>
+      <p style="font:600 20px var(--ia-font-body);color:#fff;text-align:center">
+        Ihr müsst es nur noch einsetzen.
+      </p>
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>11</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 12 — AGENTEN AUFGABEN (Übergang)
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="12 Agenten Aufgaben">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="justify-content:center;align-items:center;text-align:center;gap:32px;padding:120px">
+    <div class="pill a1 blue" style="margin-bottom:16px">
+      <span style="width:8px;height:8px;background:var(--ia-blue);border-radius:50%;box-shadow:0 0 12px var(--ia-blue)"></span>
+      AGENTIC AI
+    </div>
+    
+    <h2 class="a2" style="font-size:96px;line-height:1.02;letter-spacing:-0.03em;max-width:1400px">
+      Welche Aufgaben können solche<br><span class="blue">Agenten übernehmen?</span>
+    </h2>
+    
+    <p class="a3" style="font:400 24px var(--ia-font-body);color:var(--ia-fg-secondary);max-width:800px;margin-top:8px">
+      Ein Beispiel aus eurem Alltag.
+    </p>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>12</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 13 — SOCIAL MEDIA AGENTEN-SYSTEM (ANIMIERT)
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="13 Agenten System">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <style>
+    /* Slide 13 Animation Styles - Komplett neu */
+    .slide13-diagram { 
+      flex:1; 
+      display:flex; 
+      flex-direction:column; 
+      align-items:center; 
+      justify-content:center;
+      gap:0; 
+      position:relative; 
+      max-width:1400px; 
+      margin:0 auto; 
+      width:100%; 
+    }
+    
+    /* Mitarbeiter ganz oben */
+    .slide13-employee { 
+      display:flex; 
+      flex-direction:column; 
+      align-items:center; 
+      text-align:center; 
+      gap:12px; 
+      opacity:0; 
+      transform:translateY(-20px); 
+      z-index:10;
+    }
+    [data-deck-active] .slide13-employee {
+      animation:s13fadeIn 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s forwards; 
+    }
+    .slide13-employee-avatar { 
+      width:80px; 
+      height:80px; 
+      border-radius:50%; 
+      background:linear-gradient(135deg, #10b981 0%, #059669 100%); 
+      border:3px solid #10b981; 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      box-shadow:0 8px 24px rgba(16,185,129,.3); 
+      font-size:42px; 
+    }
+    
+    /* Verbindungslinie zum Social Media Agent */
+    .slide13-connector-top { 
+      width:3px; 
+      height:80px; 
+      background:linear-gradient(to bottom, #10b981, var(--ia-blue)); 
+      opacity:0; 
+      transform:scaleY(0); 
+      transform-origin:top; 
+      position:relative; 
+      margin:0;
+    }
+    [data-deck-active] .slide13-connector-top {
+      animation:s13expand 0.6s ease 0.8s forwards; 
+    }
+    
+    /* Datenpakete von Mitarbeiter zu Social Media Agent */
+    .slide13-packet-down { 
+      position:absolute; 
+      width:8px; 
+      height:8px; 
+      border-radius:50%; 
+      background:#10b981; 
+      box-shadow:0 0 10px rgba(16,185,129,0.8); 
+      left:50%; 
+      transform:translateX(-50%); 
+    }
+    [data-deck-active] .slide13-packet-down {
+      animation:s13flowDown 1.8s ease-in-out 1.6s infinite; 
+    }
+    @keyframes s13flowDown { 
+      0%{top:0;opacity:0;background:#10b981} 
+      10%{opacity:1} 
+      50%{background:var(--ia-blue)} 
+      90%{opacity:1;background:var(--ia-blue)} 
+      100%{top:100%;opacity:0;background:var(--ia-blue)} 
+    }
+    
+    /* Social Media Agent in der Mitte */
+    .slide13-agent { 
+      display:flex; 
+      flex-direction:column; 
+      align-items:center; 
+      text-align:center; 
+      gap:16px; 
+      position:relative; 
+      opacity:0; 
+      transform:scale(0.85); 
+      margin:0;
+      z-index:10;
+    }
+    [data-deck-active] .slide13-agent {
+      animation:s13pop 0.8s cubic-bezier(0.16,1,0.3,1) 1.2s forwards; 
+    }
+    .slide13-agent-avatar { 
+      width:110px; 
+      height:110px; 
+      border-radius:50%; 
+      background:linear-gradient(135deg, var(--ia-blue) 0%, #0066CC 100%); 
+      border:3px solid var(--ia-blue); 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      box-shadow:0 12px 40px rgba(0,128,255,.35); 
+      font-size:56px; 
+      position:relative; 
+    }
+    .slide13-glow { 
+      position:absolute; 
+      inset:-10px; 
+      border-radius:50%; 
+      background:radial-gradient(circle, rgba(0,128,255,0.4) 0%, transparent 70%); 
+      opacity:0; 
+    }
+    [data-deck-active] .slide13-glow {
+      animation:s13glow 2.5s ease-in-out 2.0s infinite; 
+    }
+    @keyframes s13glow { 
+      0%,100%{opacity:0;transform:scale(1)} 
+      50%{opacity:1;transform:scale(1.15)} 
+    }
+    
+    /* "Verteilt die Aufgaben" Text unter dem Agent */
+    .slide13-distributes {
+      font:700 16px var(--ia-font-body);
+      color:var(--ia-fg-secondary);
+      opacity:0;
+      margin-top:8px;
+    }
+    [data-deck-active] .slide13-distributes {
+      animation:s13fadeIn 0.5s ease 1.8s forwards;
+    }
+    
+    /* Verbindungslinien zu den drei Sub-Agenten */
+    .slide13-connector-bottom {
+      width:2px;
+      height:100px;
+      position:relative;
+      margin:20px 0 0 0;
+    }
+    
+    .slide13-lines-container {
+      position:absolute;
+      top:0;
+      left:50%;
+      transform:translateX(-50%);
+      width:900px;
+      height:100px;
+      pointer-events:none;
+    }
+    
+    .slide13-line { 
+      position:absolute; 
+      width:2px; 
+      height:0; 
+      background:var(--ia-blue); 
+      opacity:0; 
+      top:0;
+      transform-origin:top center; 
+    }
+    .slide13-line-l { 
+      left:calc(50% - 340px);
+    }
+    .slide13-line-c { 
+      left:50%;
+      transform:translateX(-50%);
+    }
+    [data-deck-active] .slide13-line-c { 
+      animation:s13lineGrow 0.8s ease 2.3s forwards; 
+    }
+    @keyframes s13lineGrow { 
+      to{
+        height:100px;
+        opacity:0.6;
+      } 
+    }
+    
+    /* Datenpakete die zu den Sub-Agenten fließen */
+    .slide13-packet { 
+      position:absolute; 
+      width:7px; 
+      height:7px; 
+      border-radius:50%; 
+      background:var(--ia-blue); 
+      box-shadow:0 0 10px rgba(0,128,255,0.8); 
+      opacity:0; 
+      top:0;
+    }
+    .slide13-packet-l { 
+      left:calc(50% - 340px);
+      transform:translateX(-50%);
+    }
+    .slide13-packet-c { 
+      left:50%;
+      transform:translateX(-50%);
+    }
+    [data-deck-active] .slide13-packet-c { 
+      animation:s13packetFlow 2.2s ease-in-out 3.4s infinite; 
+    }
+    @keyframes s13packetFlow { 
+      0%{top:0;opacity:0} 
+      5%{opacity:1} 
+      95%{opacity:1} 
+      100%{top:100px;opacity:0} 
+    }
+    
+    /* Drei Sub-Agenten unten */
+    .slide13-subs { 
+      display:flex; 
+      align-items:flex-start; 
+      gap:48px; 
+      justify-content:center; 
+      position:relative; 
+      margin-top:20px;
+    }
+    .slide13-sub { 
+      flex:1; 
+      max-width:280px; 
+      padding:28px 24px; 
+      display:flex; 
+      flex-direction:column; 
+      align-items:center; 
+      text-align:center; 
+      gap:12px; 
+      background:#fff; 
+      border:1px solid var(--ia-border); 
+      box-shadow:0 2px 8px rgba(26,26,46,.04); 
+      opacity:0; 
+      transform:translateY(30px); 
+    }
+    [data-deck-active] .slide13-sub:nth-child(2) { 
+      animation:s13slideUp 0.8s cubic-bezier(0.16,1,0.3,1) 3.2s forwards; 
+    }
+    .slide13-sub:nth-child(1),
+    .slide13-sub:nth-child(3) {
+      opacity:1;
+      transform:translateY(0);
+    }
+    .slide13-sub-icon { 
+      width:64px; 
+      height:64px; 
+      border-radius:50%; 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      font-size:36px; 
+    }
+    
+    /* Basis-Animationen */
+    @keyframes s13fadeIn { 
+      to{opacity:1;transform:translateY(0)} 
+    }
+    @keyframes s13slideUp { 
+      to{opacity:1;transform:translateY(0)} 
+    }
+    @keyframes s13pop { 
+      to{opacity:1;transform:scale(1)} 
+    }
+    @keyframes s13expand { 
+      to{opacity:1;transform:scaleY(1)} 
+    }
+  </style>
+  
+  <div class="inner" style="gap:48px;padding:80px 120px 60px 120px">
+    <div style="text-align:center">
+      <div class="eyebrow a1" style="margin-bottom:16px">Drei Agenten, ein Ziel</div>
+      <h2 class="a2" style="font-size:64px">Der <span class="blue">Social Media Agent</span> koordiniert.</h2>
+    </div>
+    
+    <div class="slide13-diagram">
+      <!-- Mitarbeiter ganz oben -->
+      <div class="slide13-employee">
+        <div class="slide13-employee-avatar">👤</div>
+        <div style="font:700 18px var(--ia-font-body);color:var(--ia-black)">Mitarbeiter</div>
+        <div style="font:600 13px var(--ia-font-body);color:var(--ia-fg-secondary);background:#fff;padding:5px 14px;border-radius:10px;border:1px solid var(--ia-border);margin-top:8px;opacity:0;animation:s13fadeIn 0.4s ease 1.0s forwards">💬 Input</div>
+      </div>
+      
+      <!-- Verbindungslinie mit Datenpaketen nach unten -->
+      <div class="slide13-connector-top">
+        <div class="slide13-packet-down"></div>
+      </div>
+      
+      <!-- Social Media Agent in der Mitte -->
+      <div class="slide13-agent">
+        <div class="slide13-agent-avatar">
+          <div class="slide13-glow"></div>
+          🤖
+        </div>
+        <div style="font:800 22px var(--ia-font-body);color:var(--ia-blue)">Social Media Agent</div>
+        <div class="slide13-distributes">📋 Verteilt die Aufgaben</div>
+      </div>
+      
+      <!-- Verbindungslinien zu den Sub-Agenten -->
+      <div class="slide13-connector-bottom">
+        <div class="slide13-lines-container">
+          <div class="slide13-line slide13-line-c"></div>
+          
+          <div class="slide13-packet slide13-packet-c"></div>
+        </div>
+      </div>
+      
+      <!-- Drei Sub-Agenten unten -->
+      <div class="slide13-subs">
+        <div class="slide13-sub">
+          <div class="slide13-sub-icon" style="background:rgba(139,92,246,0.1);border:2px solid rgba(139,92,246,0.3)">📊</div>
+          <div style="font:700 18px var(--ia-font-body);color:var(--ia-black)">Analyse Agent</div>
+          <div style="font:400 14px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5">Analysiert Zahlen & Performance</div>
+        </div>
+        
+        <div class="slide13-sub">
+          <div class="slide13-sub-icon" style="background:rgba(236,72,153,0.1);border:2px solid rgba(236,72,153,0.3)">🔍</div>
+          <div style="font:700 18px var(--ia-font-body);color:var(--ia-black)">Research Agent</div>
+          <div style="font:400 14px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5">Sucht passende Themen & Trends im Netz</div>
+        </div>
+        
+        <div class="slide13-sub">
+          <div class="slide13-sub-icon" style="background:rgba(245,158,11,0.1);border:2px solid rgba(245,158,11,0.3)">📅</div>
+          <div style="font:700 18px var(--ia-font-body);color:var(--ia-black)">Planungs Agent</div>
+          <div style="font:400 14px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5">Erstellt Content-Pläne & Posting-Strategie</div>
+        </div>
+      </div>
+      
+      <!-- Label unter allen drei Agenten -->
+      <div style="text-align:center;margin-top:32px;font:600 13px var(--ia-font-body);color:var(--ia-fg-secondary);background:#fff;padding:6px 16px;border-radius:10px;border:1px solid var(--ia-border);display:inline-block;opacity:0;animation:s13fadeIn 0.4s ease 3.8s forwards">⚡ Arbeitet die Aufgaben ab</div>
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>13</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 15 — USER FRAGT
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="15 User fragt">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="gap:48px;padding:80px 100px;justify-content:center">
+    <div style="text-align:center;margin-bottom:32px">
+      <div class="eyebrow a1" style="margin-bottom:16px">Das Gespräch beginnt</div>
+      <h2 class="a2" style="font-size:56px">Ihr redet. <span class="blue">Der Agent arbeitet.</span></h2>
+    </div>
+    
+    <div style="display:flex;gap:20px;align-items:flex-start;max-width:900px;margin:0 auto">
+      <img id="rafaelPhoto2Img1" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #10b981;box-shadow:0 6px 16px rgba(16,185,129,.25);flex-shrink:0" class="a3">
+      <script>document.getElementById('rafaelPhoto2Img1').src = window.__resources?.rafaelPhoto2 || 'uploads/rafael-photo.png';</script>
+      <div style="flex:1;padding:28px 32px;background:#fff;border:1.5px solid var(--ia-border);box-shadow:0 4px 16px rgba(26,26,46,.06);border-radius:16px" class="a4">
+        <div style="font:700 14px var(--ia-font-body);letter-spacing:.1em;text-transform:uppercase;color:#10b981;margin-bottom:14px">Rafael</div>
+        <div style="font:600 22px var(--ia-font-body);color:var(--ia-black);line-height:1.4">
+          "Ich brauche Content-Ideen für diese Woche. Fokus auf Wien 21. Bezirk."
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>15</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 16 — AGENT ZEIGT MÄRZ-POST
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="16 März Post">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="gap:48px;padding:80px 100px">
+    <div style="text-align:center">
+      <div class="eyebrow a1" style="margin-bottom:16px">Der Agent erinnert sich</div>
+      <h2 class="a2" style="font-size:56px">Letztes Mal hat <span class="blue">das gut funktioniert.</span></h2>
+    </div>
+    
+    <div style="flex:1;display:flex;gap:20px;align-items:flex-start;max-width:900px;margin:0 auto">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg, var(--ia-blue) 0%, #0066CC 100%);border:3px solid var(--ia-blue);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,128,255,.3);flex-shrink:0" class="a3">
+        <span style="font-size:36px;line-height:1">🤖</span>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:20px" class="a4">
+        <div style="padding:28px 32px;background:rgba(0,128,255,0.04);border:1.5px solid var(--ia-blue-border);border-radius:16px">
+          <div style="font:700 14px var(--ia-font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--ia-blue);margin-bottom:14px">Social Media Agent</div>
+          <div style="font:600 20px var(--ia-font-body);color:var(--ia-black);line-height:1.4">
+            "Im März hat das für Floridsdorf sehr gut funktioniert:"
+          </div>
+        </div>
+        
+        <div style="margin-left:20px;padding:28px;background:#fff;border:1.5px solid var(--ia-border);box-shadow:0 4px 16px rgba(26,26,46,.06)" class="a5">
+          <div style="font:700 13px var(--ia-font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--ia-fg-muted);margin-bottom:20px">📊 März 2025 — Wien 21. Bezirk (Floridsdorf)</div>
+          
+          <div style="padding:24px;background:var(--ia-blue-light);border:1.5px solid var(--ia-blue-border);margin-bottom:20px;border-radius:8px">
+            <div style="font:900 32px var(--ia-font-body);color:var(--ia-blue);margin-bottom:10px">+3,8%</div>
+            <div style="font:600 18px var(--ia-font-body);color:var(--ia-black);margin-bottom:6px">Marktentwicklung</div>
+            <div style="font:400 15px var(--ia-font-body);color:var(--ia-fg-secondary)">Kurzvideo, 45 Sek., Zahl im Thumbnail</div>
+          </div>
+          
+          <div style="display:flex;gap:32px">
+            <div>
+              <div style="font:800 28px var(--ia-font-body);color:var(--ia-black)">1.200</div>
+              <div style="font:400 13px var(--ia-font-body);color:var(--ia-fg-muted);text-transform:uppercase;letter-spacing:.05em">Aufrufe</div>
+            </div>
+            <div>
+              <div style="font:800 28px var(--ia-font-body);color:var(--ia-black)">84</div>
+              <div style="font:400 13px var(--ia-font-body);color:var(--ia-fg-muted);text-transform:uppercase;letter-spacing:.05em">Likes</div>
+            </div>
+            <div>
+              <div style="font:800 28px var(--ia-font-body);color:var(--ia-black)">12</div>
+              <div style="font:400 13px var(--ia-font-body);color:var(--ia-fg-muted);text-transform:uppercase;letter-spacing:.05em">Kommentare</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>16</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 17 — AGENT FRAGT
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="17 Agent fragt">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="gap:48px;padding:80px 100px;justify-content:center">
+    <div style="display:flex;gap:20px;align-items:flex-start;max-width:900px;margin:0 auto">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg, var(--ia-blue) 0%, #0066CC 100%);border:3px solid var(--ia-blue);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,128,255,.3);flex-shrink:0" class="a3">
+        <span style="font-size:36px;line-height:1">🤖</span>
+      </div>
+      <div style="flex:1;padding:32px 36px;background:linear-gradient(135deg, rgba(0,128,255,0.08) 0%, rgba(0,128,255,0.04) 100%);border:2px solid var(--ia-blue-border);border-radius:16px" class="a4">
+        <div style="font:700 14px var(--ia-font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--ia-blue);margin-bottom:16px">Social Media Agent</div>
+        <div style="font:600 26px var(--ia-font-body);color:var(--ia-black);line-height:1.3;margin-bottom:16px">
+          "Soll ich das für <strong style="color:var(--ia-blue)">Wien 21.</strong> genauso aufbauen?"
+        </div>
+        <div style="font:400 17px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5">
+          Gleiches Format, aktuelle Zahlen, fertig in ~45 Sekunden.
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>17</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 19 — USER BESTÄTIGT → AGENT ARBEITET
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="18 Agent arbeitet">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="gap:48px;padding:80px 100px">
+    <div style="text-align:center">
+      <div class="eyebrow a1" style="margin-bottom:16px">Der Agent erstellt</div>
+      <h2 class="a2" style="font-size:56px"><span class="blue">45 Sekunden</span> später...</h2>
+    </div>
+    
+    <div style="flex:1;display:flex;flex-direction:column;gap:28px;max-width:1000px;margin:0 auto">
+      
+      <!-- Message: User bestätigt -->
+      <div class="a3" style="display:flex;gap:20px;align-items:flex-start">
+        <img id="rafaelPhoto2Img2" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #10b981;box-shadow:0 4px 12px rgba(16,185,129,.2)">
+        <script>document.getElementById('rafaelPhoto2Img2').src = window.__resources?.rafaelPhoto2 || 'uploads/rafael-photo.png';</script>
+        <div style="flex:1;padding:24px 28px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04);border-radius:16px">
+          <div style="font:700 13px var(--ia-font-body);letter-spacing:.1em;text-transform:uppercase;color:#10b981;margin-bottom:12px">Sie</div>
+          <div style="font:600 20px var(--ia-font-body);color:var(--ia-black)">
+            "Ja, mach das."
+          </div>
+        </div>
+      </div>
+      
+      <!-- Message: Agent arbeitet -->
+      <div class="a4" style="display:flex;gap:20px;align-items:flex-start;margin-left:76px">
+        <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg, var(--ia-blue) 0%, #0066CC 100%);border:2px solid var(--ia-blue);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,128,255,.3);flex-shrink:0">
+          <span style="font-size:32px;line-height:1">🤖</span>
+        </div>
+        <div style="flex:1;padding:24px 28px;background:rgba(0,128,255,0.04);border:1.5px solid var(--ia-blue-border);border-radius:16px">
+          <div style="font:700 13px var(--ia-font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--ia-blue);margin-bottom:12px">Social Media Agent</div>
+          <div style="font:500 18px var(--ia-font-body);color:var(--ia-black);display:flex;align-items:center;gap:12px">
+            <div class="spinner" style="width:20px;height:20px;border:3px solid var(--ia-blue-light);border-top-color:var(--ia-blue);border-radius:50%;animation:spin 0.8s linear infinite"></div>
+            <span>"Arbeite daran — Post + Skript + Hashtags..."</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>17</span>
+  </div>
+</section>
+
+<style>
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 18 — FERTIGES ERGEBNIS (Instagram Hochformat + Skript)
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="19 Ergebnis">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="gap:48px;padding:80px 100px">
+    <div style="text-align:center">
+      <div class="eyebrow a1" style="margin-bottom:16px">45 Sekunden später</div>
+      <h2 class="a2" style="font-size:56px">Fertiges Posting. <span class="blue">Mit Skript.</span></h2>
+    </div>
+    
+    <div style="flex:1;display:flex;gap:60px;align-items:flex-start;max-width:1400px;margin:0 auto">
+      
+      <!-- Left: Instagram Post (9:16 Hochformat) - Kompaktes Mockup -->
+      <div class="a3" style="flex:0 0 300px">
+        <div style="background:#000;border-radius:28px;padding:8px;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+          <div style="background:#fff;border-radius:20px;overflow:hidden">
+            <!-- Header -->
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #e5e5e5">
+              <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg, var(--ia-blue) 0%, #0066CC 100%);display:flex;align-items:center;justify-content:center;color:#fff;font:700 10px var(--ia-font-body);flex-shrink:0">IM</div>
+              <div style="flex:1;min-width:0">
+                <div style="font:600 11px var(--ia-font-body);color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">ImmobilienMakler Wien</div>
+              </div>
+            </div>
+            
+            <!-- Post Image 9:16 -->
+            <div style="width:100%;height:420px;overflow:hidden">
+              <img src="social-post-final-blue.png" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            
+            <!-- Caption - Kurz -->
+            <div style="padding:10px 12px">
+              <div style="font:400 11px var(--ia-font-body);color:#000;line-height:1.4">
+                <strong>📍 Floridsdorf am Wachsen!</strong> Der 21. Bezirk legt um <strong>+1,6%</strong> zu 📈
+              </div>
+              <div style="font:400 9px var(--ia-font-body);color:#667eea;margin-top:6px">#wien21 #floridsdorf #immobilien</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="a4" style="flex:1;display:flex;flex-direction:column;gap:24px">
+        <div style="padding:28px 32px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04)">
+          <div style="font:700 14px var(--ia-font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--ia-blue);margin-bottom:20px">📹 Video-Skript (45 Sek.)</div>
+          
+          <div style="font:400 16px var(--ia-font-body);color:var(--ia-black);line-height:1.7">
+            <p style="margin:0 0 16px"><strong style="color:var(--ia-blue)">[0:00 - 0:08]</strong><br>"Marktupdate für den 21. Bezirk — die Zahlen sind da."</p>
+            <p style="margin:0 0 16px"><strong style="color:var(--ia-blue)">[0:08 - 0:20]</strong><br>"Plus 3,8 Prozent im Jahresvergleich. Floridsdorf bleibt stabil und gefragt."</p>
+            <p style="margin:0 0 16px"><strong style="color:var(--ia-blue)">[0:20 - 0:35]</strong><br>"Was heißt das für euch? Wer jetzt verkauft, trifft einen guten Zeitpunkt. Wer kauft, sollte schnell sein."</p>
+            <p style="margin:0"><strong style="color:var(--ia-blue)">[0:35 - 0:45]</strong><br>"Fragen? Schreibt mir. Ich begleite euch durch den Prozess."</p>
+          </div>
+        </div>
+        
+        <div style="padding:20px 28px;background:rgba(16,185,129,0.08);border:1.5px solid rgba(16,185,129,0.2);display:flex;align-items:center;gap:16px">
+          <span style="font-size:28px">⏱️</span>
+          <div>
+            <div style="font:700 18px var(--ia-font-body);color:var(--ia-black)">Erstellt in 45 Sekunden</div>
+            <div style="font:400 15px var(--ia-font-body);color:var(--ia-fg-secondary)">Post-Bild, Skript, Caption, Hashtags — komplett fertig.</div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>20</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 21 — ZWEI WOCHEN SPÄTER — PROAKTIV
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="20 Proaktiv">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="gap:48px;padding:80px 100px">
+    <div style="text-align:center">
+      <div class="pill a1 blue" style="margin-bottom:16px">
+        <span style="width:8px;height:8px;background:var(--ia-blue);border-radius:50%;box-shadow:0 0 12px var(--ia-blue)"></span>
+        ZWEI WOCHEN SPÄTER
+      </div>
+      <h2 class="a2" style="font-size:56px">Der Agent handelt <span class="blue">eigenständig.</span></h2>
+    </div>
+    
+    <div style="flex:1;display:flex;flex-direction:column;gap:32px;max-width:1000px;margin:0 auto">
+      
+      <!-- Agent meldet sich -->
+      <div class="a3" style="display:flex;gap:24px;align-items:flex-start">
+        <div style="flex-shrink:0;width:64px;height:64px;border-radius:50%;background:rgba(139,92,246,0.1);border:2px solid rgba(139,92,246,0.3);display:flex;align-items:center;justify-content:center">
+          <span style="font-size:36px;line-height:1">📊</span>
+        </div>
+        <div style="flex:1;padding:28px 32px;background:rgba(139,92,246,0.04);border:1.5px solid rgba(139,92,246,0.15)">
+          <div style="font:700 14px var(--ia-font-body);letter-spacing:.1em;text-transform:uppercase;color:#8b5cf6;margin-bottom:16px">Analyse Agent meldet sich unaufgefordert</div>
+          <div style="font:600 22px var(--ia-font-body);color:var(--ia-black);margin-bottom:16px">
+            "Die Marktentwicklungs-Posts performen <strong style="color:#8b5cf6">deutlich am besten</strong>."
+          </div>
+          <div style="font:400 17px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.6">
+            Durchschnittlich <strong>1.400 Aufrufe</strong>, <strong>12% Engagement</strong> — doppelt so gut wie andere Formate.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Vorschlag -->
+      <div class="a4" style="display:flex;gap:24px;align-items:flex-start;margin-left:88px">
+        <div style="flex-shrink:0;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg, var(--ia-blue) 0%, #0066CC 100%);border:3px solid var(--ia-blue);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,128,255,.3)">
+          <span style="font-size:36px;line-height:1">🤖</span>
+        </div>
+        <div style="flex:1;padding:28px 32px;background:linear-gradient(135deg, rgba(0,128,255,0.08) 0%, rgba(0,128,255,0.04) 100%);border:1.5px solid var(--ia-blue-border)">
+          <div style="font:700 14px var(--ia-font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--ia-blue);margin-bottom:16px">Social Media Agent schlägt vor</div>
+          <div style="font:600 22px var(--ia-font-body);color:var(--ia-black);margin-bottom:16px">
+            "Lass uns daraus ein <strong style="color:var(--ia-blue)">Format für alle Bezirke</strong> machen."
+          </div>
+          <div style="font:400 17px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.6;margin-bottom:20px">
+            Ich bereite <strong>monatliche Markt-Updates für die 5 wichtigsten Bezirke</strong> vor — immer dasselbe Format, immer zur selben Zeit. Einmal freigeben, läuft automatisch.
+          </div>
+          
+          <div style="padding:16px 20px;background:#fff;border:1px solid var(--ia-blue-border);display:inline-block">
+            <div style="font:700 14px var(--ia-font-body);color:var(--ia-blue);margin-bottom:8px">📅 Geplant für nächsten Monat:</div>
+            <div style="font:400 14px var(--ia-font-body);color:var(--ia-fg-secondary)">21., 22., 23., 2., 3. Bezirk — je 1 Post</div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>19</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 20 — REALITÄT: WIE EIN MITARBEITER
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="21 Realität">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="gap:64px;padding:80px 100px;justify-content:center">
+    
+    <!-- Header -->
+    <div class="a1" style="text-align:center">
+      <h2 style="font-size:68px;margin-bottom:20px">
+        KI-Agenten sind wie <span class="blue">ein neuer Mitarbeiter.</span>
+      </h2>
+      <p style="font:400 26px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
+        Kein Knopfdruck-Tool — ein Sparringpartner.
+      </p>
+    </div>
+    
+    <!-- Visual: Mitarbeiter Timeline -->
+    <div class="a2" style="display:flex;align-items:center;gap:48px;max-width:1400px;margin:0 auto">
+      
+      <!-- Step 1: Einarbeitung -->
+      <div style="flex:1;text-align:center">
+        <div style="width:140px;height:140px;margin:0 auto 24px;border-radius:50%;background:rgba(245,158,11,0.1);border:3px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center">
+          <span style="font-size:64px">📚</span>
+        </div>
+        <div style="font:700 22px var(--ia-font-body);color:var(--ia-black);margin-bottom:12px">Einarbeitung</div>
+        <div style="font:400 16px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
+          Braucht Kontext,<br>Infos, Beispiele
+        </div>
+      </div>
+      
+      <!-- Arrow -->
+      <div style="flex:0 0 60px;text-align:center">
+        <svg width="60" height="40" viewBox="0 0 60 40" fill="none">
+          <path d="M0 20 L52 20 M40 10 L52 20 L40 30" stroke="var(--ia-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      
+      <!-- Step 2: Zusammenarbeit -->
+      <div style="flex:1;text-align:center">
+        <div style="width:140px;height:140px;margin:0 auto 24px;border-radius:50%;background:rgba(0,128,255,0.1);border:3px solid rgba(0,128,255,0.3);display:flex;align-items:center;justify-content:center">
+          <span style="font-size:64px">🤝</span>
+        </div>
+        <div style="font:700 22px var(--ia-font-body);color:var(--ia-black);margin-bottom:12px">Zusammenarbeit</div>
+        <div style="font:400 16px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
+          Feedback geben,<br>gemeinsam optimieren
+        </div>
+      </div>
+      
+      <!-- Arrow -->
+      <div style="flex:0 0 60px;text-align:center">
+        <svg width="60" height="40" viewBox="0 0 60 40" fill="none">
+          <path d="M0 20 L52 20 M40 10 L52 20 L40 30" stroke="var(--ia-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      
+      <!-- Step 3: Autonomie -->
+      <div style="flex:1;text-align:center">
+        <div style="width:140px;height:140px;margin:0 auto 24px;border-radius:50%;background:rgba(16,185,129,0.12);border:3px solid rgba(16,185,129,0.3);display:flex;align-items:center;justify-content:center">
+          <span style="font-size:64px">🚀</span>
+        </div>
+        <div style="font:700 22px var(--ia-font-body);color:var(--ia-black);margin-bottom:12px">Autonomie</div>
+        <div style="font:400 16px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
+          Arbeitet eigenständig,<br>24/7, wahnsinnig effizient
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- Payoff -->
+    <div class="a3" style="text-align:center;padding:40px 64px;background:linear-gradient(135deg,rgba(0,128,255,0.08),rgba(0,128,255,0.04));border:2px solid var(--ia-blue-border);max-width:1100px;margin:0 auto">
+      <h3 style="font-size:32px;color:var(--ia-blue);font-weight:800">
+        Der Unterschied: Dieser Mitarbeiter wird mit jedem Tag besser.
+      </h3>
+    </div>
+    
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>20</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 21 — DREI TYPEN VON MAKLERN
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="22 Drei Typen">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="gap:48px;padding:100px 120px">
+    <div style="text-align:center">
+      <div class="eyebrow a1" style="margin-bottom:16px">Wo stehst du?</div>
+      <h2 class="a2" style="font-size:72px">Drei Typen von Maklern, wenn <span class="blue">neue Software kommt.</span></h2>
+    </div>
+    
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:60px;max-width:1500px;margin:0 auto">
+      <!-- Typ 1: Nachzügler -->
+      <div class="a3" style="flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px;padding:48px 40px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04)">
+        <div style="width:100px;height:100px;border-radius:50%;background:rgba(0,0,0,0.04);border:2px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center">
+          <span style="font:900 40px var(--ia-font-body);color:rgba(0,0,0,0.25)">1</span>
+        </div>
+        <div>
+          <div style="font:700 14px var(--ia-font-body);letter-spacing:.22em;text-transform:uppercase;color:var(--ia-fg-muted);margin-bottom:12px">Der Nachzügler</div>
+          <div style="font:700 28px var(--ia-font-body);color:var(--ia-black);margin-bottom:16px">Wartet ab,<br>bis es Standard ist</div>
+          <!-- Emoji-Flow -->
+          <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:8px">
+            <div style="font-size:36px;line-height:1">⏳</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(0,0,0,0.15)">→</div>
+            <div style="font-size:36px;line-height:1">😴</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(0,0,0,0.15)">→</div>
+            <div style="font-size:36px;line-height:1">❌</div>
+          </div>
+        </div>
+        <div style="font:400 15px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5;padding:0 12px">
+          Steigt spät ein — und verpasst den Anschluss.
+        </div>
+      </div>
+      
+      <!-- Typ 2: Die Mehrheit -->
+      <div class="a4" style="flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px;padding:48px 40px;background:#fff;border:1px solid var(--ia-border);box-shadow:0 2px 8px rgba(26,26,46,.04)">
+        <div style="width:100px;height:100px;border-radius:50%;background:rgba(0,0,0,0.04);border:2px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center">
+          <span style="font:900 40px var(--ia-font-body);color:rgba(0,0,0,0.25)">2</span>
+        </div>
+        <div>
+          <div style="font:700 14px var(--ia-font-body);letter-spacing:.22em;text-transform:uppercase;color:var(--ia-fg-muted);margin-bottom:12px">Die Mehrheit</div>
+          <div style="font:700 28px var(--ia-font-body);color:var(--ia-black);margin-bottom:16px">Zieht nach,<br>wenn's funktioniert</div>
+          <!-- Emoji-Flow -->
+          <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:8px">
+            <div style="font-size:36px;line-height:1">👀</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(0,0,0,0.15)">→</div>
+            <div style="font-size:36px;line-height:1">✅</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(0,0,0,0.15)">→</div>
+            <div style="font-size:36px;line-height:1">😐</div>
+          </div>
+        </div>
+        <div style="font:400 15px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5;padding:0 12px">
+          Sicher, aber ohne Vorsprung — alle haben's schon.
+        </div>
+      </div>
+      
+      <!-- Typ 3: Frühe Nutzer (HIGHLIGHTED) -->
+      <div class="a5" style="flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px;padding:48px 40px;background:linear-gradient(135deg, var(--ia-blue) 0%, #0066CC 100%);border:1.5px solid var(--ia-blue);box-shadow:0 8px 32px rgba(0,128,255,.25);position:relative">
+        <div style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);white-space:nowrap;font:700 12px var(--ia-font-body);color:var(--ia-blue);background:#fff;border:1.5px solid var(--ia-blue);padding:6px 16px;letter-spacing:.14em;text-transform:uppercase">🚀 Der Vorsprung</div>
+        <div style="width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center">
+          <span style="font:900 40px var(--ia-font-body);color:#fff">3</span>
+        </div>
+        <div>
+          <div style="font:700 14px var(--ia-font-body);letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:12px">Der frühe Nutzer</div>
+          <div style="font:700 28px var(--ia-font-body);color:#fff;margin-bottom:16px">Nutzt Tools<br>vor allen anderen</div>
+          <!-- Emoji-Flow -->
+          <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:8px">
+            <div style="font-size:36px;line-height:1">⚡</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(255,255,255,0.3)">→</div>
+            <div style="font-size:36px;line-height:1">📈</div>
+            <div style="font:900 24px var(--ia-font-body);color:rgba(255,255,255,0.3)">→</div>
+            <div style="font-size:36px;line-height:1">🏆</div>
+          </div>
+        </div>
+        <div style="font:400 15px var(--ia-font-body);color:rgba(255,255,255,0.85);line-height:1.5;padding:0 12px">
+          6–12 Monate Vorsprung — hebt sich vom Markt ab.
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>21</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 22 — PITCH: IMMOAUTOMATION
+════════════════════════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="23 Pitch">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+  
+  <div class="inner" style="justify-content:center;align-items:center;gap:64px;text-align:center">
+    
+    <!-- Icon -->
+    <div class="a1" style="width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--ia-blue),#0066CC);display:flex;align-items:center;justify-content:center;box-shadow:0 0 60px rgba(0,128,255,0.4)">
+      <span style="font-size:64px;line-height:1">🏢</span>
+    </div>
+    
+    <!-- Message -->
+    <div class="a2" style="max-width:1100px">
+      <h2 style="font-size:64px;margin-bottom:32px">
+        Wir bauen das für die <span class="blue">Immobranche.</span>
+      </h2>
+      <p style="font:400 28px/1.6 var(--ia-font-body);color:rgba(255,255,255,0.7)">
+        <strong style="color:#fff">Objektpostings sind jetzt automatisiert.</strong><br>
+        Social Media Marketing, Marktberichte, Bewertungen — viele weitere Schritte stehen an.
+      </p>
+    </div>
+    
+    <!-- CTA Box -->
+    <div class="a3" style="padding:48px 64px;background:rgba(0,128,255,0.12);border:2px solid rgba(0,128,255,0.3);max-width:900px">
+      <h3 style="font:700 32px var(--ia-font-body);color:#fff;margin-bottom:20px">
+        Wollt ihr dabei sein?
+      </h3>
+      <p style="font:400 22px/1.6 var(--ia-font-body);color:rgba(255,255,255,0.85);margin-bottom:32px">
+        Schaltet unseren Service im <strong style="color:var(--ia-blue)">onOffice Marketplace</strong> frei<br>
+        und seid von Anfang an dabei.
+      </p>
+      
+      <div style="display:inline-flex;align-items:center;gap:16px;padding:16px 32px;background:var(--ia-blue);border-radius:4px">
+        <span style="font:700 20px var(--ia-font-body);color:#fff">immoautomation.at</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M5 10h10m-4-4l4 4-4 4" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>22</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     NEUE DEMO-SEQUENZ — Claude/ChatGPT-Style Chat-Interface
+     6 Slides, Progressive Build (Ersatz für Folien 14-19)
+════════════════════════════════════════════════════════════════ -->
+<style>
+/* Chat Frame */
+.c-frame{
+  width:1200px;height:900px;margin:0 auto;
+  background:#fff;border:1px solid var(--ia-border);
+  border-radius:16px;box-shadow:var(--shadow-lg);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.c-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 24px;border-bottom:1px solid var(--ia-border);
+  background:#fafbfd;flex-shrink:0;
+}
+.c-header-left{display:flex;align-items:center;gap:14px}
+.c-header-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--ia-blue),#0066CC);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:18px;flex-shrink:0;
+  box-shadow:0 4px 12px rgba(0,128,255,0.25);
+}
+.c-header-info{display:flex;flex-direction:column;gap:1px}
+.c-header-title{
+  font:700 15px var(--ia-font-body);color:var(--ia-black);
+  letter-spacing:-0.01em;
+}
+.c-header-sub{font:400 12px var(--ia-font-body);color:var(--ia-fg-tertiary)}
+.c-live{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 12px;background:rgba(34,197,94,0.1);
+  border:1px solid rgba(34,197,94,0.25);border-radius:999px;
+  font:600 11px var(--ia-font-body);color:#16a34a;
+  letter-spacing:0.08em;text-transform:uppercase;
+}
+.c-live-dot{
+  width:6px;height:6px;background:#22c55e;border-radius:50%;
+  box-shadow:0 0 8px rgba(34,197,94,0.6);
+  animation:livepulse 2s ease-in-out infinite;
+}
+@keyframes livepulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:0.5;transform:scale(0.8)}
+}
+.c-body{
+  flex:1;padding:32px 40px;
+  display:flex;flex-direction:column;gap:24px;
+  overflow:hidden;
+}
+.c-body.bottom{justify-content:flex-end}
+.c-scroll-hint{
+  text-align:center;font:500 11px var(--ia-font-body);
+  color:var(--ia-fg-muted);letter-spacing:0.08em;
+  text-transform:uppercase;padding-bottom:8px;
+}
+.c-msg{display:flex;gap:14px;align-items:flex-start;max-width:100%}
+.c-msg.user{justify-content:flex-end}
+.c-bubble-user{
+  max-width:70%;padding:14px 20px;
+  background:#f1f3f7;border-radius:18px 18px 4px 18px;
+  font:400 17px/1.5 var(--ia-font-body);color:var(--ia-black);
+}
+.c-msg-avatar{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.c-msg-avatar.agent{
+  background:linear-gradient(135deg,var(--ia-blue),#0066CC);
+  color:#fff;font-size:18px;
+  box-shadow:0 4px 12px rgba(0,128,255,0.2);
+}
+.c-msg-avatar.purple{
+  background:linear-gradient(135deg,#8b5cf6,#7c3aed);
+  box-shadow:0 4px 12px rgba(139,92,246,0.2);
+}
+.c-msg-content{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.c-msg-name{
+  font:700 13px var(--ia-font-body);color:var(--ia-black);
+  letter-spacing:-0.01em;
+}
+.c-msg-name .ts{
+  font-weight:400;color:var(--ia-fg-muted);
+  margin-left:8px;font-size:12px;
+}
+.c-msg-text{font:400 17px/1.55 var(--ia-font-body);color:var(--ia-black)}
+.c-msg-text strong{color:var(--ia-blue);font-weight:600}
+
+/* Tool / data result card inside agent message */
+.c-tool{
+  margin-top:10px;background:#fafbfd;
+  border:1px solid var(--ia-border);border-radius:10px;overflow:hidden;
+}
+.c-tool-head{
+  padding:10px 16px;background:#f3f4f8;
+  border-bottom:1px solid var(--ia-border);
+  font:600 11px var(--ia-font-body);color:var(--ia-fg-secondary);
+  letter-spacing:0.08em;text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;
+}
+.c-tool-body{padding:18px 20px}
+.c-tool-hero{
+  font:800 32px var(--ia-font-body);color:var(--ia-blue);
+  margin-bottom:4px;letter-spacing:-0.02em;
+}
+.c-tool-label{
+  font:600 14px var(--ia-font-body);color:var(--ia-black);
+  margin-bottom:14px;
+}
+.c-tool-stats{display:flex;gap:32px;padding-top:14px;border-top:1px solid var(--ia-border)}
+.c-tool-stat-num{font:700 20px var(--ia-font-body);color:var(--ia-black)}
+.c-tool-stat-lbl{
+  font:500 11px var(--ia-font-body);color:var(--ia-fg-muted);
+  text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;
+}
+
+/* Typing indicator */
+.c-typing{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:10px 16px;background:#f3f4f8;border-radius:18px;
+  font:500 14px var(--ia-font-body);color:var(--ia-fg-secondary);
+}
+.c-typing-dots{display:inline-flex;gap:4px}
+.c-typing-dots span{
+  width:6px;height:6px;background:var(--ia-blue);border-radius:50%;
+  animation:typing 1.4s infinite ease-in-out;
+}
+.c-typing-dots span:nth-child(2){animation-delay:0.2s}
+.c-typing-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes typing{
+  0%,60%,100%{opacity:0.3;transform:translateY(0)}
+  30%{opacity:1;transform:translateY(-4px)}
+}
+
+/* Attachment card (post + script) */
+.c-attach{
+  margin-top:10px;border:1px solid var(--ia-border);border-radius:12px;
+  overflow:hidden;display:flex;background:#fff;
+}
+.c-attach-preview{
+  width:160px;flex-shrink:0;background:#000;
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.c-attach-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.c-attach-info{flex:1;padding:16px 20px;display:flex;flex-direction:column;gap:8px}
+.c-attach-row{display:flex;align-items:center;gap:10px}
+.c-attach-icon{
+  width:32px;height:32px;border-radius:6px;
+  background:var(--ia-blue-light);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ia-blue);flex-shrink:0;
+}
+.c-attach-name{font:600 14px var(--ia-font-body);color:var(--ia-black)}
+.c-attach-meta{font:400 12px var(--ia-font-body);color:var(--ia-fg-muted)}
+.c-attach-script{
+  margin-top:6px;padding:12px 14px;background:#fafbfd;
+  border:1px solid var(--ia-border);border-radius:6px;
+  font:400 13px/1.6 var(--ia-font-body);color:var(--ia-fg-secondary);
+}
+.c-attach-script p{margin:0 0 6px}
+.c-attach-script p:last-child{margin:0}
+.c-attach-script .t{
+  color:var(--ia-blue);font-weight:600;
+  font-family:'SF Mono','Menlo',monospace;font-size:11px;
+  margin-right:8px;
+}
+
+/* Input bar (decorative) */
+.c-input{
+  flex-shrink:0;padding:14px 20px;
+  border-top:1px solid var(--ia-border);background:#fafbfd;
+}
+.c-input-box{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 16px;background:#fff;
+  border:1px solid var(--ia-border);border-radius:12px;
+}
+.c-input-placeholder{
+  flex:1;font:400 14px var(--ia-font-body);color:var(--ia-fg-muted);
+}
+.c-input-send{
+  width:30px;height:30px;border-radius:8px;background:var(--ia-blue);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;flex-shrink:0;opacity:0.4;
+}
+
+/* Date divider */
+.c-divider{
+  display:flex;align-items:center;gap:16px;
+  padding:8px 0;
+}
+.c-divider-line{flex:1;height:1px;background:var(--ia-border)}
+.c-divider-text{
+  font:600 11px var(--ia-font-body);color:var(--ia-fg-muted);
+  letter-spacing:0.12em;text-transform:uppercase;
+}
+
+/* Caption above chat */
+.c-caption{
+  text-align:center;margin-bottom:24px;
+}
+.c-caption-eyebrow{
+  font:600 13px var(--ia-font-body);color:var(--ia-fg-muted);
+  letter-spacing:0.3em;text-transform:uppercase;margin-bottom:10px;
+}
+.c-caption-headline{
+  font:700 36px var(--ia-font-body);color:var(--ia-black);
+  letter-spacing:-0.02em;
+}
+.c-caption-headline .blue{color:var(--ia-blue)}
+
+/* Live chat: scrollable body + step reveal */
+.c-body.live{
+  overflow-y:auto;scrollbar-width:none;scroll-behavior:smooth;
+}
+.c-body.live::-webkit-scrollbar{display:none}
+[data-step]{
+  opacity:0;
+  max-height:0;
+  margin-top:0;
+  transform:translateY(12px);
+  transition:opacity .35s ease, max-height .5s ease, transform .35s ease, margin-top .4s ease;
+  overflow:hidden;
+  pointer-events:none;
+}
+[data-step].step-visible{
+  opacity:1;
+  max-height:800px;
+  margin-top:24px;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+[data-step].step-visible.first-visible{margin-top:0}
+
+/* Live hint pill (top-right of caption) */
+.c-live-hint{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;background:#fff;border:1px solid var(--ia-border);
+  border-radius:999px;font:600 11px var(--ia-font-body);
+  color:var(--ia-fg-secondary);letter-spacing:0.05em;text-transform:uppercase;
+  margin-top:14px;
+}
+.c-live-hint kbd{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:22px;height:22px;padding:0 6px;
+  background:#f3f4f8;border:1px solid var(--ia-border);
+  border-bottom-width:2px;border-radius:5px;
+  font:600 12px var(--ia-font-body);color:var(--ia-black);
+}
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LIVE DEMO — Eine Slide, 6 Steps (Pfeil rechts triggert nächste Nachricht)
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="LIVE Chat-Demo" data-steps="5">
+  <div class="grid"></div>
+  <div class="ambient"></div>
+
+  <div class="inner" style="padding:50px 100px;justify-content:center;gap:24px">
+    <div class="c-caption a1">
+      <div class="c-caption-eyebrow">Live · Sie reden, der Agent arbeitet</div>
+      <div class="c-caption-headline">Vom Briefing bis zum <span class="blue">fertigen Posting.</span></div>
+      <div class="c-live-hint"><kbd>→</kbd> nächste Nachricht</div>
+    </div>
+
+    <div class="c-frame a2">
+      <div class="c-header">
+        <div class="c-header-left">
+          <div class="c-header-avatar">✦</div>
+          <div class="c-header-info">
+            <div class="c-header-title">Social Media Agent</div>
+            <div class="c-header-sub">Wien · 21. Bezirk · Floridsdorf</div>
+          </div>
+        </div>
+        <div class="c-live"><span class="c-live-dot"></span>Online</div>
+      </div>
+
+      <div class="c-body live" data-autoscroll>
+
+        <!-- Step 0: User question + initial typing -->
+        <div class="c-msg user" data-step="0">
+          <div class="c-bubble-user">Ich brauche Content-Ideen für diese Woche. Fokus auf Wien 21. Bezirk.</div>
+        </div>
+        <div class="c-msg" data-step="0" data-hide-from="1">
+          <div class="c-msg-avatar agent">✦</div>
+          <div class="c-msg-content">
+            <div class="c-typing">
+              <span class="c-typing-dots"><span></span><span></span><span></span></span>
+              Agent denkt nach...
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 1: Agent erinnert sich + Daten -->
+        <div class="c-msg" data-step="1">
+          <div class="c-msg-avatar agent">✦</div>
+          <div class="c-msg-content">
+            <div class="c-msg-name">Social Media Agent</div>
+            <div class="c-msg-text">Letztes Mal hat ein Markt-Update für Floridsdorf richtig gut funktioniert:</div>
+            <div class="c-tool">
+              <div class="c-tool-head">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 4 4 5-5"/></svg>
+                Performance · März 2025
+              </div>
+              <div class="c-tool-body">
+                <div class="c-tool-hero">+3,8 %</div>
+                <div class="c-tool-label">Marktentwicklung im 21. Bezirk · Kurzvideo, 45 Sek.</div>
+                <div class="c-tool-stats">
+                  <div><div class="c-tool-stat-num">1.200</div><div class="c-tool-stat-lbl">Aufrufe</div></div>
+                  <div><div class="c-tool-stat-num">84</div><div class="c-tool-stat-lbl">Likes</div></div>
+                  <div><div class="c-tool-stat-num">12</div><div class="c-tool-stat-lbl">Kommentare</div></div>
+                  <div><div class="c-tool-stat-num">7,8 %</div><div class="c-tool-stat-lbl">Engagement</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Agent's Vorschlags-Frage -->
+        <div class="c-msg" data-step="2">
+          <div class="c-msg-avatar agent">✦</div>
+          <div class="c-msg-content">
+            <div class="c-msg-name">Social Media Agent</div>
+            <div class="c-msg-text">
+              Soll ich das gleiche Format für den <strong>21. Bezirk</strong> mit aktuellen Zahlen aufbauen?<br>
+              Post + 45-Sek-Skript + Hashtags — fertig in ca. <strong>45 Sekunden</strong>.
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: User confirms + agent working typing -->
+        <div class="c-msg user" data-step="3">
+          <div class="c-bubble-user">Ja, mach das.</div>
+        </div>
+        <div class="c-msg" data-step="3" data-hide-from="4">
+          <div class="c-msg-avatar agent">✦</div>
+          <div class="c-msg-content">
+            <div class="c-msg-name">Social Media Agent</div>
+            <div class="c-typing">
+              <span class="c-typing-dots"><span></span><span></span><span></span></span>
+              Sammle aktuelle Marktdaten · erstelle Skript · generiere Post-Bild...
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Result with attachment -->
+        <div class="c-msg" data-step="4">
+          <div class="c-msg-avatar agent">✦</div>
+          <div class="c-msg-content">
+            <div class="c-msg-name">Social Media Agent <span class="ts">in 47 Sek. erstellt</span></div>
+            <div class="c-msg-text">✓ Fertig. Hier ist alles, was du brauchst:</div>
+            <div class="c-attach">
+              <div class="c-attach-preview">
+                <img id="liveDemoPostImg" alt="Instagram Post Preview">
+                <script>document.getElementById('liveDemoPostImg').src = (window.__resources && window.__resources.socialPostFinalBlue) || 'social-post-final-blue.png';</script>
+              </div>
+              <div class="c-attach-info">
+                <div class="c-attach-row">
+                  <div class="c-attach-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  </div>
+                  <div>
+                    <div class="c-attach-name">Wien21_Marktupdate.mp4</div>
+                    <div class="c-attach-meta">Instagram Reel · 9:16 · 45 Sekunden · inkl. Caption + 12 Hashtags</div>
+                  </div>
+                </div>
+                <div class="c-attach-script">
+                  <p><span class="t">[0:00–0:08]</span>"Marktupdate für den 21. Bezirk — die Zahlen sind da."</p>
+                  <p><span class="t">[0:08–0:20]</span>"Plus 3,8 Prozent im Jahresvergleich. Floridsdorf bleibt stabil und gefragt."</p>
+                  <p><span class="t">[0:20–0:35]</span>"Was heißt das für euch? Wer jetzt verkauft, trifft einen guten Zeitpunkt."</p>
+                  <p><span class="t">[0:35–0:45]</span>"Fragen? Schreibt mir — ich begleite euch durch den Prozess."</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: 2 Wochen später + proactive -->
+        <div class="c-divider" data-step="5">
+          <div class="c-divider-line"></div>
+          <div class="c-divider-text">Heute · 2 Wochen nach dem ersten Post</div>
+          <div class="c-divider-line"></div>
+        </div>
+        <div class="c-msg" data-step="5">
+          <div class="c-msg-avatar agent">✦</div>
+          <div class="c-msg-content">
+            <div class="c-msg-name">Social Media Agent <span class="ts">unaufgefordert</span></div>
+            <div class="c-msg-text">
+              Kurzes Update: Die <strong>Marktentwicklungs-Posts</strong> performen deutlich besser als alle anderen Formate.
+            </div>
+            <div class="c-tool">
+              <div class="c-tool-head">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                Auswertung · Letzte 14 Tage
+              </div>
+              <div class="c-tool-body">
+                <div style="display:flex;gap:32px;align-items:flex-end">
+                  <div>
+                    <div class="c-tool-hero">2,1 ×</div>
+                    <div class="c-tool-label" style="margin-bottom:0">höheres Engagement vs. andere Formate</div>
+                  </div>
+                  <div style="font:500 14px/1.6 var(--ia-font-body);color:var(--ia-fg-secondary);flex:1">
+                    Ø <strong style="color:var(--ia-black)">1.400 Aufrufe</strong> · <strong style="color:var(--ia-black)">12 % Engagement</strong><br>
+                    Beste Tageszeit: Mi. + Fr. zwischen 18–20 Uhr
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="c-msg-text" style="margin-top:14px">
+              Vorschlag: Lass uns daraus ein <strong>monatliches Format für die Top-5-Bezirke</strong> machen. Einmal freigeben — danach läuft es automatisch.
+            </div>
+            <div style="margin-top:14px;display:flex;gap:10px">
+              <div style="padding:10px 18px;background:var(--ia-blue);color:#fff;border-radius:10px;font:600 14px var(--ia-font-body)">Plan ansehen</div>
+              <div style="padding:10px 18px;background:#fff;color:var(--ia-fg-secondary);border:1px solid var(--ia-border);border-radius:10px;font:600 14px var(--ia-font-body)">Später</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="c-input">
+        <div class="c-input-box">
+          <div class="c-input-placeholder">Nachricht an Social Media Agent...</div>
+          <div class="c-input-send">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12l14-7-7 14-2-5-5-2z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>immoautomation</span>
+    <span>LIVE</span>
+  </div>
+</section>
+
+
+
+</div>
+</div>
+
+<!-- Navigation UI -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="prevSlide()" title="Vorherige (←)">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+  </button>
+  <div class="slide-counter" id="slideCounter">1 / 1</div>
+  <button class="nav-btn" id="nextBtn" onclick="nextSlide()" title="Nächste (→)">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+  </button>
+</div>
+<button class="fs-btn" onclick="toggleFullscreen()" title="Vollbild (F)">
+  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/></svg>
+</button>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('section');
+  var params = new URLSearchParams(window.location.search);
+  var current = params.get('slide') ? Math.max(0, Math.min(slides.length-1, parseInt(params.get('slide'))-1)) : 0;
+
+  function getMaxStep(slide){ return parseInt(slide.dataset.steps || '0', 10); }
+  function getCurStep(slide){ return parseInt(slide.dataset.curStep || '0', 10); }
+  function setStep(slide, step){
+    slide.dataset.curStep = step;
+    var els = slide.querySelectorAll('[data-step]');
+    els.forEach(function(el){
+      var elStep = parseInt(el.dataset.step, 10);
+      var hideFrom = el.dataset.hideFrom ? parseInt(el.dataset.hideFrom, 10) : Infinity;
+      el.classList.remove('first-visible');
+      if (elStep <= step && step < hideFrom) el.classList.add('step-visible');
+      else el.classList.remove('step-visible');
+    });
+    var firstVisible = slide.querySelector('[data-step].step-visible');
+    if (firstVisible) firstVisible.classList.add('first-visible');
+    var autoscroll = slide.querySelector('[data-autoscroll]');
+    if (autoscroll) setTimeout(function(){ autoscroll.scrollTop = autoscroll.scrollHeight; }, 120);
+  }
+
+  function showSlide(i){
+    for (var k=0; k<slides.length; k++){
+      slides[k].removeAttribute('data-deck-active');
+      // Reset substep states
+      var substeps = slides[k].querySelectorAll('[data-substep]');
+      for (var s=0; s<substeps.length; s++) substeps[s].classList.remove('substep-visible');
+    }
+    slides[i].setAttribute('data-deck-active', '');
+    // Re-trigger animations by toggling the attribute
+    var animated = slides[i].querySelectorAll('[class*="a1"],[class*="a2"],[class*="a3"],[class*="a4"],[class*="a5"],[class*="a6"],[class*="a7"],[class*="a8"]');
+    for (var j=0; j<animated.length; j++){
+      animated[j].style.animation = 'none';
+      void animated[j].offsetHeight;
+      animated[j].style.animation = '';
+    }
+    current = i;
+    // Reset step state for the new slide (start at 0)
+    if (slides[i].dataset.steps) setStep(slides[i], 0);
+    document.getElementById('slideCounter').textContent = (current+1) + ' / ' + slides.length;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === slides.length - 1;
+
+    // Auto-reveal substeps with delay
+    var substeps = slides[i].querySelectorAll('[data-substep]');
+    substeps.forEach(function(el, idx){
+      setTimeout(function(){ el.classList.add('substep-visible'); }, 800 + idx * 400);
+    });
+  }
+  window.nextSlide = function(){
+    var slide = slides[current];
+    var maxStep = getMaxStep(slide);
+    var curStep = getCurStep(slide);
+    if (curStep < maxStep) { setStep(slide, curStep + 1); return; }
+    if (current < slides.length-1) showSlide(current+1);
+  };
+  window.prevSlide = function(){
+    var slide = slides[current];
+    var curStep = getCurStep(slide);
+    if (curStep > 0) { setStep(slide, curStep - 1); return; }
+    if (current > 0) showSlide(current-1);
+  };
+  window.toggleFullscreen = function(){
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  };
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); nextSlide(); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); prevSlide(); }
+    if (e.key === 'Home'){ e.preventDefault(); showSlide(0); }
+    if (e.key === 'End'){ e.preventDefault(); showSlide(slides.length-1); }
+    if (e.key === 'f' || e.key === 'F'){ toggleFullscreen(); }
+  });
+
+  document.addEventListener('click', function(e){
+    if (e.target.closest('.nav-bar') || e.target.closest('.fs-btn')) return;
+    if (e.target.closest('a, button, input, textarea')) return;
+    if (e.clientX > window.innerWidth/2) nextSlide(); else prevSlide();
+  });
+
+  // Dynamic scaling
+  function scale(){
+    var w = document.getElementById('slidesWrapper');
+    var s = Math.min(window.innerWidth/1920, window.innerHeight/1080);
+    w.style.transform = 'scale(' + s + ')';
+  }
+  window.addEventListener('resize', scale);
+  document.addEventListener('fullscreenchange', function(){ setTimeout(scale, 100); });
+  scale();
+  showSlide(current);
+})();
+</script>
+</body>
+</html>

@@ -155,7 +155,7 @@ section[data-deck-active]{display:flex}
   animation:slideInLeft .8s cubic-bezier(0.16,1,0.3,1) forwards;
 }
 
-/* Slide 03 — Engagement-Zeitreise */
+/* Slide 03 — Reichweiten-Zeitreise */
 @keyframes drawPath{to{stroke-dashoffset:0}}
 @keyframes fadeIn{to{opacity:1}}
 .eng-line{stroke-dasharray:1320;stroke-dashoffset:1320}
@@ -366,7 +366,7 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SLIDE 03 — PAIN als Zeitreise (Engagement Q1 2024 → Q4 2025)
+     SLIDE 03 — PAIN als Zeitreise (Reichweite 2024 → 2025)
 ════════════════════════════════════════════════════════════════ -->
 <section class="light" data-screen-label="03 Pain">
   <div class="grid"></div>
@@ -375,8 +375,8 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
 
     <!-- Headline -->
     <div class="a1" style="text-align:center">
-      <div class="eyebrow" style="margin-bottom:20px">Engagement-Rate · Instagram</div>
-      <h2>Engagement auf Instagram<br>hat sich <span class="serif-italic">fast halbiert</span>.</h2>
+      <div class="eyebrow" style="margin-bottom:20px">Reichweite pro Post · Instagram</div>
+      <h2>Die organische Reichweite<br>auf Instagram <span class="serif-italic">schmilzt weg</span>.</h2>
     </div>
 
     <!-- Zeitreise-Chart -->
@@ -396,54 +396,60 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
 
         <!-- Y-gridlines (subtle) -->
         <line x1="100" y1="60" x2="1140" y2="60" stroke="rgba(12,12,12,0.04)" stroke-width="1"/>
-        <line x1="100" y1="152" x2="1140" y2="152" stroke="rgba(12,12,12,0.04)" stroke-width="1"/>
-        <line x1="100" y1="245" x2="1140" y2="245" stroke="rgba(12,12,12,0.04)" stroke-width="1"/>
+        <line x1="100" y1="160" x2="1140" y2="160" stroke="rgba(12,12,12,0.04)" stroke-width="1"/>
+        <line x1="100" y1="260" x2="1140" y2="260" stroke="rgba(12,12,12,0.04)" stroke-width="1"/>
         <line x1="100" y1="360" x2="1140" y2="360" stroke="rgba(12,12,12,0.1)" stroke-width="1"/>
 
         <!-- Y-axis labels -->
         <g style="font:600 12px 'Inter',sans-serif;fill:rgba(12,12,12,0.4);letter-spacing:0.04em">
-          <text x="86" y="64" text-anchor="end">18%</text>
-          <text x="86" y="156" text-anchor="end">14%</text>
-          <text x="86" y="249" text-anchor="end">10%</text>
-          <text x="86" y="364" text-anchor="end">5%</text>
+          <text x="86" y="64" text-anchor="end">10.000</text>
+          <text x="86" y="164" text-anchor="end">8.000</text>
+          <text x="86" y="264" text-anchor="end">6.000</text>
+          <text x="86" y="364" text-anchor="end">4.000</text>
         </g>
 
-        <!-- Quartal tick marks -->
+        <!-- Year tick marks -->
         <g stroke="rgba(12,12,12,0.18)" stroke-width="1">
           <line x1="100" y1="357" x2="100" y2="363"/>
-          <line x1="248" y1="357" x2="248" y2="363"/>
-          <line x1="396" y1="357" x2="396" y2="363"/>
-          <line x1="544" y1="357" x2="544" y2="363"/>
-          <line x1="694" y1="357" x2="694" y2="363"/>
-          <line x1="842" y1="357" x2="842" y2="363"/>
-          <line x1="990" y1="357" x2="990" y2="363"/>
           <line x1="1140" y1="357" x2="1140" y2="363"/>
         </g>
 
         <!-- Year labels -->
         <g style="font:700 14px 'Inter',sans-serif;fill:rgba(12,12,12,0.5);letter-spacing:0.18em">
-          <text x="322" y="395" text-anchor="middle">2024</text>
-          <text x="917" y="395" text-anchor="middle">2025</text>
+          <text x="100" y="395" text-anchor="middle">2024</text>
+          <text x="1140" y="395" text-anchor="middle">2025</text>
         </g>
 
         <!-- Fill under curve -->
-        <path class="eng-fill" d="M 100 85 C 360 95 760 220 1140 252 L 1140 360 L 100 360 Z" fill="url(#engFillGrad)"/>
+        <path class="eng-fill" d="M 100 66 C 360 80 760 200 1140 222 L 1140 360 L 100 360 Z" fill="url(#engFillGrad)"/>
 
-        <!-- Engagement line: blue → red gradient -->
-        <path class="eng-line" d="M 100 85 C 360 95 760 220 1140 252" stroke="url(#engLineGrad)" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Reach line: blue → red gradient -->
+        <path class="eng-line" d="M 100 66 C 360 80 760 200 1140 222" stroke="url(#engLineGrad)" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 
-        <!-- Start endpoint Q1 2024 -->
-        <circle class="eng-dot-start" cx="100" cy="85" r="10" fill="#0080FF"/>
+        <!-- Start endpoint 2024 -->
+        <circle class="eng-dot-start" cx="100" cy="66" r="10" fill="#0080FF"/>
         <g class="eng-label-start">
-          <text x="100" y="40" text-anchor="middle" style="font:600 11px 'Inter',sans-serif;fill:rgba(12,12,12,0.5);letter-spacing:0.22em">Q1 2024</text>
-          <text x="100" y="68" text-anchor="middle" style="font:900 30px 'Inter',sans-serif;fill:#0080FF;letter-spacing:-0.025em">16,9%</text>
+          <text x="100" y="22" text-anchor="middle" style="font:600 11px 'Inter',sans-serif;fill:rgba(12,12,12,0.5);letter-spacing:0.22em">2024</text>
+          <text x="100" y="50" text-anchor="middle" style="font:900 30px 'Inter',sans-serif;fill:#0080FF;letter-spacing:-0.025em">9.877</text>
         </g>
 
-        <!-- End endpoint Q4 2025 -->
-        <circle class="eng-dot-end" cx="1140" cy="252" r="10" fill="#dc2626"/>
+        <!-- Drop indicator: dashed reference from start-level to endpoint -->
         <g class="eng-label-end">
-          <text x="1140" y="298" text-anchor="middle" style="font:900 30px 'Inter',sans-serif;fill:#dc2626;letter-spacing:-0.025em">9,7%</text>
-          <text x="1140" y="320" text-anchor="middle" style="font:600 11px 'Inter',sans-serif;fill:rgba(12,12,12,0.5);letter-spacing:0.22em">Q4 2025</text>
+          <line x1="1140" y1="66" x2="1140" y2="222" stroke="rgba(220,38,38,0.35)" stroke-width="1.5" stroke-dasharray="4 6"/>
+          <line x1="1110" y1="66" x2="1170" y2="66" stroke="rgba(0,128,255,0.45)" stroke-width="1.5"/>
+        </g>
+
+        <!-- End endpoint 2025 -->
+        <circle class="eng-dot-end" cx="1140" cy="222" r="10" fill="#dc2626"/>
+        <g class="eng-label-end">
+          <text x="1140" y="258" text-anchor="middle" style="font:900 30px 'Inter',sans-serif;fill:#dc2626;letter-spacing:-0.025em">6.754</text>
+          <text x="1140" y="280" text-anchor="middle" style="font:600 11px 'Inter',sans-serif;fill:rgba(12,12,12,0.5);letter-spacing:0.22em">2025</text>
+        </g>
+
+        <!-- Big −31% callout in the upper-right valley -->
+        <g class="eng-label-end">
+          <text x="1010" y="155" text-anchor="end" style="font:900 96px 'Inter',sans-serif;fill:#dc2626;letter-spacing:-0.04em">−31%</text>
+          <text x="1010" y="185" text-anchor="end" style="font:600 13px 'Inter',sans-serif;fill:rgba(12,12,12,0.5);letter-spacing:0.22em">Reichweite pro Post</text>
         </g>
 
       </svg>
@@ -452,27 +458,27 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
     <!-- Subline -->
     <div class="a3" style="text-align:center;max-width:1200px;margin:0 auto">
       <p style="font:400 22px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
-        Median Engagement-Rate, gemessen über alle Formate.<br>
-        Im selben Zeitraum ist auch die organische Reichweite um <strong style="color:var(--ia-black);font-weight:600">30 bis 40 Prozent</strong> gefallen.
+        Durchschnittliche Reichweite pro Instagram-Post, gemessen über alle Formate.<br>
+        Im selben Zeitraum sind die <strong style="color:var(--ia-black);font-weight:600">Likes pro Post um fast die Hälfte</strong> gefallen.
       </p>
     </div>
 
   </div>
 
   <div class="foot">
-    <span>Emplifi 2026 Social Media Benchmarks · 87.154 Instagram-Profile · Jan–Dez 2025</span>
+    <span>Metricool 2026 Social Media Study · 15 Mio. Posts · 350.000+ Accounts · 2024 vs. 2025</span>
     <span>03</span>
   </div>
 </section>
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SLIDE 04 — MECHANISMUS (Two-Stat-Cards + Konklusion)
+     SLIDE 04 — MECHANISMUS (Drei-Akt-Kette: Ursache → Mechanik → Folge)
 ════════════════════════════════════════════════════════════════ -->
 <section class="light" data-screen-label="04 Mechanismus">
   <div class="grid"></div>
 
-  <div class="inner" style="gap:48px">
+  <div class="inner" style="gap:64px">
 
     <!-- Headline -->
     <div class="a1" style="text-align:center">
@@ -480,147 +486,126 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
       <h2>Mehr Posts. Gleiche Zeit.<br><span class="serif-italic">Weniger Platz für dich.</span></h2>
     </div>
 
-    <!-- Stat-Cards + Konklusion mit Reach-Bars -->
-    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px;max-width:1500px;margin:0 auto;width:100%">
+    <!-- Drei-Akt-Kette: Ursache → Mechanik → Folge -->
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;width:100%;max-width:1720px;margin:0 auto">
 
-      <!-- Two stat cards side by side -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px">
+      <div style="display:grid;grid-template-columns:1fr 56px 1fr 56px 1fr;align-items:stretch;gap:0;width:100%">
 
-        <!-- Card 1: Volumen -->
-        <div class="a2" style="background:#fff;border:1px solid var(--ia-border);padding:36px 48px;display:flex;flex-direction:column;gap:16px">
-          <div class="eyebrow">Content-Angebot</div>
-          <div style="display:flex;align-items:baseline;gap:20px">
-            <div style="font:900 116px/0.9 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-blue)">96<span style="font-size:0.5em;letter-spacing:-0.03em">%</span></div>
-            <div style="font:600 22px/1.25 var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">der Profis nutzen<br>KI für Content</div>
+        <!-- Box 1 — URSACHE -->
+        <div class="a2" style="background:#fff;border:1px solid var(--ia-border);padding:40px 36px;display:flex;flex-direction:column;gap:18px;min-height:360px">
+          <div class="eyebrow">Ursache · Angebot</div>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-top:8px">
+            <div style="font:900 128px/0.9 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-blue)">88<span style="font-size:0.5em;letter-spacing:-0.03em">%</span></div>
           </div>
-          <div style="font:400 17px/1.55 var(--ia-font-body);color:var(--ia-fg-secondary);padding-top:16px;border-top:1px solid var(--ia-border)">
-            72% davon täglich. Das Ergebnis: mehr Posts als je zuvor.
+          <div style="font:600 22px/1.3 var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">
+            der Marketer nutzen KI in ihrer Arbeit
+          </div>
+          <div style="font:400 16px/1.55 var(--ia-font-body);color:var(--ia-fg-secondary);margin-top:auto;padding-top:16px;border-top:1px solid var(--ia-border)">
+            Für viele schon Alltag. Posts entstehen in Minuten statt Stunden.
           </div>
         </div>
 
-        <!-- Card 2: Zeit -->
-        <div class="a3" style="background:#fff;border:1px solid var(--ia-border);padding:36px 48px;display:flex;flex-direction:column;gap:16px">
-          <div class="eyebrow">Aufmerksamkeit pro Nutzer</div>
-          <div style="display:flex;align-items:baseline;gap:20px">
-            <div style="font:900 116px/0.9 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-black)">2,5<span style="font-size:0.5em;letter-spacing:-0.03em">h</span></div>
-            <div style="font:600 22px/1.25 var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">pro Tag auf<br>Social Media</div>
+        <!-- Pfeil 1 -->
+        <div class="a3" style="display:flex;align-items:center;justify-content:center;font:300 48px/1 var(--ia-font-body);color:var(--ia-fg-muted)">→</div>
+
+        <!-- Box 2 — MECHANIK -->
+        <div class="a4" style="background:#fff;border:1px solid var(--ia-border);padding:40px 36px;display:flex;flex-direction:column;gap:18px;min-height:360px">
+          <div class="eyebrow">Mechanik · Nachfrage</div>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-top:8px">
+            <div style="font:900 128px/0.9 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-black)">1,5<span style="font-size:0.5em;letter-spacing:-0.03em">h</span></div>
           </div>
-          <div style="font:400 17px/1.55 var(--ia-font-body);color:var(--ia-fg-secondary);padding-top:16px;border-top:1px solid var(--ia-border)">
+          <div style="font:600 22px/1.3 var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">
+            Aufmerksamkeit pro Nutzer und Tag in Deutschland
+          </div>
+          <div style="font:400 16px/1.55 var(--ia-font-body);color:var(--ia-fg-secondary);margin-top:auto;padding-top:16px;border-top:1px solid var(--ia-border)">
             Seit Jahren stabil. Mehr Zeit gibt es nicht. Nullsummenspiel.
           </div>
         </div>
 
-      </div>
+        <!-- Pfeil 2 -->
+        <div class="a5" style="display:flex;align-items:center;justify-content:center;font:300 48px/1 var(--ia-font-body);color:var(--ia-fg-muted)">→</div>
 
-      <!-- Causality arrow -->
-      <div class="a4" style="text-align:center;font:700 28px/1 var(--ia-font-body);color:var(--ia-fg-muted);margin:-4px 0">↓</div>
-
-      <!-- Reach Bars: was 2024 100 erreicht hätte, erreicht 2025 70 -->
-      <div class="a5" style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.15);padding:28px 56px 24px;display:flex;flex-direction:column;gap:18px">
-
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px">
-          <div class="eyebrow red">Konsequenz · weniger Sichtbarkeit</div>
-          <div style="font:700 14px var(--ia-font-body);color:var(--ia-fg-muted);letter-spacing:0.22em">Reichweite pro Post</div>
-        </div>
-
-        <div style="display:flex;flex-direction:column;gap:12px">
-
-          <!-- 2024 bar (100%) -->
-          <div style="display:flex;align-items:center;gap:24px">
-            <div style="flex:0 0 80px;font:600 14px var(--ia-font-body);color:var(--ia-fg-muted);letter-spacing:0.22em">2024</div>
-            <div style="flex:1;height:38px;background:rgba(0,0,0,0.06);position:relative">
-              <div style="position:absolute;top:0;left:0;height:100%;width:100%;background:var(--ia-blue);display:flex;align-items:center;padding-left:18px">
-                <span style="font:700 14px var(--ia-font-body);color:#fff;letter-spacing:0.22em">100 PERSONEN</span>
-              </div>
-            </div>
-            <div style="flex:0 0 110px;text-align:right;font:700 22px var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.02em">100%</div>
+        <!-- Box 3 — FOLGE -->
+        <div class="a6" style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.18);padding:40px 36px;display:flex;flex-direction:column;gap:18px;min-height:360px">
+          <div class="eyebrow red">Folge · Reichweite</div>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-top:8px">
+            <div style="font:900 128px/0.9 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-red)">−31<span style="font-size:0.5em;letter-spacing:-0.03em">%</span></div>
           </div>
-
-          <!-- 2025 bar (70%) -->
-          <div style="display:flex;align-items:center;gap:24px">
-            <div style="flex:0 0 80px;font:600 14px var(--ia-font-body);color:var(--ia-red);letter-spacing:0.22em">2025</div>
-            <div style="flex:1;height:38px;background:rgba(0,0,0,0.06);position:relative">
-              <div style="position:absolute;top:0;left:0;height:100%;width:70%;background:var(--ia-red);display:flex;align-items:center;padding-left:18px">
-                <span style="font:700 14px var(--ia-font-body);color:#fff;letter-spacing:0.22em">NUR 70</span>
-              </div>
-            </div>
-            <div style="flex:0 0 110px;text-align:right;font:700 22px var(--ia-font-body);color:var(--ia-red);letter-spacing:-0.02em">−30%</div>
+          <div style="font:600 22px/1.3 var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">
+            Reichweite pro Post auf Instagram
           </div>
-
-        </div>
-
-        <div style="font:400 17px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary);text-align:center;padding-top:6px">
-          Aus 100 Followern, die deinen Post 2024 gesehen hätten, sehen ihn 2025 nur noch 70.
+          <div style="font:400 16px/1.55 var(--ia-font-body);color:var(--ia-fg-secondary);margin-top:auto;padding-top:16px;border-top:1px solid rgba(220,38,38,0.18)">
+            Dein Beitrag wird seltener gesehen — egal wie gut er ist.
+          </div>
         </div>
 
       </div>
 
     </div>
 
+    <!-- Schluss-Zeile -->
+    <div class="a7" style="text-align:center;max-width:1200px;margin:0 auto">
+      <p style="font:400 22px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
+        Mehr Inhalte teilen sich die <strong style="color:var(--ia-black);font-weight:600">gleiche Sekunde Aufmerksamkeit</strong> — der Algorithmus muss verteilen, jeder einzelne Post bekommt weniger.
+      </p>
+    </div>
+
   </div>
 
   <div class="foot">
-    <span>Metricool Social Media Studies 2025/2026 · eMarketer Time-Spent</span>
+    <span>SurveyMonkey AI Marketing Stats 2025 · DataReportal Digital 2025 (Deutschland) · Metricool 2026 Social Media Study</span>
     <span>04</span>
   </div>
 </section>
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SLIDE 05 — KONSEQUENZ + REISE-SETUP
+     SLIDE 05 — ANPASSUNG + JOURNEY-CARDS (Kapitel-02-Bridge)
 ════════════════════════════════════════════════════════════════ -->
-<section class="light" data-screen-label="05 Konsequenz">
+<section class="light" data-screen-label="05 Anpassung">
   <div class="grid"></div>
 
-  <div class="inner" style="justify-content:center;align-items:center;gap:36px;text-align:center">
+  <div class="inner" style="justify-content:center;align-items:center;gap:32px;text-align:center">
 
     <div class="a1">
-      <div class="eyebrow">Was bedeutet das?</div>
+      <div class="eyebrow">Kapitel 02 · Anpassung</div>
     </div>
 
     <div class="a2" style="max-width:1500px">
       <h1 style="font-size:80px;line-height:1.08;letter-spacing:-0.025em">
-        Wie wir Social Media machen,<br>
-        ändert sich <span class="serif-italic">grundlegend</span>.
+        Diesen Moment hatten wir<br>
+        schon <span class="serif-italic">öfter</span>.
       </h1>
     </div>
 
-    <div class="a3" style="max-width:1100px">
-      <p style="font:400 26px/1.55 var(--ia-font-body);color:var(--ia-fg-secondary)">
-        Bessere Qualität. Höherer Output.<br>
-        Und eine höhere Latte, damit du nicht untergehst.
+    <div class="a3" style="max-width:1200px">
+      <p style="font:400 24px/1.55 var(--ia-font-body);color:var(--ia-fg-secondary)">
+        Plattformen werden enger, dann werden die Werkzeuge besser. Diesmal heißt das Werkzeug <strong style="color:var(--ia-black);font-weight:600">KI</strong> — ich zeige dir, wie wir damit heute Beiträge bauen, und wohin der Weg führt.
       </p>
     </div>
 
-    <!-- Journey preview -->
-    <div class="a4" style="margin-top:48px;padding-top:40px;border-top:1px solid var(--ia-border);display:flex;align-items:center;gap:36px;justify-content:center">
+    <!-- Journey Cards -->
+    <div style="margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1500px;width:100%">
 
-      <div style="display:flex;align-items:center;gap:16px">
-        <div style="width:36px;height:36px;border-radius:50%;background:var(--ia-blue-light);border:2px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;font:700 13px var(--ia-font-body);color:var(--ia-blue)">01</div>
-        <div style="text-align:left">
-          <div class="eyebrow" style="margin-bottom:2px">Status Quo</div>
-          <div style="font:600 20px var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">Wo wir heute stehen</div>
-        </div>
+      <!-- Card 1: Status Quo — HIGHLIGHTED (next up) -->
+      <div class="a4" style="padding:44px 32px;background:var(--ia-blue);border:1px solid var(--ia-blue);display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;min-height:300px">
+        <div style="width:72px;height:72px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font:900 26px var(--ia-font-body);color:var(--ia-blue);letter-spacing:-0.02em">01</div>
+        <div style="font:600 13px var(--ia-font-body);letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.7)">Status Quo</div>
+        <div style="font:700 30px/1.2 var(--ia-font-body);color:#fff;letter-spacing:-0.015em">So nutzen wir<br>KI heute</div>
       </div>
 
-      <div style="width:48px;height:1px;background:var(--ia-border)"></div>
-
-      <div style="display:flex;align-items:center;gap:16px">
-        <div style="width:36px;height:36px;border-radius:50%;background:var(--ia-blue-light);border:2px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;font:700 13px var(--ia-font-body);color:var(--ia-blue)">02</div>
-        <div style="text-align:left">
-          <div class="eyebrow" style="margin-bottom:2px">Ausblick</div>
-          <div style="font:600 20px var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">Wohin es geht</div>
-        </div>
+      <!-- Card 2: Ausblick -->
+      <div class="a5" style="padding:44px 32px;background:#fff;border:1px solid var(--ia-border);display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;min-height:300px">
+        <div style="width:72px;height:72px;border-radius:50%;background:var(--ia-blue-light);border:2px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;font:900 26px var(--ia-font-body);color:var(--ia-blue);letter-spacing:-0.02em">02</div>
+        <div class="eyebrow">Ausblick</div>
+        <div style="font:700 30px/1.2 var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.015em">Wohin der<br>Weg führt</div>
       </div>
 
-      <div style="width:48px;height:1px;background:var(--ia-border)"></div>
-
-      <div style="display:flex;align-items:center;gap:16px">
-        <div style="width:36px;height:36px;border-radius:50%;background:var(--ia-blue);display:flex;align-items:center;justify-content:center;font:700 13px var(--ia-font-body);color:#fff">03</div>
-        <div style="text-align:left">
-          <div class="eyebrow blue" style="margin-bottom:2px">Live</div>
-          <div style="font:600 20px var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">Wie das in der Praxis aussieht</div>
-        </div>
+      <!-- Card 3: Live -->
+      <div class="a6" style="padding:44px 32px;background:#fff;border:1px solid var(--ia-border);display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;min-height:300px">
+        <div style="width:72px;height:72px;border-radius:50%;background:var(--ia-blue-light);border:2px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center;font:900 26px var(--ia-font-body);color:var(--ia-blue);letter-spacing:-0.02em">03</div>
+        <div class="eyebrow">Live</div>
+        <div style="font:700 30px/1.2 var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.015em">Wie das in<br>der Praxis aussieht</div>
       </div>
 
     </div>
@@ -635,25 +620,6 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SLIDE 06 — KAPITEL 02
-════════════════════════════════════════════════════════════════ -->
-<section class="light" data-screen-label="06 Kapitel 2">
-  <div class="grid"></div>
-
-  <div class="inner" style="justify-content:center;gap:20px">
-    <div class="eyebrow a1">Kapitel</div>
-    <h1 class="a2">Wo wir<br><span class="blue">heute stehen.</span></h1>
-    <div class="chapter-bar a3"></div>
-  </div>
-
-  <div class="foot">
-    <span>immoautomation</span>
-    <span>06</span>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════
      SLIDE 07 — KI NUTZUNG (mit Substeps)
 ════════════════════════════════════════════════════════════════ -->
 <section class="light" data-screen-label="07 KI Nutzung" data-substeps="4">
@@ -663,7 +629,7 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
   <div class="inner" style="gap:48px;padding:80px 120px">
     <div style="text-align:center">
       <div class="eyebrow" style="margin-bottom:16px">KI & Social Media 2025</div>
-      <h2 style="font-size:72px">So wird KI für Social Media <span class="blue">eingesetzt.</span></h2>
+      <h2 style="font-size:72px">So nutzen wir KI <span class="blue">heute.</span></h2>
     </div>
     
     <div style="flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:28px;max-width:1200px;margin:0 auto">

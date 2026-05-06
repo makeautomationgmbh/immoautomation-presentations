@@ -839,162 +839,139 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
   <div class="ambient"></div>
 
   <style>
-    /* Isolierte Tool-Bubbles links */
-    .s10-tool {
-      position:absolute;
-      border-radius:50%;
-      background:#fff;
-      border:1px solid var(--ia-border);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      font:700 14px var(--ia-font-body);
-      color:rgba(0,0,0,0.5);
-      box-shadow:0 1px 4px hsl(250 30% 30% / .04);
-      transform:translate(-50%, -50%);
+    .s10-defs{
+      flex:1;
+      display:grid;
+      grid-template-columns:1fr 1px 1fr;
+      gap:0;
+      max-width:1500px;
+      margin:0 auto;
+      width:100%;
+      align-items:stretch;
     }
-
-    /* Workflow-Knoten rechts */
-    .s10-node {
-      position:absolute;
-      width:104px;
-      height:104px;
-      border-radius:50%;
-      background:#fff;
-      border:1.5px solid var(--ia-blue);
+    .s10-divider{
+      background:var(--ia-border);
+      width:1px;
+      align-self:stretch;
+    }
+    .s10-col{
+      padding:0 80px;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
+      gap:36px;
       text-align:center;
-      gap:4px;
-      transform:translate(-50%, -50%);
-      box-shadow:0 4px 12px hsl(250 30% 30% / .06);
     }
-    .s10-node-icon{font-size:28px;line-height:1}
-    .s10-node-label{font:700 12px var(--ia-font-body);color:var(--ia-black);letter-spacing:.04em}
-
-    /* Hub (Mitte) */
-    .s10-hub {
-      position:absolute;
-      top:50%;
-      left:50%;
-      width:124px;
-      height:124px;
-      border-radius:50%;
-      background:var(--ia-blue);
-      display:flex;
+    .s10-icon{
+      font-size:240px;
+      line-height:1;
+      user-select:none;
+      position:relative;
+      display:inline-flex;
       align-items:center;
       justify-content:center;
-      transform:translate(-50%, -50%);
-      box-shadow:0 8px 24px rgba(0,128,255,0.2);
-      color:#fff;
-      font:800 18px var(--ia-font-body);
-      letter-spacing:.06em;
-      z-index:2;
+      width:280px;
+      height:280px;
     }
+    .s10-icon > span{
+      position:relative;
+      z-index:1;
+    }
+    .s10-icon--tool > span{
+      filter:grayscale(0.55) opacity(0.62);
+    }
+    .s10-icon--agent > span{
+      filter:drop-shadow(0 0 18px rgba(0,128,255,0.5));
+    }
+    .s10-icon--agent::before{
+      content:'';
+      position:absolute;
+      inset:-24px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(0,128,255,0.38) 0%, rgba(0,128,255,0.16) 38%, rgba(0,128,255,0) 72%);
+      filter:blur(10px);
+      pointer-events:none;
+    }
+    .s10-bar{
+      width:64px;height:4px;
+      background:var(--ia-fg-muted);
+    }
+    .s10-bar--blue{background:var(--ia-blue)}
+    .s10-term{
+      font:800 84px var(--ia-font-body);
+      letter-spacing:-0.04em;
+      line-height:1;
+      color:var(--ia-black);
+    }
+    .s10-term--blue{color:var(--ia-blue)}
+    .s10-statement{
+      font:400 28px/1.45 var(--ia-font-body);
+      color:var(--ia-fg-secondary);
+      max-width:440px;
+      letter-spacing:-0.005em;
+    }
+    .s10-statement strong{color:var(--ia-black);font-weight:700}
+    .s10-statement strong.blue{color:var(--ia-blue)}
+    .s10-aha{
+      text-align:center;
+      display:flex;flex-direction:column;gap:10px;
+      align-items:center;
+    }
+    .s10-aha-eyebrow{
+      font:600 13px var(--ia-font-body);
+      color:var(--ia-fg-muted);
+      letter-spacing:0.3em;
+      text-transform:uppercase;
+    }
+    .s10-aha-question{
+      font:700 38px var(--ia-font-body);
+      color:var(--ia-black);
+      letter-spacing:-0.02em;
+    }
+    .s10-aha-question .blue{color:var(--ia-blue)}
   </style>
 
-  <div class="inner" style="gap:40px;padding:80px 120px">
+  <div class="inner" style="gap:72px;padding:80px 120px;justify-content:center">
     <!-- Header -->
     <div style="text-align:center">
       <div class="eyebrow a1" style="margin-bottom:14px">Konzept · Agentic AI</div>
-      <h2 class="a2" style="font-size:64px;line-height:1.08;letter-spacing:-0.025em">
+      <h2 class="a2" style="font-size:60px;line-height:1.08;letter-spacing:-0.025em">
         Tools sind Werkzeuge.<br><span class="blue">Agenten sind ein System.</span>
       </h2>
     </div>
 
-    <!-- Split: Vorher / Jetzt -->
-    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:stretch;max-width:1640px;margin:0 auto;width:100%">
+    <!-- Visueller Vergleich: Werkzeug vs. Mitarbeiter -->
+    <div class="s10-defs">
 
-      <!-- LINKS: Isolierte Tools -->
-      <div class="a3" style="padding:40px;display:flex;flex-direction:column;gap:24px;background:#fff;border:1px solid var(--ia-border)">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:24px">
-          <div>
-            <div style="font:700 12px var(--ia-font-body);letter-spacing:.24em;text-transform:uppercase;color:var(--ia-fg-muted);margin-bottom:6px">Vorher</div>
-            <div style="font:800 26px var(--ia-font-body);color:var(--ia-black);line-height:1.2">Tools, isoliert.</div>
-          </div>
-          <div style="font:700 12px var(--ia-font-body);letter-spacing:.18em;text-transform:uppercase;color:var(--ia-fg-muted);white-space:nowrap">8 Tools, 0 Verbindungen</div>
-        </div>
-
-        <!-- Tool-Cluster verstreut -->
-        <div style="flex:1;position:relative;min-height:400px">
-          <div class="s10-tool" style="top:18%;left:22%;width:108px;height:108px;font-size:15px">ChatGPT</div>
-          <div class="s10-tool" style="top:14%;left:62%;width:88px;height:88px">Canva</div>
-          <div class="s10-tool" style="top:34%;left:42%;width:78px;height:78px;font-size:13px">CapCut</div>
-          <div class="s10-tool" style="top:38%;left:78%;width:96px;height:96px">Photoshop</div>
-          <div class="s10-tool" style="top:54%;left:18%;width:84px;height:84px">Buffer</div>
-          <div class="s10-tool" style="top:60%;left:50%;width:100px;height:100px;font-size:13px">Midjourney</div>
-          <div class="s10-tool" style="top:78%;left:30%;width:78px;height:78px;font-size:13px">Notion</div>
-          <div class="s10-tool" style="top:80%;left:72%;width:84px;height:84px">Zapier</div>
-        </div>
-
-        <div style="font:400 15px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5">
-          Jedes Tool braucht eigenes Briefing. Du bist der Klebstoff dazwischen.
+      <!-- LINKS: Tool -->
+      <div class="s10-col a3">
+        <div class="s10-icon s10-icon--tool"><span>🔨</span></div>
+        <div class="s10-bar"></div>
+        <div class="s10-term">Tool</div>
+        <div class="s10-statement">
+          Liegt da. <strong>Du musst selbst hämmern.</strong>
         </div>
       </div>
 
-      <!-- RECHTS: Vernetzter Workflow -->
-      <div class="a4" style="padding:40px;display:flex;flex-direction:column;gap:24px;background:#fff;border:1px solid var(--ia-blue-border)">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:24px">
-          <div>
-            <div style="font:700 12px var(--ia-font-body);letter-spacing:.24em;text-transform:uppercase;color:var(--ia-blue);margin-bottom:6px">Jetzt</div>
-            <div style="font:800 26px var(--ia-font-body);color:var(--ia-black);line-height:1.2">Ein System, ein Flow.</div>
-          </div>
-          <div style="font:700 12px var(--ia-font-body);letter-spacing:.18em;text-transform:uppercase;color:var(--ia-blue);white-space:nowrap">↻ Workflow</div>
-        </div>
+      <div class="s10-divider"></div>
 
-        <!-- Workflow-Kreis -->
-        <div style="flex:1;position:relative;min-height:400px;display:flex;align-items:center;justify-content:center">
-          <!-- SVG: Kreis-Pfad mit Pfeilköpfen -->
-          <svg viewBox="0 0 400 400" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid meet">
-            <defs>
-              <marker id="s10arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ia-blue)"/>
-              </marker>
-            </defs>
-            <circle cx="200" cy="200" r="150" fill="none" stroke="var(--ia-blue)" stroke-width="1.5" stroke-dasharray="4 5" opacity="0.4"/>
-            <!-- 6 Arc segments mit Pfeilen für Flow-Richtung (im Uhrzeigersinn) -->
-            <path d="M 200,50 A 150,150 0 0,1 329.9,125" fill="none" stroke="var(--ia-blue)" stroke-width="1.5" opacity="0.55" marker-end="url(#s10arrow)"/>
-            <path d="M 329.9,275 A 150,150 0 0,1 200,350" fill="none" stroke="var(--ia-blue)" stroke-width="1.5" opacity="0.55" marker-end="url(#s10arrow)"/>
-            <path d="M 70.1,275 A 150,150 0 0,1 70.1,125" fill="none" stroke="var(--ia-blue)" stroke-width="1.5" opacity="0.55" marker-end="url(#s10arrow)"/>
-          </svg>
-
-          <!-- Hub (Mitte) -->
-          <div class="s10-hub">DU</div>
-
-          <!-- 6 Workflow-Knoten auf dem Kreis (12, 2, 4, 6, 8, 10 Uhr) -->
-          <div class="s10-node" style="top:12.5%;left:50%">
-            <div class="s10-node-icon">💬</div>
-            <div class="s10-node-label">BRIEF</div>
-          </div>
-          <div class="s10-node" style="top:31.25%;left:81.25%">
-            <div class="s10-node-icon">🔍</div>
-            <div class="s10-node-label">RESEARCH</div>
-          </div>
-          <div class="s10-node" style="top:68.75%;left:81.25%">
-            <div class="s10-node-icon">📝</div>
-            <div class="s10-node-label">CONTENT</div>
-          </div>
-          <div class="s10-node" style="top:87.5%;left:50%">
-            <div class="s10-node-icon">🎨</div>
-            <div class="s10-node-label">DESIGN</div>
-          </div>
-          <div class="s10-node" style="top:68.75%;left:18.75%">
-            <div class="s10-node-icon">📤</div>
-            <div class="s10-node-label">PUBLISH</div>
-          </div>
-          <div class="s10-node" style="top:31.25%;left:18.75%">
-            <div class="s10-node-icon">📊</div>
-            <div class="s10-node-label">ANALYSE</div>
-          </div>
-        </div>
-
-        <div style="font:400 15px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.5">
-          Alle Schritte vernetzt. Eine Anweisung läuft durch den ganzen Loop.
+      <!-- RECHTS: Agent -->
+      <div class="s10-col a4">
+        <div class="s10-icon s10-icon--agent"><span>👷</span></div>
+        <div class="s10-bar s10-bar--blue"></div>
+        <div class="s10-term s10-term--blue">Agent</div>
+        <div class="s10-statement">
+          Du sagst was zu tun ist — <strong class="blue">er hämmert, sägt, schraubt selbst.</strong>
         </div>
       </div>
+
+    </div>
+
+    <!-- AHA-Frage -->
+    <div class="s10-aha a5">
+      <div class="s10-aha-eyebrow">Der Unterschied</div>
+      <div class="s10-aha-question">Wer bedient <span class="blue">wen?</span></div>
     </div>
   </div>
 
@@ -1799,7 +1776,7 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
 }
 </style>
 
-<section class="light" data-screen-label="14 Live Chat-Demo" data-steps="5">
+<section class="light" data-screen-label="14 Live Chat-Demo" data-steps="4">
   <div class="grid"></div>
   <div class="ambient"></div>
 
@@ -1993,47 +1970,6 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
           </div>
         </div>
 
-        <!-- Step 5: 2 Wochen später + proactive -->
-        <div class="c-divider" data-step="5">
-          <div class="c-divider-line"></div>
-          <div class="c-divider-text">Heute · 2 Wochen nach dem ersten Post</div>
-          <div class="c-divider-line"></div>
-        </div>
-        <div class="c-msg" data-step="5">
-          <div class="c-msg-avatar agent"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:block"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg></div>
-          <div class="c-msg-content">
-            <div class="c-msg-name">Social Media Agent <span class="ts">unaufgefordert</span></div>
-            <div class="c-msg-text">
-              Kurzes Update: Die <strong>Marktentwicklungs-Posts</strong> performen deutlich besser als alle anderen Formate.
-            </div>
-            <div class="c-tool">
-              <div class="c-tool-head">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-                Auswertung · Letzte 14 Tage
-              </div>
-              <div class="c-tool-body">
-                <div style="display:flex;gap:32px;align-items:flex-end">
-                  <div>
-                    <div class="c-tool-hero">2,1 ×</div>
-                    <div class="c-tool-label" style="margin-bottom:0">höheres Engagement vs. andere Formate</div>
-                  </div>
-                  <div style="font:500 14px/1.6 var(--ia-font-body);color:var(--ia-fg-secondary);flex:1">
-                    Ø <strong style="color:var(--ia-black)">1.400 Aufrufe</strong> · <strong style="color:var(--ia-black)">12 % Engagement</strong><br>
-                    Beste Tageszeit: Mi. + Fr. zwischen 18–20 Uhr
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="c-msg-text" style="margin-top:14px">
-              Vorschlag: Lass uns daraus ein <strong>monatliches Format für die Top-5-Bezirke</strong> machen. Einmal freigeben — danach läuft es automatisch.
-            </div>
-            <div style="margin-top:14px;display:flex;gap:10px">
-              <div style="padding:10px 18px;background:var(--ia-blue);color:#fff;font:600 14px var(--ia-font-body)">Plan ansehen</div>
-              <div style="padding:10px 18px;background:#fff;color:var(--ia-fg-secondary);border:1px solid var(--ia-border);font:600 14px var(--ia-font-body)">Später</div>
-            </div>
-          </div>
-        </div>
-
       </div>
 
       <div class="c-input">
@@ -2066,45 +2002,67 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
       <h2 class="a2" style="font-size:56px">Der Agent handelt <span class="blue">eigenständig.</span></h2>
     </div>
     
-    <div style="flex:1;display:flex;flex-direction:column;gap:32px;max-width:1000px;margin:0 auto">
-      
-      <!-- Agent meldet sich -->
-      <div class="a3" style="display:flex;gap:24px;align-items:flex-start">
-        <div style="flex-shrink:0;width:64px;height:64px;border-radius:50%;background:var(--ia-blue-light);border:1px solid var(--ia-blue-border);display:flex;align-items:center;justify-content:center">
-          <span style="font-size:36px;line-height:1">📊</span>
-        </div>
-        <div style="flex:1;padding:28px 32px;background:#fff;border:1px solid var(--ia-border)">
-          <div style="font:700 14px var(--ia-font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--ia-blue);margin-bottom:16px">Analyse Agent meldet sich unaufgefordert</div>
-          <div style="font:600 22px var(--ia-font-body);color:var(--ia-black);margin-bottom:16px">
-            "Die Marktentwicklungs-Posts performen <strong style="color:var(--ia-blue)">deutlich am besten</strong>."
-          </div>
-          <div style="font:400 17px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.6">
-            Durchschnittlich <strong>1.400 Aufrufe</strong>, <strong>12% Engagement</strong>. Doppelt so gut wie andere Formate.
-          </div>
-        </div>
-      </div>
-      
-      <!-- Vorschlag -->
-      <div class="a4" style="display:flex;gap:24px;align-items:flex-start;margin-left:88px">
-        <div style="flex-shrink:0;width:64px;height:64px;border-radius:50%;background:var(--ia-blue);border:1px solid var(--ia-blue);display:flex;align-items:center;justify-content:center">
-          <span style="font-size:36px;line-height:1">🤖</span>
-        </div>
-        <div style="flex:1;padding:28px 32px;background:var(--ia-blue-light);border:1px solid var(--ia-blue-border)">
-          <div style="font:700 14px var(--ia-font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--ia-blue);margin-bottom:16px">Social Media Agent schlägt vor</div>
-          <div style="font:600 22px var(--ia-font-body);color:var(--ia-black);margin-bottom:16px">
-            "Lass uns daraus ein <strong style="color:var(--ia-blue)">Format für alle Bezirke</strong> machen."
-          </div>
-          <div style="font:400 17px var(--ia-font-body);color:var(--ia-fg-secondary);line-height:1.6;margin-bottom:20px">
-            Ich bereite <strong>monatliche Markt-Updates für die 5 wichtigsten Bezirke</strong> vor. Immer dasselbe Format, immer zur selben Zeit. Einmal freigeben, läuft automatisch.
-          </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:36px;max-width:1080px;margin:0 auto;width:100%">
 
-          <div style="padding:16px 20px;background:#fff;border:1px solid var(--ia-blue-border);display:inline-block">
-            <div style="font:700 14px var(--ia-font-body);color:var(--ia-blue);margin-bottom:8px">📅 Geplant für nächsten Monat:</div>
-            <div style="font:400 14px var(--ia-font-body);color:var(--ia-fg-secondary)">21., 22., 23., 2., 3. Bezirk · je 1 Post</div>
+      <!-- Message 1: Analyse Agent unaufgefordert (Chat-Bubble-Style) -->
+      <div class="a3" style="display:flex;gap:22px;align-items:flex-start">
+        <div style="flex-shrink:0;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 14px rgba(139,92,246,0.28)">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 4 4 5-5"/>
+          </svg>
+        </div>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:12px">
+          <div style="font:700 19px var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">
+            Analyse Agent <span style="font-weight:400;color:var(--ia-fg-muted);margin-left:10px;font-size:15px">unaufgefordert</span>
+          </div>
+          <div style="font:400 23px/1.5 var(--ia-font-body);color:var(--ia-black)">
+            Kurzes Update: Die <strong style="color:var(--ia-blue);font-weight:600">Marktentwicklungs-Posts</strong> performen deutlich besser als alle anderen Formate.
+          </div>
+          <div style="margin-top:6px;background:#fafbfd;border:1px solid var(--ia-border)">
+            <div style="padding:12px 22px;background:#f3f4f8;border-bottom:1px solid var(--ia-border);font:600 12px var(--ia-font-body);color:var(--ia-fg-secondary);letter-spacing:0.08em;text-transform:uppercase;display:flex;align-items:center;gap:10px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+              Auswertung · Letzte 14 Tage
+            </div>
+            <div style="padding:24px 28px;display:flex;gap:40px;align-items:flex-end;flex-wrap:wrap">
+              <div>
+                <div style="font:800 52px var(--ia-font-body);color:var(--ia-blue);letter-spacing:-0.03em;line-height:1">2,1 ×</div>
+                <div style="font:600 16px var(--ia-font-body);color:var(--ia-black);margin-top:8px">höheres Engagement vs. andere Formate</div>
+              </div>
+              <div style="font:500 16px/1.65 var(--ia-font-body);color:var(--ia-fg-secondary);flex:1;min-width:280px">
+                Ø <strong style="color:var(--ia-black)">1.400 Aufrufe</strong> · <strong style="color:var(--ia-black)">12 % Engagement</strong><br>
+                Beste Tageszeit: Mi. + Fr. zwischen 18–20 Uhr
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      
+
+      <!-- Message 2: Social Media Agent schlägt vor (Chat-Bubble-Style) -->
+      <div class="a4" style="display:flex;gap:22px;align-items:flex-start">
+        <div style="flex-shrink:0;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--ia-blue),#0066CC);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 14px rgba(0,128,255,0.28)">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
+        </div>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:12px">
+          <div style="font:700 19px var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">
+            Social Media Agent <span style="font-weight:400;color:var(--ia-fg-muted);margin-left:10px;font-size:15px">schlägt vor</span>
+          </div>
+          <div style="font:400 23px/1.5 var(--ia-font-body);color:var(--ia-black)">
+            Lass uns daraus ein <strong style="color:var(--ia-blue);font-weight:600">monatliches Format für die Top-5-Bezirke</strong> machen. Einmal freigeben — danach läuft es automatisch.
+          </div>
+          <div style="margin-top:6px;padding:16px 22px;background:#fafbfd;border:1px solid var(--ia-border);align-self:flex-start">
+            <div style="font:700 13px var(--ia-font-body);color:var(--ia-blue);margin-bottom:6px;letter-spacing:0.04em;display:flex;align-items:center;gap:8px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              Geplant für nächsten Monat
+            </div>
+            <div style="font:500 16px var(--ia-font-body);color:var(--ia-fg-secondary)">21., 22., 23., 2., 3. Bezirk · je 1 Post</div>
+          </div>
+          <div style="margin-top:8px;display:flex;gap:12px">
+            <div style="padding:12px 24px;background:var(--ia-blue);color:#fff;font:600 16px var(--ia-font-body)">Plan ansehen</div>
+            <div style="padding:12px 24px;background:#fff;color:var(--ia-fg-secondary);border:1px solid var(--ia-border);font:600 16px var(--ia-font-body)">Später</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
   

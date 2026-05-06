@@ -155,20 +155,17 @@ section[data-deck-active]{display:flex}
   animation:slideInLeft .8s cubic-bezier(0.16,1,0.3,1) forwards;
 }
 
-/* Slide 04 — echte Schere (zwei Linien divergieren) */
+/* Slide 03 — Engagement-Zeitreise */
 @keyframes drawPath{to{stroke-dashoffset:0}}
 @keyframes fadeIn{to{opacity:1}}
-.chart-volumen{stroke-dasharray:1500;stroke-dashoffset:1500}
-.chart-reach{stroke-dasharray:1500;stroke-dashoffset:1500}
-.chart-gap,.chart-label-blue,.chart-label-red,.chart-dot-blue,.chart-dot-red,.chart-year-end{opacity:0}
-[data-deck-active] .chart-volumen{animation:drawPath 1.6s cubic-bezier(0.4,0,0.2,1) .55s forwards}
-[data-deck-active] .chart-reach{animation:drawPath 1.6s cubic-bezier(0.4,0,0.2,1) .55s forwards}
-[data-deck-active] .chart-gap{animation:fadeIn .9s ease-out .7s forwards}
-[data-deck-active] .chart-dot-blue{animation:fadeIn .4s ease-out 2.0s forwards}
-[data-deck-active] .chart-dot-red{animation:fadeIn .4s ease-out 2.0s forwards}
-[data-deck-active] .chart-label-blue{animation:fadeIn .5s ease-out 2.1s forwards}
-[data-deck-active] .chart-label-red{animation:fadeIn .5s ease-out 2.1s forwards}
-[data-deck-active] .chart-year-end{animation:fadeIn .4s ease-out 2.1s forwards}
+.eng-line{stroke-dasharray:1320;stroke-dashoffset:1320}
+.eng-fill,.eng-dot-start,.eng-dot-end,.eng-label-start,.eng-label-end{opacity:0}
+[data-deck-active] .eng-dot-start{animation:fadeIn .4s ease-out .4s forwards}
+[data-deck-active] .eng-label-start{animation:fadeIn .5s ease-out .55s forwards}
+[data-deck-active] .eng-line{animation:drawPath 2.2s cubic-bezier(0.4,0,0.2,1) .6s forwards}
+[data-deck-active] .eng-fill{animation:fadeIn 1.0s ease-out 1.4s forwards}
+[data-deck-active] .eng-dot-end{animation:fadeIn .4s ease-out 2.7s forwards}
+[data-deck-active] .eng-label-end{animation:fadeIn .5s ease-out 2.85s forwards}
 
 /* Pill badge */
 .pill{
@@ -369,112 +366,201 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SLIDE 03 — PAIN (−30% Reichweite YoY)
+     SLIDE 03 — PAIN als Zeitreise (Engagement Q1 2024 → Q4 2025)
 ════════════════════════════════════════════════════════════════ -->
 <section class="light" data-screen-label="03 Pain">
-  <div class="grid"></div>
-
-  <div class="inner" style="justify-content:center;align-items:center;gap:32px;text-align:center">
-
-    <div class="a1">
-      <div class="eyebrow">Reichweite · 2024 → 2025</div>
-    </div>
-
-    <div class="a2" style="display:flex;align-items:baseline;justify-content:center">
-      <div style="font:900 320px/0.9 var(--ia-font-body);letter-spacing:-0.05em;color:var(--ia-red)">−30<span style="font-size:0.5em;letter-spacing:-0.04em">%</span></div>
-    </div>
-
-    <div class="a3" style="max-width:1100px;margin-top:8px">
-      <h2 style="font-size:60px;line-height:1.1;letter-spacing:-0.025em">
-        So viel weniger Reichweite haben<br>deine Posts gegenüber dem Vorjahr.
-      </h2>
-    </div>
-
-    <div class="a4" style="margin-top:24px;max-width:900px">
-      <p style="font:400 22px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
-        Über alle Formate. Reels, Carousel, Bilder.<br>
-        Und du machst nichts falsch.
-      </p>
-    </div>
-
-  </div>
-
-  <div class="foot">
-    <span>Emplifi 2026 Social Media Benchmark · 1,9 Mio. Posts · 9.678 Marken</span>
-    <span>03</span>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SLIDE 04 — MECHANISMUS (Schere: Volumen ↑ vs. Aufmerksamkeit →)
-════════════════════════════════════════════════════════════════ -->
-<section class="light" data-screen-label="04 Mechanismus">
   <div class="grid"></div>
 
   <div class="inner" style="gap:32px">
 
     <!-- Headline -->
     <div class="a1" style="text-align:center">
-      <div class="eyebrow" style="margin-bottom:20px">Warum das passiert</div>
-      <h2>Du machst nichts falsch.<br><span class="serif-italic">Die Bühne wird voller.</span></h2>
+      <div class="eyebrow" style="margin-bottom:20px">Engagement-Rate · Instagram</div>
+      <h2>Engagement auf Instagram<br>hat sich <span class="serif-italic">fast halbiert</span>.</h2>
     </div>
 
-    <!-- Schere-Chart: zwei Linien divergieren von links -->
+    <!-- Zeitreise-Chart -->
     <div class="a2" style="flex:1;display:flex;align-items:center;justify-content:center;width:100%;max-width:1500px;margin:0 auto;padding:0 40px">
-      <svg viewBox="0 0 1240 460" style="width:100%;height:auto;max-height:560px" preserveAspectRatio="xMidYMid meet">
+      <svg viewBox="0 0 1240 460" style="width:100%;height:auto;max-height:580px" preserveAspectRatio="xMidYMid meet">
 
         <defs>
-          <linearGradient id="scissorsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="rgba(220,38,38,0)"/>
-            <stop offset="100%" stop-color="rgba(220,38,38,0.16)"/>
+          <linearGradient id="engFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(220,38,38,0.18)"/>
+            <stop offset="100%" stop-color="rgba(220,38,38,0)"/>
+          </linearGradient>
+          <linearGradient id="engLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#0080FF"/>
+            <stop offset="100%" stop-color="#dc2626"/>
           </linearGradient>
         </defs>
 
-        <!-- Subtle reference line at start-y -->
-        <line x1="80" y1="200" x2="1140" y2="200" stroke="rgba(12,12,12,0.08)" stroke-width="1" stroke-dasharray="3,7"/>
+        <!-- Y-gridlines (subtle) -->
+        <line x1="100" y1="60" x2="1140" y2="60" stroke="rgba(12,12,12,0.04)" stroke-width="1"/>
+        <line x1="100" y1="152" x2="1140" y2="152" stroke="rgba(12,12,12,0.04)" stroke-width="1"/>
+        <line x1="100" y1="245" x2="1140" y2="245" stroke="rgba(12,12,12,0.04)" stroke-width="1"/>
+        <line x1="100" y1="360" x2="1140" y2="360" stroke="rgba(12,12,12,0.1)" stroke-width="1"/>
 
-        <!-- Common starting dot -->
-        <circle cx="80" cy="200" r="6" fill="rgba(12,12,12,0.55)"/>
-
-        <!-- Scissors gap area -->
-        <path class="chart-gap" d="M 80 200 C 460 195 800 130 1140 60 L 1140 340 C 800 270 460 205 80 200 Z" fill="url(#scissorsGrad)" stroke="none"/>
-
-        <!-- Reichweite: red falling curve -->
-        <path class="chart-reach" d="M 80 200 C 460 205 800 270 1140 340" stroke="#dc2626" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-
-        <!-- Content-Volumen: blue rising curve -->
-        <path class="chart-volumen" d="M 80 200 C 460 195 800 130 1140 60" stroke="#0080FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-
-        <!-- Endpoint dots -->
-        <circle class="chart-dot-blue" cx="1140" cy="60" r="9" fill="#0080FF"/>
-        <circle class="chart-dot-red" cx="1140" cy="340" r="9" fill="#dc2626"/>
-
-        <!-- Endpoint labels -->
-        <text class="chart-label-blue" x="1135" y="34" text-anchor="end" style="font:700 22px 'Inter',sans-serif;fill:#0080FF;letter-spacing:-0.015em">↑ Content-Volumen</text>
-        <text class="chart-label-red" x="1135" y="378" text-anchor="end" style="font:700 22px 'Inter',sans-serif;fill:#dc2626;letter-spacing:-0.015em">↓ Reichweite pro Post</text>
-
-        <!-- X-axis years -->
-        <g style="font:600 13px 'Inter',sans-serif;fill:rgba(12,12,12,0.4);letter-spacing:0.22em">
-          <text x="80" y="430" text-anchor="middle">2020</text>
-          <text x="430" y="430" text-anchor="middle">2022</text>
-          <text x="780" y="430" text-anchor="middle">2024</text>
-          <text class="chart-year-end" x="1140" y="430" text-anchor="middle" style="fill:#0C0C0C;font-weight:700">2026</text>
+        <!-- Y-axis labels -->
+        <g style="font:600 12px 'Inter',sans-serif;fill:rgba(12,12,12,0.4);letter-spacing:0.04em">
+          <text x="86" y="64" text-anchor="end">18%</text>
+          <text x="86" y="156" text-anchor="end">14%</text>
+          <text x="86" y="249" text-anchor="end">10%</text>
+          <text x="86" y="364" text-anchor="end">5%</text>
         </g>
+
+        <!-- Quartal tick marks -->
+        <g stroke="rgba(12,12,12,0.18)" stroke-width="1">
+          <line x1="100" y1="357" x2="100" y2="363"/>
+          <line x1="248" y1="357" x2="248" y2="363"/>
+          <line x1="396" y1="357" x2="396" y2="363"/>
+          <line x1="544" y1="357" x2="544" y2="363"/>
+          <line x1="694" y1="357" x2="694" y2="363"/>
+          <line x1="842" y1="357" x2="842" y2="363"/>
+          <line x1="990" y1="357" x2="990" y2="363"/>
+          <line x1="1140" y1="357" x2="1140" y2="363"/>
+        </g>
+
+        <!-- Year labels -->
+        <g style="font:700 14px 'Inter',sans-serif;fill:rgba(12,12,12,0.5);letter-spacing:0.18em">
+          <text x="322" y="395" text-anchor="middle">2024</text>
+          <text x="917" y="395" text-anchor="middle">2025</text>
+        </g>
+
+        <!-- Fill under curve -->
+        <path class="eng-fill" d="M 100 85 C 360 95 760 220 1140 252 L 1140 360 L 100 360 Z" fill="url(#engFillGrad)"/>
+
+        <!-- Engagement line: blue → red gradient -->
+        <path class="eng-line" d="M 100 85 C 360 95 760 220 1140 252" stroke="url(#engLineGrad)" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Start endpoint Q1 2024 -->
+        <circle class="eng-dot-start" cx="100" cy="85" r="10" fill="#0080FF"/>
+        <g class="eng-label-start">
+          <text x="100" y="40" text-anchor="middle" style="font:600 11px 'Inter',sans-serif;fill:rgba(12,12,12,0.5);letter-spacing:0.22em">Q1 2024</text>
+          <text x="100" y="68" text-anchor="middle" style="font:900 30px 'Inter',sans-serif;fill:#0080FF;letter-spacing:-0.025em">16,9%</text>
+        </g>
+
+        <!-- End endpoint Q4 2025 -->
+        <circle class="eng-dot-end" cx="1140" cy="252" r="10" fill="#dc2626"/>
+        <g class="eng-label-end">
+          <text x="1140" y="298" text-anchor="middle" style="font:900 30px 'Inter',sans-serif;fill:#dc2626;letter-spacing:-0.025em">9,7%</text>
+          <text x="1140" y="320" text-anchor="middle" style="font:600 11px 'Inter',sans-serif;fill:rgba(12,12,12,0.5);letter-spacing:0.22em">Q4 2025</text>
+        </g>
+
       </svg>
     </div>
 
-    <!-- Caption -->
-    <div class="a3" style="text-align:center;max-width:1100px;margin:0 auto">
+    <!-- Subline -->
+    <div class="a3" style="text-align:center;max-width:1200px;margin:0 auto">
       <p style="font:400 22px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary)">
-        Mehr Posts. Gleiche Aufmerksamkeit. <span class="serif-italic">Deine Sichtbarkeit verdünnt sich.</span>
+        Median Engagement-Rate, gemessen über alle Formate.<br>
+        Im selben Zeitraum ist auch die organische Reichweite um <strong style="color:var(--ia-black);font-weight:600">30 bis 40 Prozent</strong> gefallen.
       </p>
     </div>
 
   </div>
 
   <div class="foot">
-    <span>Schematische Darstellung · Quellen: Metricool 2025, eMarketer Time-Spent</span>
+    <span>Emplifi 2026 Social Media Benchmarks · 87.154 Instagram-Profile · Jan–Dez 2025</span>
+    <span>03</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 04 — MECHANISMUS (Two-Stat-Cards + Konklusion)
+════════════════════════════════════════════════════════════════ -->
+<section class="light" data-screen-label="04 Mechanismus">
+  <div class="grid"></div>
+
+  <div class="inner" style="gap:48px">
+
+    <!-- Headline -->
+    <div class="a1" style="text-align:center">
+      <div class="eyebrow" style="margin-bottom:20px">Warum das passiert</div>
+      <h2>Mehr Posts. Gleiche Zeit.<br><span class="serif-italic">Weniger Platz für dich.</span></h2>
+    </div>
+
+    <!-- Stat-Cards + Konklusion mit Reach-Bars -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px;max-width:1500px;margin:0 auto;width:100%">
+
+      <!-- Two stat cards side by side -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px">
+
+        <!-- Card 1: Volumen -->
+        <div class="a2" style="background:#fff;border:1px solid var(--ia-border);padding:36px 48px;display:flex;flex-direction:column;gap:16px">
+          <div class="eyebrow">Content-Angebot</div>
+          <div style="display:flex;align-items:baseline;gap:20px">
+            <div style="font:900 116px/0.9 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-blue)">96<span style="font-size:0.5em;letter-spacing:-0.03em">%</span></div>
+            <div style="font:600 22px/1.25 var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">der Profis nutzen<br>KI für Content</div>
+          </div>
+          <div style="font:400 17px/1.55 var(--ia-font-body);color:var(--ia-fg-secondary);padding-top:16px;border-top:1px solid var(--ia-border)">
+            72% davon täglich. Das Ergebnis: mehr Posts als je zuvor.
+          </div>
+        </div>
+
+        <!-- Card 2: Zeit -->
+        <div class="a3" style="background:#fff;border:1px solid var(--ia-border);padding:36px 48px;display:flex;flex-direction:column;gap:16px">
+          <div class="eyebrow">Aufmerksamkeit pro Nutzer</div>
+          <div style="display:flex;align-items:baseline;gap:20px">
+            <div style="font:900 116px/0.9 var(--ia-font-body);letter-spacing:-0.04em;color:var(--ia-black)">2,5<span style="font-size:0.5em;letter-spacing:-0.03em">h</span></div>
+            <div style="font:600 22px/1.25 var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.01em">pro Tag auf<br>Social Media</div>
+          </div>
+          <div style="font:400 17px/1.55 var(--ia-font-body);color:var(--ia-fg-secondary);padding-top:16px;border-top:1px solid var(--ia-border)">
+            Seit Jahren stabil. Mehr Zeit gibt es nicht. Nullsummenspiel.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Causality arrow -->
+      <div class="a4" style="text-align:center;font:700 28px/1 var(--ia-font-body);color:var(--ia-fg-muted);margin:-4px 0">↓</div>
+
+      <!-- Reach Bars: was 2024 100 erreicht hätte, erreicht 2025 70 -->
+      <div class="a5" style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.15);padding:28px 56px 24px;display:flex;flex-direction:column;gap:18px">
+
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px">
+          <div class="eyebrow red">Konsequenz · weniger Sichtbarkeit</div>
+          <div style="font:700 14px var(--ia-font-body);color:var(--ia-fg-muted);letter-spacing:0.22em">Reichweite pro Post</div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+
+          <!-- 2024 bar (100%) -->
+          <div style="display:flex;align-items:center;gap:24px">
+            <div style="flex:0 0 80px;font:600 14px var(--ia-font-body);color:var(--ia-fg-muted);letter-spacing:0.22em">2024</div>
+            <div style="flex:1;height:38px;background:rgba(0,0,0,0.06);position:relative">
+              <div style="position:absolute;top:0;left:0;height:100%;width:100%;background:var(--ia-blue);display:flex;align-items:center;padding-left:18px">
+                <span style="font:700 14px var(--ia-font-body);color:#fff;letter-spacing:0.22em">100 PERSONEN</span>
+              </div>
+            </div>
+            <div style="flex:0 0 110px;text-align:right;font:700 22px var(--ia-font-body);color:var(--ia-black);letter-spacing:-0.02em">100%</div>
+          </div>
+
+          <!-- 2025 bar (70%) -->
+          <div style="display:flex;align-items:center;gap:24px">
+            <div style="flex:0 0 80px;font:600 14px var(--ia-font-body);color:var(--ia-red);letter-spacing:0.22em">2025</div>
+            <div style="flex:1;height:38px;background:rgba(0,0,0,0.06);position:relative">
+              <div style="position:absolute;top:0;left:0;height:100%;width:70%;background:var(--ia-red);display:flex;align-items:center;padding-left:18px">
+                <span style="font:700 14px var(--ia-font-body);color:#fff;letter-spacing:0.22em">NUR 70</span>
+              </div>
+            </div>
+            <div style="flex:0 0 110px;text-align:right;font:700 22px var(--ia-font-body);color:var(--ia-red);letter-spacing:-0.02em">−30%</div>
+          </div>
+
+        </div>
+
+        <div style="font:400 17px/1.5 var(--ia-font-body);color:var(--ia-fg-secondary);text-align:center;padding-top:6px">
+          Aus 100 Followern, die deinen Post 2024 gesehen hätten, sehen ihn 2025 nur noch 70.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span>Metricool Social Media Studies 2025/2026 · eMarketer Time-Spent</span>
     <span>04</span>
   </div>
 </section>

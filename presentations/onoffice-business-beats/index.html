@@ -298,8 +298,7 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
     <div style="display:flex;flex-direction:row;gap:80px;flex:1;align-items:center">
       <!-- Left: Identity -->
       <div class="a1" style="flex:0 0 360px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px;background:#fff;padding:56px 40px;border:1px solid var(--ia-border)">
-        <img id="rafaelPhoto1Img" style="width:140px;height:140px;border-radius:50%;object-fit:cover;border:1px solid var(--ia-border)">
-        <script>document.getElementById('rafaelPhoto1Img').src = window.__resources?.rafaelPhoto1 || 'uploads/rafael-photo-4e40c627.png';</script>
+        <img src="uploads/rafael-photo.png" alt="Rafael Kietaibl" style="width:140px;height:140px;border-radius:50%;object-fit:cover;border:1px solid var(--ia-border)">
         <div>
           <div style="font:900 32px var(--ia-font-body);color:var(--ia-black);margin-bottom:8px">Rafael Kietaibl</div>
           <div style="font:400 16px var(--ia-font-body);color:var(--ia-fg-secondary)">immoautomation.at</div>
@@ -2087,8 +2086,8 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
     </div>
     
     <!-- Visual: Mitarbeiter Timeline -->
-    <div class="a2" style="display:flex;align-items:center;gap:48px;max-width:1400px;margin:0 auto">
-      
+    <div class="a2" style="display:flex;align-items:flex-start;gap:48px;max-width:1400px;margin:0 auto">
+
       <!-- Step 1: Einarbeitung -->
       <div style="flex:1;text-align:center">
         <div style="width:140px;height:140px;margin:0 auto 24px;border-radius:50%;background:rgba(245,158,11,0.1);border:3px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center">
@@ -2099,14 +2098,14 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
           Braucht Kontext,<br>Infos, Beispiele
         </div>
       </div>
-      
-      <!-- Arrow -->
-      <div style="flex:0 0 60px;text-align:center">
+
+      <!-- Arrow (anchored at icon center: 140px tall container, arrow centered inside) -->
+      <div style="flex:0 0 60px;height:140px;display:flex;align-items:center;justify-content:center">
         <svg width="60" height="40" viewBox="0 0 60 40" fill="none">
           <path d="M0 20 L52 20 M40 10 L52 20 L40 30" stroke="var(--ia-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      
+
       <!-- Step 2: Zusammenarbeit -->
       <div style="flex:1;text-align:center">
         <div style="width:140px;height:140px;margin:0 auto 24px;border-radius:50%;background:rgba(0,128,255,0.1);border:3px solid rgba(0,128,255,0.3);display:flex;align-items:center;justify-content:center">
@@ -2117,14 +2116,14 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
           Feedback geben,<br>gemeinsam optimieren
         </div>
       </div>
-      
+
       <!-- Arrow -->
-      <div style="flex:0 0 60px;text-align:center">
+      <div style="flex:0 0 60px;height:140px;display:flex;align-items:center;justify-content:center">
         <svg width="60" height="40" viewBox="0 0 60 40" fill="none">
           <path d="M0 20 L52 20 M40 10 L52 20 L40 30" stroke="var(--ia-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      
+
       <!-- Step 3: Autonomie -->
       <div style="flex:1;text-align:center">
         <div style="width:140px;height:140px;margin:0 auto 24px;border-radius:50%;background:rgba(16,185,129,0.12);border:3px solid rgba(16,185,129,0.3);display:flex;align-items:center;justify-content:center">
@@ -2135,7 +2134,7 @@ h3{font:700 48px/1.1 var(--ia-font-body);letter-spacing:-0.02em;color:var(--ia-b
           Arbeitet eigenständig,<br>24/7, wahnsinnig effizient
         </div>
       </div>
-      
+
     </div>
     
     <!-- Payoff -->

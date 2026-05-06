@@ -16,3 +16,6 @@ node_modules/
 
 # Tool-use logs / session telemetry
 logs/
+
+# Build artifacts (created by scripts/build-standalone.py)
+**/index-standalone.html

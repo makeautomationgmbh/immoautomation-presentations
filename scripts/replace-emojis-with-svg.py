@@ -2,7 +2,7 @@
 """
 replace-emojis-with-svg.py — Replace Unicode emojis in index.html with inline Twemoji SVGs.
 
-Why: native emoji rendering varies wildly between OS (Apple Color Emoji on Mac,
+Why: native emoji rendering varies per OS (Apple Color Emoji on Mac,
 Segoe UI Emoji on Windows, Noto Color Emoji on Linux). Inline Twemoji SVGs
 render identically everywhere — no font dependency, no platform variation.
 
@@ -46,14 +46,20 @@ def fetch_svg(emoji: str) -> str | None:
 
 
 def make_inline_svg(svg_content: str, emoji_char: str) -> str:
-    """Strip XML decl + inject class/sizing attrs so the SVG scales with surrounding font-size."""
+    """Strip XML decl + inject class/sizing attrs so the SVG scales with surrounding font-size.
+
+    IMPORTANT: aria-label uses the codepoint, NOT the emoji char itself, to avoid
+    re-matching during emoji replacement (which would cause nested SVGs).
+    """
     svg_content = re.sub(r"<\?xml[^?]*\?>\s*", "", svg_content)
+    codepoint_label = f"emoji-U{ord(emoji_char):04X}"
+    # Inject attrs into the opening <svg> tag using regular (unescaped) quotes
     svg_content = re.sub(
-        r"<svg([^>]*)>",
+        r"<svg\b([^>]*)>",
         (
-            r"<svg\1 class=\"twemoji\" "
+            r'<svg\1 class="twemoji" '
             'style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block" '
-            f'aria-label="{emoji_char}">'
+            f'aria-label="{codepoint_label}">'
         ),
         svg_content,
         count=1,
@@ -81,10 +87,8 @@ def main() -> int:
 
     print(
         f"Found {len(emojis_found)} unique emojis "
-        f"({sum(html.count(e) for e in emojis_found)} total occurrences):"
+        f"({sum(html.count(e) for e in emojis_found)} total occurrences)"
     )
-    for e in emojis_found:
-        print(f"  {e}  U+{ord(e):04X}  ×{html.count(e)}")
 
     print("\nFetching Twemoji SVGs...")
     svg_cache: dict[str, str] = {}
@@ -92,24 +96,31 @@ def main() -> int:
         svg = fetch_svg(emoji)
         if svg:
             svg_cache[emoji] = make_inline_svg(svg, emoji)
-            print(f"  ✓ {emoji} U+{ord(emoji):04X} ({len(svg)} bytes raw SVG)")
+            print(f"  OK  {emoji} U+{ord(emoji):04X} ({len(svg)} bytes raw SVG)")
 
-    print("\nReplacing in HTML...")
-    total = 0
-    for emoji, svg in svg_cache.items():
-        count = html.count(emoji)
-        # Replace emoji + optional trailing VS-16 in one pass
-        html = html.replace(emoji + VS16, svg)
-        html = html.replace(emoji, svg)
-        total += count
-        print(f"  {emoji} → SVG ({count}×)")
+    if not svg_cache:
+        print("No SVGs fetched. Nothing to replace.")
+        return 0
 
+    # Single-pass regex replacement — avoids re-matching emoji chars that may
+    # appear inside the inserted SVG's own attributes/content.
+    print("\nReplacing in HTML (single-pass regex)...")
+    char_class = "".join(re.escape(e) for e in svg_cache.keys())
+    pattern = re.compile(f"([{char_class}])️?")
+    counter = {"n": 0}
+
+    def replacer(match: re.Match) -> str:
+        emoji_char = match.group(1)
+        counter["n"] += 1
+        return svg_cache[emoji_char]
+
+    html = pattern.sub(replacer, html)
     # Strip any orphan variation selectors left over (rare)
     html = html.replace(VS16, "")
 
     print(f"\nWriting {target}")
     target.write_text(html, encoding="utf-8")
-    print(f"Done. {total} emoji occurrences replaced with inline Twemoji SVG.")
+    print(f"Done. {counter['n']} emoji occurrences replaced with inline Twemoji SVG.")
     print("Identical rendering now on Mac / Windows / Linux / any browser.")
     return 0
 

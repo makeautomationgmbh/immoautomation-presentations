@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, initial-scale=1.0" />
+  <title>immoautomation — Pricing (v2)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #0080FF;
+      --blue-light: rgba(0, 128, 255, 0.1);
+      --black: #1a1a2e;
+      --white: #fcfcff;
+      --gray-light: rgba(0, 0, 0, 0.04);
+      --text-secondary: rgba(0, 0, 0, 0.5);
+      --text-muted: rgba(0, 0, 0, 0.35);
+      --border: rgba(0, 0, 0, 0.08);
+    }
+
+    html, body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .section-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 80px;
+    }
+
+    .slide-pricing {
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-pricing .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1800px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .pricing-head {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pricing-title {
+      font-size: 52px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .pricing-compare {
+      font-size: 17px;
+      color: var(--text-secondary);
+    }
+
+    .pricing-compare .strike {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .pricing-compare .accent {
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .pricing-card {
+      border: 1px solid var(--border);
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      position: relative;
+      background: var(--white);
+    }
+
+    .pricing-card.featured {
+      border-color: var(--blue);
+      border-width: 2px;
+      background: rgba(0, 128, 255, 0.02);
+    }
+
+    .pricing-card .card-badge {
+      position: absolute;
+      top: -1px;
+      right: 28px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 6px 14px;
+      color: white;
+      background: var(--blue);
+    }
+
+    .pricing-card .card-header {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pricing-card .plan-name {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .pricing-card .plan-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .pricing-card .price-block {
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pricing-card .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .pricing-card .price {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pricing-card .price-suffix {
+      font-size: 17px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .pricing-card .price-note {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .pricing-card .price-note.accent {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .pricing-card .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-grow: 1;
+    }
+
+    .pricing-card .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .pricing-card .feature-item svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: var(--blue);
+    }
+
+    .pricing-card .feature-item.muted svg {
+      color: rgba(0, 0, 0, 0.2);
+    }
+
+    .pricing-card .feature-item.muted {
+      color: var(--text-muted);
+    }
+
+    .soon-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: var(--blue-light);
+      padding: 2px 7px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .setup-box {
+      border: 1px solid var(--border);
+      background: var(--gray-light);
+      padding: 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .setup-box .setup-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .setup-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .setup-row .setup-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .setup-row .setup-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .setup-row .setup-price {
+      font-size: 17px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .pricing-card .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .cta-btn.primary {
+      background: var(--blue);
+      color: white;
+    }
+
+    .cta-btn.outline {
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      color: var(--black);
+    }
+
+    .card-footer {
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide slide-pricing">
+    <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+      <defs>
+        <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+          <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#000" stroke-width="1" opacity="0.03"/>
+        </pattern>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#grid)"/>
+    </svg>
+
+    <div class="content">
+      <div class="pricing-head">
+        <p class="section-label">Pricing</p>
+        <div class="pricing-title">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Transparent und</span>
+          <span style="font-weight:600;color:var(--blue);">fair kalkuliert.</span>
+        </div>
+        <p class="pricing-compare">
+          Eine Social Media Agentur kostet <span class="strike">500&ndash;2.000&euro;/Monat</span>. immoautomation ab <span class="accent">0&euro;</span>.
+        </p>
+      </div>
+
+      <div class="pricing-cards">
+        <!-- Kostenlos -->
+        <div class="pricing-card">
+          <div class="card-header">
+            <div class="plan-name">Kostenlos</div>
+            <div class="plan-desc">Zum Kennenlernen</div>
+          </div>
+          <div class="price-block">
+            <div class="price-row">
+              <span class="price">&euro;0</span>
+            </div>
+            <div class="price-note">für immer</div>
+          </div>
+          <div class="features-list">
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Unbegrenzte Postings</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Automatische KI-Texte</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Instagram &amp; Facebook direkt verbinden</span>
+            </div>
+            <div class="feature-item muted">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Designs &amp; Vorlagen</span>
+            </div>
+            <div class="feature-item muted">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Google My Business</span>
+            </div>
+            <div class="feature-item muted">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Posts vorplanen</span>
+            </div>
+          </div>
+          <div class="cta-btn outline">Kostenlos mehr Reichweite</div>
+          <div class="card-footer">Keine Kreditkarte nötig</div>
+        </div>
+
+        <!-- MaklerPlus -->
+        <div class="pricing-card">
+          <div class="card-header">
+            <div class="plan-name">MaklerPlus</div>
+            <div class="plan-desc">Für wachsende Makler</div>
+          </div>
+          <div class="price-block">
+            <div class="price-row">
+              <span class="price">&euro;49</span>
+              <span class="price-suffix">/ Monat</span>
+            </div>
+            <div class="price-note">14 Tage kostenlos testen</div>
+          </div>
+          <div class="features-list">
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span><strong>Unbegrenzte</strong> Postings</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Standard Designs</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Automatische KI-Texte</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Instagram &amp; Facebook direkt verbinden</span>
+            </div>
+            <div class="feature-item muted">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Google My Business</span>
+            </div>
+            <div class="feature-item muted">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              <span>Posts vorplanen</span>
+            </div>
+          </div>
+          <div class="cta-btn outline">14 Tage kostenlos testen</div>
+          <div class="card-footer">Für Einzelmakler</div>
+        </div>
+
+        <!-- MaklerPremium (featured) -->
+        <div class="pricing-card featured">
+          <span class="card-badge">Beliebteste Wahl</span>
+          <div class="card-header">
+            <div class="plan-name">MaklerPremium</div>
+            <div class="plan-desc">Alles automatisiert</div>
+          </div>
+          <div class="price-block">
+            <div class="price-row">
+              <span class="price">&euro;99</span>
+              <span class="price-suffix">/ Monat</span>
+            </div>
+            <div class="price-note">14 Tage kostenlos testen</div>
+          </div>
+          <div class="features-list">
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Alles aus MaklerPlus</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span><strong>Premium Designs</strong> + 1 Std. Anpassung</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>KI-Texte individuell steuerbar</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Google My Business</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Posts vorplanen</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Content Kalender</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Stories<span class="soon-tag">Coming Soon</span></span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Bewertungspostings<span class="soon-tag">Coming Soon</span></span>
+            </div>
+          </div>
+          <div class="cta-btn primary">14 Tage kostenlos testen</div>
+          <div class="card-footer">Für Maklerbüros &amp; Teams</div>
+        </div>
+
+        <!-- MaklerPremium+ -->
+        <div class="pricing-card">
+          <div class="card-header">
+            <div class="plan-name">MaklerPremium+</div>
+            <div class="plan-desc">Dein eigenes Design</div>
+          </div>
+          <div class="price-block">
+            <div class="price-row">
+              <span class="price">&euro;99+</span>
+              <span class="price-suffix">/ Monat</span>
+            </div>
+            <div class="price-note accent">ab 750&euro; Einrichtung (einmalig)</div>
+          </div>
+          <div class="features-list">
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Alles aus MaklerPremium</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span><strong>Eigenes Design</strong> integrieren</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Komplettes Onboarding</span>
+            </div>
+            <div class="feature-item">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span>Persönliche Betreuung</span>
+            </div>
+          </div>
+          <div class="setup-box">
+            <div class="setup-label">Design-Einrichtung (einmalig)</div>
+            <div class="setup-row">
+              <div>
+                <div class="setup-title">Eigenes Design mitbringen</div>
+                <div class="setup-sub">Wir setzen dein Design 1:1 um</div>
+              </div>
+              <div class="setup-price">ab 750&euro;</div>
+            </div>
+            <div class="setup-row">
+              <div>
+                <div class="setup-title">Individuelles Design</div>
+                <div class="setup-sub">Wir entwickeln es komplett für dich</div>
+              </div>
+              <div class="setup-price">ab 1.250&euro;</div>
+            </div>
+          </div>
+          <div class="cta-btn outline">Kontakt aufnehmen</div>
+          <div class="card-footer">Einmalige Einrichtungsgebühr</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

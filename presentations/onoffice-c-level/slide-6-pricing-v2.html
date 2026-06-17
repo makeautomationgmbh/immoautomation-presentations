@@ -6,7 +6,7 @@
   <title>immoautomation — Pricing (v2)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after {
       margin: 0;
@@ -16,32 +16,44 @@
 
     :root {
       --blue: #0080FF;
+      --blue-hover: #0066CC;
       --blue-light: rgba(0, 128, 255, 0.1);
-      --black: #1a1a2e;
-      --white: #fcfcff;
+      --blue-glow: rgba(0, 128, 255, 0.2);
+      --accent: #0080FF;
+      --accent-dark: #0066CC;
+      --accent-light: rgba(0, 128, 255, 0.05);
+      --black: #0C0C0C;
+      --white: #FAFBFF;
+      --bg: #FAFBFF;
+      --bg-alt: #F5F4FB;
       --gray-light: rgba(0, 0, 0, 0.04);
-      --text-secondary: rgba(0, 0, 0, 0.5);
-      --text-muted: rgba(0, 0, 0, 0.35);
-      --border: rgba(0, 0, 0, 0.08);
+      --text: #0C0C0C;
+      --text-secondary: rgba(0, 0, 0, 0.6);
+      --text-muted: rgba(0, 0, 0, 0.4);
+      --border: rgba(0, 0, 0, 0.05);
+      --success: #22C55E;
+      --font-heading: 'Geist', 'Geist Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Newsreader', Georgia, serif;
     }
 
     html, body {
       width: 1920px;
       height: 1080px;
       overflow: hidden;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--white);
-      color: var(--black);
-    }
-
-    .grid-bg {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .section-label {
-      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.3em;
       color: var(--text-muted);
@@ -60,7 +72,7 @@
     }
 
     .slide-pricing {
-      background: var(--white);
+      background: var(--bg);
       position: relative;
       overflow: hidden;
     }
@@ -82,6 +94,7 @@
     }
 
     .pricing-title {
+      font-family: var(--font-heading);
       font-size: 52px;
       line-height: 1.1;
       letter-spacing: -0.02em;
@@ -98,7 +111,7 @@
     }
 
     .pricing-compare .accent {
-      color: var(--blue);
+      color: var(--accent);
       font-weight: 700;
     }
 
@@ -116,12 +129,12 @@
       flex-direction: column;
       gap: 22px;
       position: relative;
-      background: var(--white);
+      background: #fff;
     }
 
     .pricing-card.featured {
-      border-color: var(--blue);
-      border-width: 2px;
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
       background: rgba(0, 128, 255, 0.02);
     }
 
@@ -134,8 +147,8 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
       padding: 6px 14px;
-      color: white;
-      background: var(--blue);
+      color: #fff;
+      background: var(--accent);
     }
 
     .pricing-card .card-header {
@@ -145,8 +158,10 @@
     }
 
     .pricing-card .plan-name {
+      font-family: var(--font-heading);
       font-size: 24px;
       font-weight: 600;
+      letter-spacing: -0.02em;
     }
 
     .pricing-card .plan-desc {
@@ -169,9 +184,11 @@
     }
 
     .pricing-card .price {
+      font-family: var(--font-heading);
       font-size: 48px;
       font-weight: 700;
       line-height: 1;
+      letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
     }
 
@@ -187,7 +204,7 @@
     }
 
     .pricing-card .price-note.accent {
-      color: var(--blue);
+      color: var(--accent);
       font-weight: 600;
     }
 
@@ -211,11 +228,11 @@
       height: 17px;
       flex-shrink: 0;
       margin-top: 1px;
-      color: var(--blue);
+      color: var(--accent);
     }
 
     .pricing-card .feature-item.muted svg {
-      color: rgba(0, 0, 0, 0.2);
+      color: var(--text-muted);
     }
 
     .pricing-card .feature-item.muted {
@@ -228,7 +245,7 @@
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--blue);
+      color: var(--accent);
       background: var(--blue-light);
       padding: 2px 7px;
       margin-left: 6px;
@@ -237,7 +254,7 @@
 
     .setup-box {
       border: 1px solid var(--border);
-      background: var(--gray-light);
+      background: var(--bg-alt);
       padding: 16px 16px;
       display: flex;
       flex-direction: column;
@@ -290,14 +307,14 @@
     }
 
     .cta-btn.primary {
-      background: var(--blue);
-      color: white;
+      background: var(--accent);
+      color: #fff;
     }
 
     .cta-btn.outline {
       background: transparent;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      color: var(--black);
+      border: 1px solid var(--border);
+      color: var(--text);
     }
 
     .card-footer {
@@ -311,21 +328,12 @@
 </head>
 <body>
   <div class="slide slide-pricing">
-    <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
-      <defs>
-        <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
-          <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#000" stroke-width="1" opacity="0.03"/>
-        </pattern>
-      </defs>
-      <rect width="1920" height="1080" fill="url(#grid)"/>
-    </svg>
-
     <div class="content">
       <div class="pricing-head">
         <p class="section-label">Pricing</p>
         <div class="pricing-title">
-          <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Transparent und</span>
-          <span style="font-weight:600;color:var(--blue);">fair kalkuliert.</span>
+          <span style="font-family:var(--font-serif);font-style:italic;font-weight:400;">Transparent und</span>
+          <span style="font-weight:700;color:var(--accent);">fair kalkuliert.</span>
         </div>
         <p class="pricing-compare">
           Eine Social Media Agentur kostet <span class="strike">500&ndash;2.000&euro;/Monat</span>. immoautomation ab <span class="accent">0&euro;</span>.

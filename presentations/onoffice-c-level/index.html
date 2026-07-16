@@ -6,7 +6,7 @@
   <title>immoautomation — onOffice Präsentation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after {
       margin: 0;
@@ -19,25 +19,37 @@
       --blue-hover: #0066CC;
       --blue-light: rgba(0, 128, 255, 0.1);
       --blue-glow: rgba(0, 128, 255, 0.2);
-      --black: #1a1a2e;
-      --white: #fcfcff;
+      --accent: #0080FF;
+      --accent-dark: #0066CC;
+      --accent-light: rgba(0, 128, 255, 0.05);
+      --black: #0C0C0C;
+      --white: #FAFBFF;
+      --bg: #FAFBFF;
+      --bg-alt: #F5F4FB;
       --gray-light: rgba(0, 0, 0, 0.04);
-      --text-secondary: rgba(0, 0, 0, 0.5);
-      --text-muted: rgba(0, 0, 0, 0.35);
-      --border: rgba(0, 0, 0, 0.08);
+      --text: #0C0C0C;
+      --text-secondary: rgba(0, 0, 0, 0.6);
+      --text-muted: rgba(0, 0, 0, 0.4);
+      --border: rgba(0, 0, 0, 0.05);
+      --success: #22C55E;
+      --font-heading: 'Geist', 'Geist Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Newsreader', Georgia, serif;
     }
 
     html, body {
       width: 1920px;
       height: 1080px;
       overflow: hidden;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--white);
-      color: var(--black);
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .font-newsreader {
-      font-family: 'Newsreader', Georgia, serif;
+      font-family: var(--font-serif);
     }
 
     /* ---- Slide Container ---- */
@@ -174,16 +186,13 @@
     .delay-7 { animation-delay: 0.95s; }
     .delay-8 { animation-delay: 1.1s; }
 
-    /* ---- Grid Background ---- */
-    .grid-bg {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
     /* ---- Section Label ---- */
     .section-label {
-      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.3em;
       color: var(--text-muted);
@@ -191,7 +200,7 @@
 
     /* ---- SLIDE 1: ABOUT US ---- */
     .slide-about {
-      background: var(--white);
+      background: var(--bg);
       position: relative;
       overflow: hidden;
     }
@@ -236,20 +245,22 @@
     }
 
     .about-title {
+      font-family: var(--font-heading);
       font-size: 76px;
       line-height: 1.1;
       letter-spacing: -0.02em;
+      font-weight: 700;
     }
 
     .about-title .serif {
-      font-family: 'Newsreader', serif;
+      font-family: var(--font-serif);
       font-style: italic;
       font-weight: 400;
     }
 
     .about-title .blue {
-      font-weight: 600;
-      color: var(--blue);
+      font-weight: 700;
+      color: var(--accent);
     }
 
     .about-title .light {
@@ -262,9 +273,11 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0;
+      border: 1px solid var(--border);
     }
 
     .team-card {
+      background: #fff;
       padding: 32px 28px;
       display: flex;
       align-items: center;
@@ -307,8 +320,10 @@
     }
 
     .team-card .name {
+      font-family: var(--font-heading);
       font-size: 24px;
       font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     .team-card .role {
@@ -319,7 +334,7 @@
 
     /* ---- SLIDE 2: DAS PROBLEM ---- */
     .slide-problem {
-      background: var(--white);
+      background: var(--bg);
       position: relative;
       overflow: hidden;
     }
@@ -347,6 +362,7 @@
     }
 
     .problem-card {
+      background: #fff;
       padding: 40px 36px;
       border: 1px solid var(--border);
       display: flex;
@@ -381,9 +397,11 @@
     }
 
     .problem-card h3 {
+      font-family: var(--font-heading);
       font-size: 22px;
       font-weight: 600;
       line-height: 1.3;
+      letter-spacing: -0.01em;
     }
 
     .problem-card p {
@@ -398,13 +416,14 @@
       gap: 48px;
       padding: 40px 48px;
       border: 1px solid var(--border);
-      background: var(--gray-light);
+      background: #fff;
     }
 
     .problem-stat .stat-number {
       font-size: 72px;
       font-weight: 700;
-      font-family: 'Inter', monospace;
+      font-family: var(--font-heading);
+      letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
       color: #dc2626;
       line-height: 1;
@@ -418,8 +437,10 @@
     }
 
     .problem-stat .stat-text strong {
+      font-family: var(--font-heading);
       font-size: 22px;
       font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     .problem-stat .stat-text span {
@@ -429,7 +450,7 @@
 
     /* ---- SLIDE 3: DIE LÜCKE ---- */
     .slide-gap {
-      background: var(--white);
+      background: var(--bg);
       position: relative;
       overflow: hidden;
     }
@@ -445,9 +466,11 @@
     }
 
     .gap-title {
+      font-family: var(--font-heading);
       font-size: 64px;
       line-height: 1.1;
       letter-spacing: -0.02em;
+      font-weight: 700;
     }
 
     .gap-flow {
@@ -470,6 +493,7 @@
       width: 320px;
       padding: 40px 32px;
       border: 1px solid var(--border);
+      background: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -505,8 +529,10 @@
     }
 
     .gap-flow-box h3 {
+      font-family: var(--font-heading);
       font-size: 24px;
       font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     .gap-flow-box p {
@@ -548,7 +574,7 @@
 
     /* ---- SLIDE 4: UNSERE LÖSUNG ---- */
     .slide-solution {
-      background: var(--white);
+      background: var(--bg);
       position: relative;
       overflow: hidden;
     }
@@ -564,9 +590,11 @@
     }
 
     .solution-title {
+      font-family: var(--font-heading);
       font-size: 64px;
       line-height: 1.1;
       letter-spacing: -0.02em;
+      font-weight: 700;
     }
 
     .solution-flow {
@@ -581,6 +609,7 @@
       width: 280px;
       padding: 36px 28px;
       border: 1px solid var(--border);
+      background: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -609,8 +638,10 @@
     }
 
     .solution-flow-box h3 {
+      font-family: var(--font-heading);
       font-size: 22px;
       font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     .solution-flow-box p {
@@ -636,12 +667,13 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 0;
-      border-top: 1px solid var(--border);
+      border: 1px solid var(--border);
     }
 
     .solution-feature {
       padding: 32px 28px;
       border-right: 1px solid var(--border);
+      background: #fff;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -677,8 +709,10 @@
     }
 
     .solution-feature h4 {
+      font-family: var(--font-heading);
       font-size: 17px;
       font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     .solution-feature p {
@@ -689,7 +723,7 @@
 
     /* ---- SLIDE 5: PARTNERSCHAFT ---- */
     .slide-partner {
-      background: var(--white);
+      background: var(--bg);
       position: relative;
       overflow: hidden;
     }
@@ -705,15 +739,19 @@
     }
 
     .partner-title {
+      font-family: var(--font-heading);
       font-size: 64px;
       line-height: 1.1;
       letter-spacing: -0.02em;
+      font-weight: 700;
     }
 
     .partner-grid {
       display: grid;
       grid-template-columns: 1fr 1px 1fr;
       gap: 0;
+      background: #fff;
+      border: 1px solid var(--border);
     }
 
     .partner-grid .divider-line {
@@ -764,8 +802,10 @@
     }
 
     .partner-block .block-header h3 {
+      font-family: var(--font-heading);
       font-size: 28px;
       font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     .partner-block .block-header .plan-badge {
@@ -820,7 +860,7 @@
     .partner-bottom {
       padding: 36px 48px;
       border: 1px solid var(--border);
-      background: var(--gray-light);
+      background: #fff;
       display: flex;
       align-items: center;
       gap: 24px;
@@ -849,8 +889,10 @@
     }
 
     .partner-bottom .bot-text strong {
+      font-family: var(--font-heading);
       font-size: 18px;
       font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     .partner-bottom .bot-text span {
@@ -860,7 +902,7 @@
 
     /* ---- SLIDE 6: PRICING ---- */
     .slide-pricing {
-      background: var(--white);
+      background: var(--bg);
       position: relative;
       overflow: hidden;
     }
@@ -876,9 +918,11 @@
     }
 
     .pricing-title {
+      font-family: var(--font-heading);
       font-size: 64px;
       line-height: 1.1;
       letter-spacing: -0.02em;
+      font-weight: 700;
     }
 
     .pricing-cards {
@@ -889,6 +933,7 @@
     }
 
     .pricing-card {
+      background: #fff;
       border: 1px solid var(--border);
       padding: 44px 40px;
       display: flex;
@@ -929,8 +974,10 @@
     }
 
     .pricing-card .plan-name {
+      font-family: var(--font-heading);
       font-size: 28px;
       font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     .pricing-card .plan-desc {
@@ -945,9 +992,11 @@
     }
 
     .pricing-card .price {
+      font-family: var(--font-heading);
       font-size: 56px;
       font-weight: 700;
       line-height: 1;
+      letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
     }
 
@@ -1066,21 +1115,10 @@
     </svg>
   </button>
 
-  <!-- Shared SVG grid pattern definition -->
-  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute">
-    <defs>
-      <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
-        <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#000" stroke-width="1" opacity="0.03"/>
-      </pattern>
-    </defs>
-  </svg>
-
   <div class="slides-wrapper">
 
     <!-- ==================== SLIDE 1: ABOUT US ==================== -->
     <div class="slide slide-about active" id="slide-1">
-      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect width="1920" height="1080" fill="url(#grid)"/></svg>
-
       <div class="content">
         <div class="about-header animate-up delay-1">
           <p class="section-label">Über uns</p>
@@ -1125,8 +1163,6 @@
 
     <!-- ==================== SLIDE 2: DAS PROBLEM ==================== -->
     <div class="slide slide-problem" id="slide-2">
-      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect width="1920" height="1080" fill="url(#grid)"/></svg>
-
       <div class="content">
         <div class="animate-up delay-1">
           <p class="section-label">Das Problem</p>
@@ -1179,8 +1215,6 @@
 
     <!-- ==================== SLIDE 3: DIE LÜCKE ==================== -->
     <div class="slide slide-gap" id="slide-3">
-      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect width="1920" height="1080" fill="url(#grid)"/></svg>
-
       <div class="content">
         <div class="animate-up delay-1">
           <p class="section-label">Die Lücke</p>
@@ -1188,7 +1222,7 @@
 
         <div class="gap-title animate-up delay-2">
           <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Die Daten sind da</span> –<br/>
-          <span style="font-weight:600;color:var(--blue);">die Brücke fehlt.</span>
+          <span style="font-weight:700;color:var(--accent);">die Brücke fehlt.</span>
         </div>
 
         <div class="gap-flow animate-up delay-3">
@@ -1256,8 +1290,6 @@
 
     <!-- ==================== SLIDE 4: UNSERE LÖSUNG ==================== -->
     <div class="slide slide-solution" id="slide-4">
-      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect width="1920" height="1080" fill="url(#grid)"/></svg>
-
       <div class="content">
         <div class="animate-up delay-1">
           <p class="section-label">Unsere Lösung</p>
@@ -1265,7 +1297,7 @@
 
         <div class="solution-title animate-up delay-2">
           <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Vom Exposé zum Post</span><br/>
-          <span style="font-weight:600;color:var(--blue);">in 30 Sekunden.</span>
+          <span style="font-weight:700;color:var(--accent);">in 30 Sekunden.</span>
         </div>
 
         <!-- Flow Diagram -->
@@ -1346,8 +1378,6 @@
 
     <!-- ==================== SLIDE 5: PARTNERSCHAFT / INTEGRATION ==================== -->
     <div class="slide slide-partner" id="slide-5">
-      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect width="1920" height="1080" fill="url(#grid)"/></svg>
-
       <div class="content">
         <div class="animate-up delay-1">
           <p class="section-label">Integration & Partnerschaft</p>
@@ -1355,7 +1385,7 @@
 
         <div class="partner-title animate-up delay-2">
           <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Eine Schnittstelle</span> –<br/>
-          <span style="font-weight:600;color:var(--blue);">maximaler Mehrwert.</span>
+          <span style="font-weight:700;color:var(--accent);">maximaler Mehrwert.</span>
         </div>
 
         <div class="partner-grid animate-up delay-3">
@@ -1440,8 +1470,6 @@
 
     <!-- ==================== SLIDE 6: PRICING ==================== -->
     <div class="slide slide-pricing" id="slide-6">
-      <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect width="1920" height="1080" fill="url(#grid)"/></svg>
-
       <div class="content">
         <div class="animate-up delay-1">
           <p class="section-label">Pricing</p>
@@ -1449,7 +1477,7 @@
 
         <div class="pricing-title animate-up delay-2">
           <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;">Einfache Preise,</span><br/>
-          <span style="font-weight:600;color:var(--blue);">klarer Mehrwert.</span>
+          <span style="font-weight:700;color:var(--accent);">klarer Mehrwert.</span>
         </div>
 
         <div class="pricing-cards animate-up delay-3">

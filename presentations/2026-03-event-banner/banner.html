@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>immoautomation — Event Banner (85 x 200 cm)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --blue: #0080FF;
+      --blue-hover: #0066CC;
+      --blue-light: rgba(0, 128, 255, 0.08);
+      --blue-glow: rgba(0, 128, 255, 0.15);
+      --black: #1a1a2e;
+      --white: #fcfcff;
+      --text-secondary: rgba(0, 0, 0, 0.5);
+      --text-muted: rgba(0, 0, 0, 0.35);
+      --border: rgba(0, 0, 0, 0.08);
+      --green: #10B981;
+      --red: #dc2626;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #e8e8ec;
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* === PAGE LAYOUT === */
+    .page-header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+    .page-header h1 {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .page-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .banners-container {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      padding: 20px 40px 60px;
+      align-items: flex-start;
+    }
+
+    .banner-label {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    /* === BANNER === */
+    /* 85:200 cm ratio = 0.425:1. At scale: 425px x 1000px */
+    .banner {
+      width: 425px;
+      height: 1000px;
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 36px 28px;
+    }
+
+    /* Subtle grid bg */
+    .banner .grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    .banner > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* === LOGO === */
+    .logo {
+      margin-bottom: 6px;
+    }
+    .logo img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+
+    .tagline {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* === DIVIDER === */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    .divider-blue {
+      width: 60px;
+      height: 3px;
+      background: var(--blue);
+      margin: 0 auto 20px;
+    }
+
+    /* === HEADLINE === */
+    .h1 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.15;
+      text-align: center;
+      color: var(--black);
+      letter-spacing: -0.02em;
+    }
+    .h1 .accent {
+      color: var(--blue);
+    }
+    .h1 .italic-accent {
+      font-family: 'Newsreader', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .h2 {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.6;
+      text-align: center;
+      color: var(--text-secondary);
+      margin-top: 14px;
+      max-width: 340px;
+    }
+    .h2 strong {
+      color: var(--black);
+      font-weight: 600;
+    }
+
+    /* === KPI SECTION === */
+    .kpi-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .kpi-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .kpi-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .kpi-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--blue);
+    }
+
+    .kpi-content {
+      flex: 1;
+    }
+
+    .kpi-numbers {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .kpi-old {
+      color: var(--red);
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      opacity: 0.7;
+    }
+    .kpi-arrow {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .kpi-new {
+      color: var(--blue);
+    }
+    .kpi-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* === SOCIAL MEDIA LOGOS === */
+    .social-logos {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      align-items: center;
+      margin-top: 4px;
+    }
+    .social-logo {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .social-logo svg {
+      width: 40px;
+      height: 40px;
+    }
+    .social-logo img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    /* === INTEGRATION PARTNERS === */
+    .partners {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      align-items: center;
+    }
+    .partner-badge {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .partner-badge .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+    }
+    .partner-logo img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+
+    /* === TRUST BAR === */
+    .trust-bar {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      margin-top: auto;
+      padding-top: 20px;
+    }
+    .trust-item {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .trust-item svg {
+      width: 12px;
+      height: 12px;
+      color: var(--green);
+    }
+
+    /* === BANNER 2 SPECIFICS === */
+    .b2-headline {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+      color: var(--black);
+      letter-spacing: -0.02em;
+    }
+    .b2-headline .accent {
+      color: var(--blue);
+    }
+
+    /* Post mockups stack */
+    .mockup-stack {
+      width: 340px;
+      height: 470px;
+      position: relative;
+      margin: 0 auto;
+      flex-shrink: 0;
+    }
+    .mockup-card {
+      position: absolute;
+      width: 210px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Instagram post header */
+    .ig-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 10px;
+      background: #fff;
+    }
+    .ig-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ddd;
+      flex-shrink: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .ig-username {
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--black);
+      line-height: 1.2;
+    }
+    .ig-via {
+      font-size: 6.5px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .ig-more {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    .mockup-card .mockup-image {
+      width: 100%;
+      height: 262px; /* 4:5 ratio at 210px wide (Instagram portrait) */
+      background-size: cover;
+      background-position: center top;
+    }
+
+    /* Instagram post footer */
+    .ig-footer {
+      padding: 6px 10px 8px;
+      background: #fff;
+    }
+    .ig-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .ig-actions svg {
+      width: 14px;
+      height: 14px;
+      color: var(--black);
+    }
+    .ig-actions .ig-share {
+      margin-left: auto;
+    }
+    .ig-likes {
+      font-size: 7px;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .mockup-card:nth-child(1) {
+      left: 10px;
+      top: 30px;
+      transform: rotate(-5deg);
+      z-index: 3;
+    }
+    .mockup-card:nth-child(2) {
+      left: 60px;
+      top: 0;
+      transform: rotate(1deg);
+      z-index: 2;
+    }
+    .mockup-card:nth-child(3) {
+      left: 110px;
+      top: 50px;
+      transform: rotate(5deg);
+      z-index: 1;
+    }
+
+    /* Badges overlaying mockup stack */
+    .mockup-badge {
+      position: absolute;
+      z-index: 10;
+      padding: 6px 12px;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .badge-auto {
+      background: var(--black);
+      color: #fff;
+      top: 0;
+      right: 10px;
+    }
+    .badge-time {
+      background: var(--blue);
+      color: #fff;
+      bottom: 20px;
+      left: 0;
+    }
+    .badge-time svg, .badge-auto svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* QR Section */
+    .qr-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .qr-box {
+      width: 140px;
+      height: 140px;
+      background: #fff;
+      border: 2px solid var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .qr-placeholder {
+      width: 120px;
+      height: 120px;
+      background: repeating-conic-gradient(var(--black) 0% 25%, #fff 0% 50%) 0 0 / 12px 12px;
+      opacity: 0.7;
+    }
+    .qr-label-top {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .cta-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--blue);
+      text-align: center;
+    }
+    .cta-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: -4px;
+    }
+
+    /* === SPACER HELPERS === */
+    .spacer-sm { height: 12px; flex-shrink: 0; }
+    .spacer-md { height: 20px; flex-shrink: 0; }
+    .spacer-lg { height: 28px; flex-shrink: 0; }
+
+    /* Banner 2 tighter spacing for 4:5 mockups */
+    #banner2 .spacer-lg { height: 12px; }
+    #banner2 .spacer-md { height: 10px; }
+    #banner2 .mockup-stack { height: 420px; }
+    #banner2 .qr-box { width: 110px; height: 110px; }
+    #banner2 .qr-placeholder { width: 94px; height: 94px; }
+    #banner2 .qr-section { gap: 8px; }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <h1>Event Banner Preview — 85 x 200 cm (Roll-Up Pair)</h1>
+    <p>Proportional mockup at 425 x 1000 px. Final print at 2,551 x 6,004 px (300 DPI).</p>
+  </div>
+
+  <div class="banners-container">
+
+    <!-- ===================== -->
+    <!-- BANNER 1 — THE HOOK   -->
+    <!-- ===================== -->
+    <div>
+      <div class="banner-label">Banner 1 — Links</div>
+      <div class="banner" id="banner1">
+        <!-- Grid background -->
+        <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="425" height="1000">
+          <defs>
+            <pattern id="grid1" width="50" height="50" patternUnits="userSpaceOnUse">
+              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#000" stroke-width="0.5" opacity="0.04"/>
+            </pattern>
+          </defs>
+          <rect width="425" height="1000" fill="url(#grid1)"/>
+        </svg>
+
+        <!-- Logo -->
+        <div class="logo">
+          <img src="https://app.immoautomation.at/assets/logo-EsjYfG1v.png" alt="immoautomation" />
+        </div>
+        <div class="tagline">Immobilienmarketing. Automatisiert.</div>
+
+        <div class="divider"></div>
+
+        <!-- H1 -->
+        <div class="h1">
+          <span class="italic-accent">Social Media</span><br/>
+          <span class="accent">für Makler</span><br/>
+          auf Knopfdruck.
+        </div>
+
+        <!-- H2 -->
+        <div class="h2">
+          Ihr CRM hat die Daten.<br/>
+          <strong>Wir machen den Rest.</strong><br/>
+          60 Sekunden.
+        </div>
+
+        <div class="spacer-lg"></div>
+        <div class="divider-blue"></div>
+        <div class="spacer-sm"></div>
+
+        <!-- KPIs -->
+        <div class="kpi-section">
+          <!-- KPI 1: Time -->
+          <div class="kpi-card">
+            <div class="kpi-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <div class="kpi-content">
+              <div class="kpi-numbers">
+                <span class="kpi-old">45 Min</span>
+                <span class="kpi-arrow">&rarr;</span>
+                <span class="kpi-new">1 Min</span>
+              </div>
+              <div class="kpi-label">Pro Post</div>
+            </div>
+          </div>
+
+          <!-- KPI 2: Tools -->
+          <div class="kpi-card">
+            <div class="kpi-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>
+            </div>
+            <div class="kpi-content">
+              <div class="kpi-numbers">
+                <span class="kpi-old">5 Tools</span>
+                <span class="kpi-arrow">&rarr;</span>
+                <span class="kpi-new">1 Plattform</span>
+              </div>
+              <div class="kpi-label">Alles in einem</div>
+            </div>
+          </div>
+
+          <!-- KPI 3: Time saved -->
+          <div class="kpi-card">
+            <div class="kpi-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+            </div>
+            <div class="kpi-content">
+              <div class="kpi-numbers">
+                <span class="kpi-new">5+ Std/Woche</span>
+              </div>
+              <div class="kpi-label">Zeit gespart</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer-lg"></div>
+        <div class="divider"></div>
+        <div class="spacer-md"></div>
+
+        <!-- Social Media Logos -->
+        <div class="social-logos">
+          <div class="social-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/960px-Instagram_logo_2016.svg.png" alt="Instagram" />
+          </div>
+          <div class="social-logo">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/065/386/553/small/facebook-logo-icon-fb-app-transparent-background-premium-social-media-design-for-digital-download-free-png.png" alt="Facebook" />
+          </div>
+          <div class="social-logo">
+            <img src="https://logowik.com/content/uploads/images/google-my-business5538.jpg" alt="Google My Business" />
+          </div>
+        </div>
+
+        <div class="spacer-lg"></div>
+        <div class="divider"></div>
+        <div class="spacer-md"></div>
+
+        <!-- Integration Partners -->
+        <div class="partners">
+          <div class="partner-logo">
+            <img src="https://cdn.prod.website-files.com/67aa272652cc96b04afc63e6/68617a67013858be6cd8715a_Marketplace-Partner-Badge_RGB.png" alt="onOffice Marketplace Partner" />
+          </div>
+          <div class="partner-logo">
+            <img src="https://cdn.prod.website-files.com/688c8cd8b9708dcafb47dd8f/690decc19930175f53085403_Logo_propstack.webp" alt="Propstack" />
+          </div>
+        </div>
+
+        <!-- Trust Bar -->
+        <div class="trust-bar">
+          <div class="trust-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+            DSGVO-konform
+          </div>
+          <div class="trust-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            Made in Austria
+          </div>
+          <div class="trust-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            Hosting in DE
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================== -->
+    <!-- BANNER 2 — THE PROOF + CTA -->
+    <!-- ========================== -->
+    <div>
+      <div class="banner-label">Banner 2 — Rechts</div>
+      <div class="banner" id="banner2">
+        <!-- Grid background -->
+        <svg class="grid-bg" xmlns="http://www.w3.org/2000/svg" width="425" height="1000">
+          <defs>
+            <pattern id="grid2" width="50" height="50" patternUnits="userSpaceOnUse">
+              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#000" stroke-width="0.5" opacity="0.04"/>
+            </pattern>
+          </defs>
+          <rect width="425" height="1000" fill="url(#grid2)"/>
+        </svg>
+
+        <!-- Logo -->
+        <div class="logo">
+          <img src="https://app.immoautomation.at/assets/logo-EsjYfG1v.png" alt="immoautomation" />
+        </div>
+        <div class="tagline">Immobilienmarketing. Automatisiert.</div>
+
+        <div class="divider"></div>
+
+        <!-- Headline -->
+        <div class="b2-headline">
+          <span class="italic-accent" style="font-family:'Newsreader',Georgia,serif;font-style:italic;font-weight:400;">Vom Exposé</span><br/>
+          <span class="accent">zum Post.</span><br/>
+          <span style="font-weight:300;color:var(--text-muted);">Automatisch.</span>
+        </div>
+
+        <div class="spacer-lg"></div>
+
+        <!-- Post Mockups Stack -->
+        <div class="mockup-stack">
+          <!-- Post 1 - Wüstenrot (front) -->
+          <div class="mockup-card">
+            <div class="ig-header">
+              <div class="ig-avatar" style="background: #E3000F;">W</div>
+              <div>
+                <div class="ig-username">Wüstenrot Immobilien</div>
+                <div class="ig-via">via immoautomation</div>
+              </div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="mockup-image" style="background-image: url('https://templated-assets.s3.amazonaws.com/render/2fb20ba8-07c2-43a9-a575-1ae7e9a3b818.jpg');"></div>
+            <div class="ig-footer">
+              <div class="ig-actions">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"/></svg>
+                <svg class="ig-share" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"/></svg>
+              </div>
+              <div class="ig-likes">127 Gefällt mir</div>
+            </div>
+          </div>
+
+          <!-- Post 2 - Sieger & Sieger -->
+          <div class="mockup-card">
+            <div class="ig-header">
+              <div class="ig-avatar" style="background: #1a1a2e;">S</div>
+              <div>
+                <div class="ig-username">Sieger & Sieger</div>
+                <div class="ig-via">via immoautomation</div>
+              </div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="mockup-image" style="background-image: url('https://templated-assets.s3.amazonaws.com/render/66d1d5db-65d4-4ae2-8e5b-2c23deda8d65.jpg');"></div>
+            <div class="ig-footer">
+              <div class="ig-actions">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"/></svg>
+                <svg class="ig-share" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"/></svg>
+              </div>
+              <div class="ig-likes">84 Gefällt mir</div>
+            </div>
+          </div>
+
+          <!-- Post 3 - VR Immo-Service -->
+          <div class="mockup-card">
+            <div class="ig-header">
+              <div class="ig-avatar" style="background: #1a3a5c;">V</div>
+              <div>
+                <div class="ig-username">VR Immo-Service</div>
+                <div class="ig-via">via immoautomation</div>
+              </div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="mockup-image" style="background-image: url('https://templated-assets.s3.amazonaws.com/render/3dfa3170-2dd1-49b4-96b9-e8c045bd2a18.jpg');"></div>
+            <div class="ig-footer">
+              <div class="ig-actions">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"/></svg>
+                <svg class="ig-share" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"/></svg>
+              </div>
+              <div class="ig-likes">203 Gefällt mir</div>
+            </div>
+          </div>
+
+          <!-- Badges -->
+          <div class="mockup-badge badge-auto">
+            <svg fill="currentColor" viewBox="0 0 20 20"><path d="M10 1l2.39 5.36L18 7.27l-4.12 3.74L14.82 17 10 14.27 5.18 17l1.94-5.99L3 7.27l5.61-.91L10 1z"/></svg>
+            Auto-generiert
+          </div>
+          <div class="mockup-badge badge-time">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+            60 Sekunden
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+        <div class="divider"></div>
+        <div class="spacer-md"></div>
+
+        <!-- QR Code Section -->
+        <div class="qr-section">
+          <div class="qr-label-top">Jetzt scannen</div>
+          <div class="qr-box">
+            <div class="qr-placeholder"></div>
+          </div>
+          <div class="cta-text">Demo buchen</div>
+          <div class="cta-sub">kostenlos & unverbindlich</div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <!-- Trust Bar -->
+        <div class="trust-bar">
+          <div class="trust-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+            DSGVO-konform
+          </div>
+          <div class="trust-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            Made in Austria
+          </div>
+          <div class="trust-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            Hosting in DE
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
